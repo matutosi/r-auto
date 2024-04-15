@@ -5,100 +5,74 @@
   <title>HTMLの例</title>
 </head>
 <body>
-  <div class="header">ヘッダーの部分
-    <a href="https://github.com/matutosi/r-auto">サポートページへのリンク</a>
-  </div>
-
+<div class="header">ヘッダーの部分
+  <a href="https://github.com/matutosi/r-auto">サポートページへ</a>
+</div>
 <hr>
-
-  <div class="txt">
-    <h1>文章</h1>
-      <div id = "text_1">
-        <p>これはidがtext_1の文章です．<br>この直前に改行記号があります．</p>
-      </div>
-      <div id = "text_2">
-        <p>これはidがtext_2の文章です．   この直前には半角スペースが2つあります．</p>
-      </div>
-  </div>
-
-  <div class="list">
-    <h1>春の七草</h1>
-        <select id="spring_species">
-        <option>セリ</option>
-        <option>ナズナ</option>
-        <option>ゴギョウ</option>
-        <option>ハコベラ</option>
-        <option>ホトケノザ</option>
-        <option>スズナ</option>
-        <option>スズシロ</option>
-        </select>
-  </div>
-
-  <div class="list">
-    <h1>秋の七種</h1>
-      <ul id="autumn_species">
-        <li>ハギ</li>
-        <li>ススキ</li>
-        <li>クズ</li>
-        <li>カワラナデシコ</li>
-        <li>オミナエシ </li>
-        <li>フジバカマ</li>
-        <li>キキョウ</li>
-      </ul> 
-  </div>
-
-  <div class="img">
-    <h1>画像1</h1>
-      <div id = "image_1">
-        <img src="r-01.jpg" width="10%">
-      </div>
-
-    <h1>画像2</h1>
-      <div id = "image_2">
-        <img src="r-02.jpg" width="10%">
-      </div>
+<div class="txt">
+  <h1>文章</h1>
+    <div id = "text_1">
+      <p>idがtext_1の本文です．<br>直前は改行記号です．</p>
     </div>
-
-  <div class="tbl">
-    <h1>表1</h1>
-      <div id = "table_1">
-        <table border = 1>
-         <caption>mpgのデータ</caption>
-         <thead>
-            <tr><th>manufacturer</th><th>model</th><th>displ</th><th>year</th><th>cyl</th></tr>
+    <div id = "text_2">
+      <p>idがtext_2の本文です．  この直前は半角スペース2つです</p>
+    </div>
+</div>
+<div class="tbl">
+  <h1>表1</h1>
+    <div id = "table_1">
+      <table border = 1>
+        <caption>mpgのデータ</caption>
+        <thead>
+          <tr><th>manuf</th><th>model</th><th>displ</th><th>year</th></tr>
         </thead>
         <tbody>
-          <tr><td>audi</td><td>a4</td><td>1.8</td><td>1999</td><td>4</td></tr>
-          <tr><td>audi</td><td>a4</td><td>1.8</td><td>1999</td><td>4</td></tr>
-          <tr><td>audi</td><td>a4</td><td>2.0</td><td>2008</td><td>4</td></tr>
+          <tr><td>audi</td><td>a4</td><td>1.8</td><td>1999</td></tr>
+          <tr><td>audi</td><td>a4</td><td>1.8</td><td>1999</td></tr>
+          <tr><td>audi</td><td>a4</td><td>2.0</td><td>2008</td></tr>
         </tbody>
-        </table>
-      </div>
-
-    <h1>表2</h1>
-      <div id = "table_2">
-        <table border = 1>
-           <caption>irisのデータ</caption>
-           <thead>
-          <tr>
-           <th> Sepal.Length</th> <th>Sepal.Width</th> <th>Petal.Length</th> <th>Petal.Width</th> <th>Species</th>
-          </tr>
-         </thead>
+      </table>
+    </div>
+  <h1>表2</h1>
+    <div id = "table_2">
+      <table border = 1>
+        <caption>irisのデータ</caption>
+        <thead>
+          <tr><th>S.L</th> <th>S.W</th><th>P.L</th><th>P.W</th><th>Sp</th></tr>
+        </thead>
         <tbody>
-          <tr><td> 5.1</td> <td>3.5</td> <td>1.4</td> <td>0.2</td> <td>setosa</td></tr>
-          <tr><td> 4.9</td> <td>3.0</td> <td>1.4</td> <td>0.2</td> <td>setosa</td></tr>
+          <tr><td>5.1</td><td>3.5</td><td>1.4</td><td>0.2</td><td>setosa</td></tr>
+          <tr><td>4.9</td><td>3.0</td><td>1.4</td><td>0.2</td><td>setosa</td></tr>
           <tr><td>4.7</td><td>3.2</td><td>1.3</td><td>0.2</td><td>setosa</td></tr>
         </tbody>
-        </table>
-
-      </div>
+      </table>
     </div>
-
+  </div>
+  <h1>春の七草</h1>
+    <div class="txt">
+      <select id="spring_species">
+        <option>セリ</option><option>ナズナ</option><option>ゴギョウ</option>
+        <option>ハコベラ</option><option>ホトケノザ</option>
+        <option>スズナ</option> <option>スズシロ</option>
+      </select>
+</div>
+<div class="txt">
+  <h1>秋の七種</h1>
+    <ul id="autumn_species">
+      <li>ハギ</li> <li>ススキ</li> <li>クズ</li> <li>カワラナデシコ</li>
+      <li>オミナエシ </li> <li>フジバカマ</li> <li>キキョウ</li>
+    </ul> 
+</div>
+<div class="img">
+  <h1>画像1</h1>
+    <div id = "image_1"> <img src="r-01.jpg" width="10%"> </div>
+  <h1>画像2</h1>
+    <div id = "image_2"> <img src="r-02.jpg" width="10%"> </div>
+  </div>
 <hr>
-
   <div class="footer">
     <span>フッターの部分</span>
-    <a href="https://www.morikita.co.jp/">森北出版へのリンク</a>
+    <a href="https://www.morikita.co.jp/">森北出版へ</a>
   </div>
 </body>
 </html>
