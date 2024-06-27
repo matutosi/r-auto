@@ -1,4 +1,4 @@
-  # ```{r date-is-jp-date-str, eval = FALSE, subject = 'is_jp_date()', caption = ''}
+  # 和暦と西暦の判別
   # 04_22_date-is-jp-date-str.R
 dates_half <- stringi::stri_trans_general(dates, "fullwidth-halfwidth")
 converted <-

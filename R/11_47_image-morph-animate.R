@@ -1,4 +1,4 @@
-  # ```{r image-morph-animate, eval = FALSE, subject = 'image_()', caption = ''}
+  # アニメーション化
   # 11_47_image-morph-animate.R
 animated <- fs::path_temp("animated.gif")
 mor <- 

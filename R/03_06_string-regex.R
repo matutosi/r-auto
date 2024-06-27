@@ -1,4 +1,4 @@
-  # ```{r string-regex, subject = 'regxs()', caption = '大文字・小文字の区別の有無'}
+  # 大文字・小文字の区別の有無
   # 03_06_string-regex.R
 str <- c("A B C a b c")
 pattern <- "A|B"

@@ -1,4 +1,4 @@
-  # ```{r img-save-screenshot-code, eval = FALSE, subject = 'save_clipboard_image()', caption = ''}
+  # クリップボード画像の自動保存
   # 11_54_img-save-screenshot-code.R
   # 保存先ディレクトリ
 wd <- fs::path(fs::path_home(), "desktop")

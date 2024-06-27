@@ -5,7 +5,7 @@
 install.packages("zipangu")
 install.packages("calendR")
 
-  # ```{r datte-library, message = FALSE, subject = 'library()', caption = 'tidyverse，zipangu，calendRの呼び出し'}
+  # tidyverse，zipangu，calendRの呼び出し
   # 04_02_datte-library.R
 library(tidyverse)
   # library(lubridate) # 個別に呼び出すとき
@@ -155,7 +155,7 @@ is_jp_date <- function(str){
   # 04_21_date-is-jp-date.R
 dates[is_jp_date(dates)]
 
-  # ```{r date-is-jp-date-str, eval = FALSE, subject = 'is_jp_date()', caption = ''}
+  # 和暦と西暦の判別
   # 04_22_date-is-jp-date-str.R
 dates_half <- stringi::stri_trans_general(dates, "fullwidth-halfwidth")
 converted <-
@@ -302,7 +302,7 @@ str <- c("昭和50", "1992", "令和元年", "2024年")
 convert_yr(str, out_format = "jp")
 convert_yr(str, out_format = "west")
 
-  # ```{r date-convert-yr-replace, subject = 'convert_yr(),str_replace_all()', caption = '和暦・西暦の一括変換'}
+  # 和暦・西暦の一括変換
   # 04_34_date-convert-yr-replace.R
 yr_west <- paste0(as.character(1950:2024), "年")
 yr_jp <- convert_yr(yr_west, out_format = "jp")
@@ -437,10 +437,7 @@ same_pos_next_yr <- function(x, out_format = "west"){
   mn <- lubridate::month(x) # 月
   base <- lubridate::ymd(paste0(yr + 1, "-", mn, "-", 1)) # 1日
   diff <- lubridate::wday(x) - lubridate::wday(base)      # 曜日位置の差
-  diff <- dplyr::if_else(diff >= 0, diff, diff + 7) # 負のときは正に変換
-  #   for(i in seq_along(diff)){ # ベクトル対応
-  #     if(diff[i] < 0){ diff[i] <- diff[i] + 7 }
-  #   }
+  diff <- dplyr::if_else(diff >= 0, diff, diff + 7)       # 負をは正に変換
   same_pos_day <- base + (mweek(x) - 1) * 7 + diff # 同じ位置
   diff <- dplyr::if_else(diff >= 0, diff, diff + 7) # 負のときは正に変換
   for(i in seq_along(same_pos_day)){

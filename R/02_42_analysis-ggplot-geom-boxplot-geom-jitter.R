@@ -1,4 +1,4 @@
-  # ```{r analysis-ggplot-geom-boxplot-geom-jitter, eval = FALSE, subject = 'geom_boxplot(),geom_jitter()', caption = '箱ひげ図とジッター・プロットの重ね合わせ', tidy = FALSE}
+  # 箱ひげ図とジッター・プロットの重ね合わせ
   # 02_42_analysis-ggplot-geom-boxplot-geom-jitter.R
 gg_sales <- 
   sales |>

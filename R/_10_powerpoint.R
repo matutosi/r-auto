@@ -1,31 +1,13 @@
-  # ```{r, eval = FALSE}
-  # 10_01_eval.R
-  # 読者視点でのリード文を書く
-  #   日常業務での面倒なことなど
-  #   path_temp 書き方の統一
-  #   temp_path 
-
   # officerのインストール
-  # 10_02_powerpoint-install.R
+  # 10_01_powerpoint-install.R
 install.packages("officer")
 
   # officerの呼び出し
-  # 10_03_powerpoint-library.R
+  # 10_02_powerpoint-library.R
 library("officer")
 
-  # ```{r, eval = FALSE}
-  # 10_04_eval.R
-  # 基本はスライド単位の方の説明がされている
-  #   文字単位での操作もできなくはないのかもしれなしが，
-  #   新規スライド作成で作った方あわかりやすそう
-  #   https://ardata-fr.github.io/officeverse/officer-for-powerpoint.html
-  # 
-  # 既存のPPの修正ってする?
-  #   officer既存のパワーポイントを編集するときには，
-  #   文字単位での編集作業ではなく，スライド単位での作業です．
-
   # パワーポイントの新規作成
-  # 10_05_powerpoint-read.R
+  # 10_03_powerpoint-read.R
 library(officer)
 pp <- read_pptx()
   # 既存ファイルの読み込み
@@ -33,11 +15,11 @@ pp <- read_pptx()
   # pp <- read_pptx(path)
 
   # パワーポイントの内容表示
-  # 10_06_powerpoint-print.R
+  # 10_04_powerpoint-print.R
 pp
 
   # レイアウトの確認
-  # 10_07_powerpoint-layout.R
+  # 10_05_powerpoint-layout.R
 pp <- read_pptx()
 layout_name <- # レイアウト名
   layout_properties(pp)$name |>
@@ -64,7 +46,7 @@ print(pp, target = path)
   # shell.exec(path)
 
   # スライドの追加
-  # 10_08_powerpoint-add-slide.R
+  # 10_06_powerpoint-add-slide.R
 pp <- read_pptx() # 新規作成
 layout <- "Two Content"
 pp <- add_slide(pp, layout = layout)
@@ -73,7 +55,7 @@ print(pp, target = path)
   # shell.exec(path)
 
   # 内容の追加
-  # 10_09_powerpoint-ph-with.R
+  # 10_07_powerpoint-ph-with.R
 pp <- ph_with(pp, value = "Rによる自動化の方法", 
               location = ph_location_type(type = "title"))
 pp <- ph_with(pp, paste0("手作業", 1:5), 
@@ -86,7 +68,7 @@ print(pp, target = path)
   # shell.exec(path)
 
   # パワーポイントへの箇条書きの追加
-  # 10_10_powerpoint-list.R
+  # 10_08_powerpoint-list.R
 ul <- 
   unordered_list(
     level_list = c(1, 2, 3),
@@ -104,7 +86,7 @@ print(pp, target = path)
   # shell.exec(path)
 
   # 文字列を箇条書きに変換する関数
-  # 10_11_powerpoint-str2ul-fun.R
+  # 10_09_powerpoint-str2ul-fun.R
 str2ul <- function(str, sep = ";", symbol = "-"){
   if(length(str) == 1){ # 1つの文字列のとき
     str <- 
@@ -123,7 +105,7 @@ str2ul <- function(str, sep = ";", symbol = "-"){
 }
 
   # 文字列の箇条書に変換してスライドに追加
-  # 10_12_powerpoint-str2ul.R
+  # 10_10_powerpoint-str2ul.R
 pp <- add_slide(pp)
 str <- c("-大項目;--中項目;-大項目;--中項目;--中項目;---小項目;---小項目")
 ul <- str2ul(str, sep = ";")
@@ -132,7 +114,7 @@ print(pp, target = path)
   # shell.exec(path)
 
   # 表の追加
-  # 10_13_powerpoint-ph-with-table.R
+  # 10_11_powerpoint-ph-with-table.R
 layout <- "Title and Content"
 pp <- add_slide(pp, layout = layout)
 pp <- ph_with(pp, value = "みんな大好きirisデータ", 
@@ -143,7 +125,7 @@ print(pp, target = path)
   # shell.exec(path)
 
   # 整形した表の追加
-  # 10_14_powerpoint-ph-with-flextable.R
+  # 10_12_powerpoint-ph-with-flextable.R
   # install.package("flextable") # 必要に応じてインストール
 pp <- add_slide(pp, layout = layout)
  # 表のデータに合わせる
@@ -168,7 +150,7 @@ print(pp, target = path)
   # shell.exec(path)
 
   # スライドに画像を追加
-  # 10_15_powerpoint-ph-with-img.R
+  # 10_13_powerpoint-ph-with-img.R
 path_img <- "d:/matu/work/todo/r-auto/data/r_gg.png"
   # ph_location_fullsize()：スライド全体
 pp <- add_slide(pp)
@@ -202,8 +184,8 @@ pp <- ph_with(pp, value = "widthとheightで\n大きさ指定",
 print(pp, target = path)
   # shell.exec(path)
 
-  # ```{r powerpoint-add-fig-fun, subject = 'add_fig(),', caption = 'Title and Contentのレイアウトでタイトルと画像を挿入する関数'}
-  # 10_16_powerpoint-add-fig-fun.R
+  # Title and Contentのレイアウトでタイトルと画像を挿入する関数
+  # 10_14_powerpoint-add-fig-fun.R
 add_fig <- function(pp, title = "", path_img, fig_full_size = FALSE,
                     conter_horizontal = TRUE, conter_vertical = TRUE){
   # レイアウト・設置場所
@@ -258,8 +240,8 @@ add_fig <- function(pp, title = "", path_img, fig_full_size = FALSE,
   return(pp)
 }
 
-  # ```{r powerpoint-add-fig, subject = 'add_fig(),ph_with(),external_img()', caption = 'Title and Contentのレイアウトでのタイトルと画像の挿入'}
-  # 10_17_powerpoint-add-fig.R
+  # Title and Contentのレイアウトでのタイトルと画像の挿入
+  # 10_15_powerpoint-add-fig.R
   # pp <- read_pptx()
 wide <- "d:/matu/work/todo/r-auto/data/image_03_wide.jpg"
 long <- "d:/matu/work/todo/r-auto/data/r_07.png"
@@ -291,7 +273,7 @@ print(pp, target = path)
   # shell.exec(path)
 
   # タイトルと画像のスライドの追加(擬似コード)
-  # 10_18_powerpoint-add-fig-sample.R
+  # 10_16_powerpoint-add-fig-sample.R
 titles <- c("1枚目" , "2枚目" , "3枚目")
 images <- c("01.png", "02.png", "03.png")
 pp <- read_pptx()
@@ -304,7 +286,7 @@ print(pp, target = path)
   # shell.exec(path)
 
   # ggplotのグラフを追加
-  # 10_19_powerpoint-ggplot.R
+  # 10_17_powerpoint-ggplot.R
   # install.packages("rvg")
   # path <- fs::path_temp("temp.pptx")
   # pp <- read_pptx()
@@ -336,7 +318,7 @@ print(pp, target = path)
   # shell.exec(path)
 
   # パワーポイントの概要表示
-  # 10_20_powerpoint-summary.R
+  # 10_18_powerpoint-summary.R
 library(officer)
   # path <- fs::path_package("officer", "doc_examples/example.pptx")
   # pp <- read_pptx(path)
@@ -345,13 +327,13 @@ pp |>
   tibble::tibble()
 
   # 文字列のデータ
-  # 10_21_powerpoint-summary-text.R
+  # 10_19_powerpoint-summary-text.R
 pptx_summary(pp) |>
   dplyr::filter(content_type == "paragraph") |>
   tibble::tibble()
 
   # パワーポイントから文字列を取り出す関数
-  # 10_22_extract-pp-text-fun.R
+  # 10_20_extract-pp-text-fun.R
 extract_pp_text <- function(path){
   paragraph <- 
     path |>
@@ -372,12 +354,12 @@ extract_pp_text <- function(path){
 }
 
   # パワーポイントからの文字列の取り出し
-  # 10_23_extract-pp-text.R
+  # 10_21_extract-pp-text.R
 extract_pp_text(path) |> 
   head(3)
 
   # 表のデータ
-  # 10_24_powerpoint-summary-table.R
+  # 10_22_powerpoint-summary-table.R
 pptx_summary(pp) |>
   dplyr::filter(content_type == "table cell") |>
   dplyr::transmute(id, row_id, cell_id, 
@@ -385,7 +367,7 @@ pptx_summary(pp) |>
   tibble::tibble()
 
   # パワーポイントから表のデータを取り出す関数
-  # 10_25_powerpoint-extract-pp-table-fun.R
+  # 10_23_powerpoint-extract-pp-table-fun.R
 extract_pp_table <- function(path){
   table <- 
     path |>
@@ -398,23 +380,23 @@ extract_pp_table <- function(path){
 }
 
   # パワーポイントからの表のデータの取り出し
-  # 10_26_powerpoint-extract-pp-table.R
+  # 10_24_powerpoint-extract-pp-table.R
 extract_pp_table(path) |> 
   head(1) # 3つの表の内容は同じなので2つ目以降は省略
 
   # 画像のデータ
-  # 10_27_powerpoint-summary-image.R
+  # 10_25_powerpoint-summary-image.R
 pptx_summary(pp) |>
   dplyr::filter(content_type == "image") |>
   `$`(_, "media_file") |> 
   head()
 
   # パワーポイントのファイルのディレクトリ
-  # 10_28_powerpoint-package-dir.R
+  # 10_26_powerpoint-package-dir.R
 fs::path(pp$package_dir)
 
   # パワーポイントから画像データを取り出す関数
-  # 10_29_powerpoint-extract-pp-image-fun.R
+  # 10_27_powerpoint-extract-pp-image-fun.R
 extract_pp_image <- function(path, out_dir = NULL, overwrite = TRUE){
   pp <- officer::read_pptx(path) # パワーポイントの読み込み
   image_files <-  # 画像の一覧
@@ -443,12 +425,12 @@ extract_pp_image <- function(path, out_dir = NULL, overwrite = TRUE){
 }
 
   # パワーポイントからの画像データの取り出し
-  # 10_30_powerpoint-extract-pp-image.R
+  # 10_28_powerpoint-extract-pp-image.R
 out_dir <- fs::path_home("desktop")
 extract_pp_image(path, out_dir, overwrite = TRUE)
 
   # RDCOMClientのインストール
-  # 10_31_RDCOMClient-install.R
+  # 10_29_RDCOMClient-install.R
   # zipファイルでのインストール
 install.packages("RDCOMClient", 
                  repos = "http://www.omegahat.net/R", type = "win.binary")
@@ -458,8 +440,8 @@ install.packages("RDCOMClient",
   # Rtoolsも必要
 remotes::install_github("omegahat/RDCOMClient")
 
-  # ```{r powerpoint-pp2img-fun, subject = 'COMCreate(),pp2ext()', caption = 'パワーポイントを画像・PDF・動画に変換する関数'}
-  # 10_32_powerpoint-pp2img-fun.R
+  # パワーポイントを画像・PDF・動画に変換する関数
+  # 10_30_powerpoint-pp2img-fun.R
 pp2ext <- function (path, format = "png"){
   format_no <- switch(format,
                       ppt = 1, rtf = 5, pptx = 11, ppsx = 28, pdf = 32, 
@@ -485,15 +467,15 @@ pp2ext <- function (path, format = "png"){
 }
 
   # パワーポイントのpngへの変換
-  # 10_33_powerpoint-pp2img-png.R
+  # 10_31_powerpoint-pp2img-png.R
 library(RDCOMClient) # 最初は呼び出さないとエラーになる
 pp2ext(path, format = "png")
 
   # パワーポイントのPDFへの変換
-  # 10_34_powerpoint-pp2img-pdf.R
+  # 10_32_powerpoint-pp2img-pdf.R
 pp2ext(path, format = "pdf")
 
   # パワーポイントのmp4への変換
-  # 10_35_powerpoint-pp2img-mp4.R
+  # 10_33_powerpoint-pp2img-mp4.R
 pp2ext(path, format = "mp4") # 時間がかかる，ポップアップのクリックが必要_
 

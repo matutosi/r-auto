@@ -32,7 +32,7 @@ readWorkbook(path) |> head(3) # データフレームとしての読み込み
 wb <- loadWorkbook(path) # ワークブックとしての読み込み
 wb
 
-  # ```{r excel-ecxel.link, eval = FALSE, subject = 'install.packages()library()', caption = 'excel.linkパッケージのインストールと呼び出し'}
+  # excel.linkパッケージのインストールと呼び出し
   # 09_07_excel-ecxel.R
 install.packages("excel.link")
 library(readxl)

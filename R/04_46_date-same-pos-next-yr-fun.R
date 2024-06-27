@@ -5,10 +5,7 @@ same_pos_next_yr <- function(x, out_format = "west"){
   mn <- lubridate::month(x) # 月
   base <- lubridate::ymd(paste0(yr + 1, "-", mn, "-", 1)) # 1日
   diff <- lubridate::wday(x) - lubridate::wday(base)      # 曜日位置の差
-  diff <- dplyr::if_else(diff >= 0, diff, diff + 7) # 負のときは正に変換
-  #   for(i in seq_along(diff)){ # ベクトル対応
-  #     if(diff[i] < 0){ diff[i] <- diff[i] + 7 }
-  #   }
+  diff <- dplyr::if_else(diff >= 0, diff, diff + 7)       # 負をは正に変換
   same_pos_day <- base + (mweek(x) - 1) * 7 + diff # 同じ位置
   diff <- dplyr::if_else(diff >= 0, diff, diff + 7) # 負のときは正に変換
   for(i in seq_along(same_pos_day)){

@@ -41,7 +41,7 @@ str_view(str, pattern)
 c(str, "明日もいい天気かな．明後日はいい天気でしょう．") |>
   str_view(pattern)
 
-  # ```{r string-regex, subject = 'regxs()', caption = '大文字・小文字の区別の有無'}
+  # 大文字・小文字の区別の有無
   # 03_06_string-regex.R
 str <- c("A B C a b c")
 pattern <- "A|B"

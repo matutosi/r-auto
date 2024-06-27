@@ -219,7 +219,7 @@ docx_summary(doc_2) |>
   dplyr::select(-c(content_type, level, num_id)) |> # 列を除去
   tail(8) # 最後の8行のみ
 
-  # ```{r word-doc-2-text-print, eval = FALSE}
+  # ワードの保存
   # 08_24_word-doc-2-text-print.R
 print(doc_2, target = path_doc_2)
   # shell.exec(path_doc_2)
@@ -240,7 +240,7 @@ doc_2 <-
   body_add_break() |>
   body_add_table(mpg_tbl)                                # 表の追加
 
-  # ```{r word-fig-print, eval = FALSE}
+  # 図と表を追加後の保存
   # 08_26_word-fig-print.R
 print(doc_2, target = path_doc_2)
   # shell.exec(path_doc_2)
@@ -260,7 +260,7 @@ doc_2 <-
   body_add_break() |>
   body_add_fpar(value = par, style = "Normal")
 
-  # ```{r word-doc-2-comment-print, eval = FALSE}
+  # コメントを追加後の保存
   # 08_28_word-doc-2-comment-print.R
 print(doc_2, target = path_doc_2)
   # shell.exec(path_doc_2)

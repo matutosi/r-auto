@@ -247,7 +247,7 @@ path |>
   image_ocr(lang = "jpn") |>
   cat()
 
-  # ```{r image-binarization-package, eval = FALSE, subject = 'install.packages()', caption = 'image.binarizationのインストール'}
+  # image.binarizationのインストール
   # 11_34_image-binarization-package.R
 install.packages("image.binarization")
 library(image.binarization)
@@ -284,7 +284,7 @@ plot(deskewed)
 croped <- image_crop(imgs[25], "600x500+400+450")
 plot(croped)
 
-  # ```{r image-ltrb2geo-fun, subject = 'ltrb2geo()', caption = '左上・右下の位置をgeometryに変換する関数'}
+  # 左上・右下の位置をgeometryに変換する関数
   # 11_40_image-ltrb2geo-fun.R
 ltrb2geo <- function(left_top, right_bottom){
     left <- left_top[1]
@@ -297,7 +297,7 @@ ltrb2geo <- function(left_top, right_bottom){
     return(geometry)
 }
 
-  # ```{r image-ltrb2geo, eval = FALSE, subject = 'ltrb2geo()', caption = '左上・右下の位置のでの切り取り'}
+  # 左上・右下の位置のでの切り取り
   # 11_41_image-ltrb2geo.R
 geometry <- ltrb2geo(c(400, 450), c(1000, 950))
 geometry
@@ -372,7 +372,7 @@ for(path in path_imgs[1:3]){
   click_crop_image(path)
 }
 
-  # ```{r image-morph-animate, eval = FALSE, subject = 'image_()', caption = ''}
+  # アニメーション化
   # 11_47_image-morph-animate.R
 animated <- fs::path_temp("animated.gif")
 mor <- 
@@ -489,7 +489,7 @@ magick::image_read(ss)
 clipboard_img <- save_clipboard_image()
   # shell.exec(clipboard_img)
 
-  # ```{r img-save-screenshot-code, eval = FALSE, subject = 'save_clipboard_image()', caption = ''}
+  # クリップボード画像の自動保存
   # 11_54_img-save-screenshot-code.R
   # 保存先ディレクトリ
 wd <- fs::path(fs::path_home(), "desktop")

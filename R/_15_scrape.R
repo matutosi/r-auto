@@ -81,7 +81,7 @@ url <- "https://matutosi.github.io/r-auto/data/sample.html"
 open_url(url)
 session$driver$view()
 
-  # ```{r scrape-selenider-get-page-source, eval = FALSE, subject = 'get_page_source(),read_html()', caption = ''}
+  # HTMLの内容の取得
   # 15_15_scrape-selenider-get-page-source.R
 html <- get_page_source(session)
 {html_document}

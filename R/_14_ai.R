@@ -79,11 +79,11 @@ response <- create_image(prompt, n = n, size = "256x256")
 pngs <- fs::path(fs::path_home(), "desktop", paste0((n+1):(n*2), ".png"))
 purrr::map2(response$data$url, pngs, curl::curl_download)
 
-  # ```{r ai-gemini-r-install, eval = FALSE, subject = 'install_github()', caption = 'gemini.Rのインストール'}
+  # gemini.Rのインストール
   # 14_12_ai-gemini-r-install.R
 remotes::install_github("jhk0530/gemini.R")
 
-  # ```{r ai-gemini-r-library, eval = FALSE, subject = 'library()', caption = 'gemini.Rの呼び出し'}
+  # gemini.Rの呼び出し
   # 14_13_ai-gemini-r-library.R
 library(gemini.R)
 
@@ -121,19 +121,19 @@ prompt <- "文章には，自由な研究には何が重要だと書かれてい
 chat <- gemini_chat(prompt, chat$history)
 chat$outputs
 
-  # ```{r ai-gemini-image, eval = FALSE, subject = 'gemini_image()', caption = "作業用のグラフの生成"}
+  # 作業用のグラフの生成
   # 14_18_ai-gemini-image.R
 library(ggplot2)
 gg <- fs::path_temp("gg.png")
 ggplot(mpg, aes(cty, hwy)) + geom_point() + theme_bw()
 ggsave(gg, width = 5, height = 5)
 
-  # ```{r ai-gemini-gemini-image, eval = FALSE, subject = 'gemini_image()', caption = "Geminiでのグラフの説明"}
+  # Geminiでのグラフの説明
   # 14_19_ai-gemini-gemini-image.R
 prompt <- "グラフの説明をしてください．"
 gemini_image(prompt, gg)
 
-  # ```{r ai-gemini-gemini-images, eval = FALSE, subject = 'gemini_image()', caption = "Geminiでの図の説明"}
+  # Geminiでの図の説明
   # 14_20_ai-gemini-gemini-images.R
 prompt <- "写真の全体の説明をしてください．また，生物がいる場合は，その生物の説明もお願いします．"
 url <- "https://matutosi.github.io/r-auto/data/"
@@ -144,7 +144,7 @@ for(jpg in jpgs){
 }
 comments
 
-  # ```{r ai-gemini-gemini-images-ocr, eval = FALSE, subject = 'gemini_image()', caption = "Geminiでの文字認識"}
+  # Geminiでの文字認識
   # 14_21_ai-gemini-gemini-images-ocr.R
 url <- "https://matutosi.github.io/r-auto/data/jps.png"
 prompt <- "画像内の文字を教えて下さい．"

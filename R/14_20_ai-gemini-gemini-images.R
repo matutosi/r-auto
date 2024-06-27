@@ -1,4 +1,4 @@
-  # ```{r ai-gemini-gemini-images, eval = FALSE, subject = 'gemini_image()', caption = "Geminiでの図の説明"}
+  # Geminiでの図の説明
   # 14_20_ai-gemini-gemini-images.R
 prompt <- "写真の全体の説明をしてください．また，生物がいる場合は，その生物の説明もお願いします．"
 url <- "https://matutosi.github.io/r-auto/data/"

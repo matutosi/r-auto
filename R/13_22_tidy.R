@@ -1,4 +1,4 @@
-  # ```{r, tidy = FALSE, eval = FALSE}
+  # 翻訳結果のエクセルへの書き込み
   # 13_22_tidy.R
 path <- fs::path_temp("sample.xlsx")
 openxlsx::write.xlsx(result, path) # エクセルに一旦書き込み

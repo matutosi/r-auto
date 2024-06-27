@@ -1,4 +1,4 @@
-  # ```{r analysis-purrr-safely, eval = FALSE, subject = 'safely(),possibly()', caption = ''}
+  # 繰り返し処理のエラー対応
   # 02_59_analysis-purrr-safely.R
 error_if_two <- function(x){ # 0のときにエラーになる関数
   if(x == 2){

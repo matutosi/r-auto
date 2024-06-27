@@ -1,4 +1,4 @@
-  # ```{r date-convert-yr-replace, subject = 'convert_yr(),str_replace_all()', caption = '和暦・西暦の一括変換'}
+  # 和暦・西暦の一括変換
   # 04_34_date-convert-yr-replace.R
 yr_west <- paste0(as.character(1950:2024), "年")
 yr_jp <- convert_yr(yr_west, out_format = "jp")

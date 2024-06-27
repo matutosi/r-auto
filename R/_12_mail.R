@@ -18,13 +18,8 @@ gm_auth("YOURNAME@gmail.com")
   # Press Esc/Ctrl + C to abort
   # Authentication complete.
 
-  # ```{r, eval = FALSE}
-  # 12_05_eval.R
-  # 認証後にブラウザに表示されるメッセージ
-Authentication complete. Please close this page and return to R.
-
   # アカウントの確認
-  # 12_06_mail-gm-progile.R
+  # 12_05_mail-gm-progile.R
 gm_profile()
   # Logged in as:
   #   * email: YOURNAME@gmail.com
@@ -32,13 +27,13 @@ gm_profile()
   #   * num_threads: 78901
 
   # トークンの保存
-  # 12_07_mail-gm-token-write.R
+  # 12_06_mail-gm-token-write.R
 gm_token_write(path = "gmailr-token.rds")
 fs::dir_ls(regexp = "rds") # 保存できたか確認
   # gmailr-token.rds
 
   # 再起動時のトークンの呼び出し
-  # 12_08_mail-gm-token-read.R
+  # 12_07_mail-gm-token-read.R
 library(gmailr)
 token <- gm_token_read("gmailr-token.rds")
 gm_auth(token = token)
@@ -49,11 +44,11 @@ gm_profile()
   #   * num_threads: 78901
 
   # メールの表示
-  # 12_09_gmailr-gm-threads.R
+  # 12_08_gmailr-gm-threads.R
 gm_threads(search = "検索文字列", num_results = 3)
 
   # Gmailの内容表示
-  # 12_10_mail-gm-messages.R
+  # 12_09_mail-gm-messages.R
 messages <- gm_messages(search = "検索文字列", num_results = 3)
 messages
 gm_id(messages)[[1]]  |>
@@ -73,7 +68,7 @@ gm_id(threads)[[1]]  |>
   # (以下省略)
 
   # メール内を検索して表示する関数
-  # 12_11_mail-gm-messages-show-fun.R
+  # 12_10_mail-gm-messages-show-fun.R
 gm_show <- function(search = "", num_results = 3){
   msgs <- 
     gmailr::gm_messages(search = search, num_results = num_results) |>
@@ -83,7 +78,7 @@ gm_show <- function(search = "", num_results = 3){
 }
 
   # メールの内容を検索して表示
-  # 12_12_mail-gm-messages-show.R
+  # 12_11_mail-gm-messages-show.R
 gm_show(search = "検索文字列", num_results = 3)
   # [[1]]
   # Id: xxxxxxxxxxxxxx9d
@@ -99,7 +94,7 @@ gm_show(search = "検索文字列", num_results = 3)
   # (以下省略)
 
   # メールの作成
-  # 12_13_mail-gm-email.R
+  # 12_12_mail-gm-email.R
 gmail <-
   gm_mime() |>
   gm_to("hogehoge@gmail.com") |>
@@ -108,7 +103,7 @@ gmail <-
   gm_attach_file("photo.jpg") # 作業ディレクトリにphoto.jpgがある場合
 
   # メールの作成の別の方法
-  # 12_14_mail-gm-mine.R
+  # 12_13_mail-gm-mine.R
 gmail <-
   gm_mime(to = "hogehoge@gmail.com",
           subject = "テストメール1",
@@ -116,19 +111,19 @@ gmail <-
           attach_file = "photo.jpg")
 
   # メールの送信
-  # 12_15_mail-gm-send-mail.R
+  # 12_14_mail-gm-send-mail.R
 gm_send_message(gmail)
 
   # 下書きへの保存
-  # 12_16_mail-gm-messages-draft.R
+  # 12_15_mail-gm-messages-draft.R
 draft <- gm_create_draft(gmail)
 
   # 下書きメールの送信
-  # 12_17_mail-gm-messages-draft-send.R
+  # 12_16_mail-gm-messages-draft-send.R
 gm_send_draft(draft)
 
-  # ```{r mail-auto-gmails-fun, eval = FALSE, subject = 'auto_gmails()', caption = 'メールを自動作成・送信する関数'}
-  # 12_18_mail-auto-gmails-fun.R
+  # メールを自動作成・送信する関数
+  # 12_17_mail-auto-gmails-fun.R
 auto_gmails <- function(path){
   df <- 
     path |>
@@ -145,7 +140,7 @@ auto_gmails <- function(path){
 }
 
   # 複数メールの作成
-  # 12_19_mail-gen-gmails-fun.R
+  # 12_18_mail-gen-gmails-fun.R
 gen_gmails <- function(df){
   cols <- c("to", "cc", "bcc", "subject", "body")
   gmails <- 
@@ -159,7 +154,7 @@ gen_gmails <- function(df){
 }
 
   # 個別メールの作成
-  # 12_20_mail-gen-gmail-fun.R
+  # 12_19_mail-gen-gmail-fun.R
 gen_gmail <- function(to, from, subject, body, cc, bcc){
   gmail <- 
     gmailr::gm_mime(to = to, cc = cc, bcc = bcc,
@@ -168,7 +163,7 @@ gen_gmail <- function(to, from, subject, body, cc, bcc){
 }
 
   # ファイルを添付する(複数対応)
-  # 12_21_mail-attach-files-fun.R
+  # 12_20_mail-attach-files-fun.R
 attach_files_gmail <- function(gmail, files){
   if(is.na(files) | files == ""){ # 添付ファイルなし
     return(gmail)
@@ -180,7 +175,7 @@ attach_files_gmail <- function(gmail, files){
 }
 
   # テストデータの作成
-  # 12_22_mail-auto-gmails-test-data.R
+  # 12_21_mail-auto-gmails-test-data.R
 path <- fs::path_temp("email.xlsx")
 tibble::tibble(
   send = c("1", "0"),
@@ -201,12 +196,12 @@ openxlsx::freezePane(wb, 1, firstRow = TRUE) # ウィンドウ枠
 openxlsx::saveWorkbook(wb, path, overwrite = TRUE)
 
   # メールの一斉送信
-  # 12_23_mail-auto-gmails-generate.R
+  # 12_22_mail-auto-gmails-generate.R
 gmails <- auto_gmails(path = path)
 gmails
 
   # 下書きメールの一斉送信
-  # 12_24_mail-auto-drafts-send.R
+  # 12_23_mail-auto-drafts-send.R
 gmails$draft |>
   purrr::walk(gm_send_draft)
   # 下書きを個別にに送信するとき
@@ -214,26 +209,26 @@ gmails$draft |>
   #   gm_send_draft()
 
   # 下書きメールの一斉削除
-  # 12_25_mail-auto-drafts-delete.R
+  # 12_24_mail-auto-drafts-delete.R
 gm_drafts() |>
   gm_id() |>
   purrr::map(gm_delete_draft)
 
   # Microsoft365Rのインストール
-  # 12_26_mail-ms365r-package.R
+  # 12_25_mail-ms365r-package.R
 install.packages("Microsoft365R")
 
   # Microsoft365Rの呼び出し
-  # 12_27_mail-ms365r-library.R
+  # 12_26_mail-ms365r-library.R
 library(Microsoft365R)
 
   # Outlookでの認証
-  # 12_28_mail-ms365r-get.R
+  # 12_27_mail-ms365r-get.R
  # outlook <- get_personal_outlook() # 個人用アカウント
 outlook <- get_business_outlook() # 職場または学校アカウント
 
   # outlookの内容
-  # 12_29_mail-ms365r-outlook.R
+  # 12_28_mail-ms365r-outlook.R
 outlook
  ## <Outlook client for '甲南 花子'>
  ##   email address: yourname@outlook.co.jp
@@ -246,11 +241,11 @@ outlook
  ##     sync_fields, update
 
   # メールの一覧取得
-  # 12_30_mail-ms365r-list-emails.R
+  # 12_29_mail-ms365r-list-emails.R
 outlook$list_emails(n = 2) # メールを2つ表示
 
   # メールの作成と下書きの保存
-  # 12_31_mail-ms365r-create-email.R
+  # 12_30_mail-ms365r-create-email.R
 body <- "メールの本文.............."
 body
  ## [1] "メールの本文.............."
@@ -276,7 +271,7 @@ em # 作成したメールの内容
  ## メールの本文..............
 
   # ファイルの添付
-  # 12_32_mail-ms365r-add-attachment.R
+  # 12_31_mail-ms365r-add-attachment.R
 em$add_attachment("添付ファイル名.xlsx")
 em$list_attachments()
  ## [[1]]
@@ -286,7 +281,7 @@ em$list_attachments()
  ##   attachment size: 128 
 
   # 下書きフォルダのメール一覧取得
-  # 12_33_mail-ms365r-get-drafts.R
+  # 12_32_mail-ms365r-get-drafts.R
 drafts <- outlook$get_drafts()$list_emails()
 drafts
  ## [[1]]
@@ -304,12 +299,12 @@ drafts
  ## # (省略)
 
   # メールの送信
-  # 12_34_mail-ms365r-send-email.R
+  # 12_33_mail-ms365r-send-email.R
 em$send() # 送信する．
   # drafts[[1]]$send() # これでも送信可能
 
   # メールを自動送信する関数
-  # 12_35_mail-ms365r-auto-emails-fun.R
+  # 12_34_mail-ms365r-auto-emails-fun.R
 auto_emails <- function(path, outlook){
   df <- readxl::read_xlsx(path)
   emails <- gen_emails(df, outlook)
@@ -321,7 +316,7 @@ auto_emails <- function(path, outlook){
 }
 
   # メールの作成(複数対応)
-  # 12_36_mail-ms365r-gen-emails-fun.R
+  # 12_35_mail-ms365r-gen-emails-fun.R
 gen_emails <- function(df, outlook){
   cols <- c("to", "subject", "body", "cc", "bcc")
   emails <- 
@@ -335,7 +330,7 @@ gen_emails <- function(df, outlook){
 }
 
   # ファイルを添付する(複数対応)
-  # 12_37_mail-ms365r-attach-files-fun.R
+  # 12_36_mail-ms365r-attach-files-fun.R
 attach_files <- function(email, files){
   if(is.na(files) | files == ""){ # 添付ファイルなし
     return(invisible(email))
@@ -346,19 +341,19 @@ attach_files <- function(email, files){
 }
 
   # メールの一斉送信
-  # 12_38_mail-ms365r-auto-emails-generate.R
+  # 12_37_mail-ms365r-auto-emails-generate.R
   # outlook <- get_personal_outlook() # 個人用アカウント
 outlook <- get_business_outlook() # 職場または学校アカウント
 emails <- auto_emails(path = "email.xlsx", outlook)
 emails
 
   # 下書きメールの一斉送信
-  # 12_39_mail-ms365r-auto-drafts-send.R
+  # 12_38_mail-ms365r-auto-drafts-send.R
 outlook$get_drafts()$list_emails() |>
   purrr::map(function(x){ x$send() })
 
   # 下書きメールの一斉削除
-  # 12_40_mail-ms365r-auto-drafts-delete.R
+  # 12_39_mail-ms365r-auto-drafts-delete.R
 outlook$get_drafts()$list_emails() |>
   purrr::map(function(x){ x$delete(confirm = FALSE) })
 

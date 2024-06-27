@@ -1,4 +1,4 @@
-  # ```{r pdf-ocr, subject = 'pdf_ocr_text(),pdf_ocr_data()', caption = ' PDF内の画像の文字認識'}
+  # PDF内の画像の文字認識
   # 07_18_pdf-ocr.R
 ocr_data <- 
   pdf_ocr_data(pdf_spl[1], language = "jpn") |>

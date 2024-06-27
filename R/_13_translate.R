@@ -15,7 +15,7 @@ deepl_key <- "ab123def-4567-89gh-ijkl-123456789012:fx"
 fs::path(Sys.getenv("HOME")) |> # c:\Users\USERNAME\Documents
   shell.exec() # ディレクトリを開く
 
-  # ```{r translate-api-sys-getenv, eval = FALSE, subject = 'Sys.getenv()', caption = "環境変数の読み込み"}
+  # 環境変数の読み込み
   # 13_05_translate-api-sys-getenv.R
 deepl_key <- Sys.getenv("DEEPL_API_KEY")
 deepl_key
@@ -200,7 +200,7 @@ result2 <- tibble::tibble(gener = tr_gener, paten = tr_paten, seika = tr_seika)
 result <- dplyr::bind_cols(result, result2) |>
   print()
 
-  # ```{r, tidy = FALSE, eval = FALSE}
+  # 翻訳結果のエクセルへの書き込み
   # 13_22_tidy.R
 path <- fs::path_temp("sample.xlsx")
 openxlsx::write.xlsx(result, path) # エクセルに一旦書き込み

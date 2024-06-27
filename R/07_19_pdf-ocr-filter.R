@@ -1,4 +1,4 @@
-  # ```{r pdf-ocr-filter, subject = 'pdf_ocr_data()', caption = ' 精度の高い結果のみを抽出'}
+  # 精度の高い結果のみを抽出
   # 07_19_pdf-ocr-filter.R
 word <- 
   ocr_data |>

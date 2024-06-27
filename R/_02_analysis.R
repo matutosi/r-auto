@@ -188,7 +188,7 @@ dplyr::group_by(sales, item) |> print(n = 3)
 dplyr::group_by(answer, area) |> 
   dplyr::summarise(m_period = mean(period), m_satisfy = mean(satisfy))
 
-  # ```{r analysis-dplyr-summarise-by, tidy = FALSE, subject = 'summarise()', caption = '.byを使った平均や最大値などの集計'}
+  # .byを使った平均や最大値などの集計
   # 02_32_analysis-dplyr-summarise-by.R
 dplyr::summarise(answer,m_period = mean(period), m_satisfy = mean(satisfy), 
                  .by = area)
@@ -248,13 +248,13 @@ sales |>
   ggplot2::ggplot(ggplot2::aes(x = item, y = count)) + 
   ggplot2::geom_boxplot()
 
-  # ```{r analysis-ggplot-geom-jitter, eval = FALSE, tidy = FALSE, subject = 'geom_jitter()', caption = 'ジッター・プロット'}
+  # ジッター・プロット
   # 02_41_analysis-ggplot-geom-jitter.R
 sales |>
   ggplot2::ggplot(ggplot2::aes(item, count)) + 
   ggplot2::geom_jitter()
 
-  # ```{r analysis-ggplot-geom-boxplot-geom-jitter, eval = FALSE, subject = 'geom_boxplot(),geom_jitter()', caption = '箱ひげ図とジッター・プロットの重ね合わせ', tidy = FALSE}
+  # 箱ひげ図とジッター・プロットの重ね合わせ
   # 02_42_analysis-ggplot-geom-boxplot-geom-jitter.R
 gg_sales <- 
   sales |>
@@ -380,7 +380,7 @@ purrr::map2(pdfs, gg_sales_split, ggsave,
             device = cairo_pdf, width = 7, height = 7)
   # shell.exec(pdfs[1])
 
-  # ```{r analysis-purrr-safely, eval = FALSE, subject = 'safely(),possibly()', caption = ''}
+  # 繰り返し処理のエラー対応
   # 02_59_analysis-purrr-safely.R
 error_if_two <- function(x){ # 0のときにエラーになる関数
   if(x == 2){
