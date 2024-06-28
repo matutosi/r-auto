@@ -1,6 +1,6 @@
   # パワーポイントを画像・PDF・動画に変換する関数
   # 10_30_powerpoint-pp2img-fun.R
-pp2ext <- function (path, format = "png"){
+pp2ext <- function(path, format = "png"){
   format_no <- switch(format,
                       ppt = 1, rtf = 5, pptx = 11, ppsx = 28, pdf = 32, 
                       wmf = 15, gif = 16, jpg = 17, png = 18, bmp = 19,

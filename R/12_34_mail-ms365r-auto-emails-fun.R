@@ -5,7 +5,7 @@ auto_emails <- function(path, outlook){
   emails <- gen_emails(df, outlook)
   if("send" %in% colnames(df)){
     emails[df$send == 1] |>
-      purrr::walk(function(x){ x$send()})
+      purrr::walk(\(x){ x$send() })
   }
   return(emails)
 }

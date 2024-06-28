@@ -1,6 +1,6 @@
   # ワードと各種形式との相互変換の関数
   # 08_17_word-convert-fun.R
-convert_docs <- function (path, format){
+convert_docs <- function(path, format){
   if (fs::path_ext(path) == format){ # 拡張子が入力と同じとき
     return(invisible(path))          # 終了
   }

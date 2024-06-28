@@ -1,6 +1,6 @@
   # エクセルをPDFに変換する関数
   # 09_52_excel-excel2pdf-fun.R
-xlsx2pdf <- function (path){
+xlsx2pdf <- function(path){
   format_no <- 57 # PDFに保存するときの番号
   path <- normalizePath(path) # Windowsの形式に変換
   converted <- 

@@ -10,8 +10,8 @@ extract_docx_imgs <- function(path) {
   fs::file_copy(docxs, zips, overwrite = TRUE) # docxをzipとして複製
   zip_dirs <- fs::path_ext_remove(zips)        # 拡張子の除去
   purrr::walk2(zips, zip_dirs, 
-    function(x, y){ unzip(zipfile = x, exdir = y) }) # 解凍
-  images <- purrr::map(zip_dirs, extract_imgs)       # 画像の抽出
+    \(x, y){ unzip(zipfile = x, exdir = y) })  # 解凍
+  images <- purrr::map(zip_dirs, extract_imgs) # 画像の抽出
   images <- 
     unlist(images) |>
     fs::file_move(path) # 画像の移動

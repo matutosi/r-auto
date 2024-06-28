@@ -310,7 +310,7 @@ auto_emails <- function(path, outlook){
   emails <- gen_emails(df, outlook)
   if("send" %in% colnames(df)){
     emails[df$send == 1] |>
-      purrr::walk(function(x){ x$send()})
+      purrr::walk(\(x){ x$send() })
   }
   return(emails)
 }
@@ -350,10 +350,10 @@ emails
   # 下書きメールの一斉送信
   # 12_38_mail-ms365r-auto-drafts-send.R
 outlook$get_drafts()$list_emails() |>
-  purrr::map(function(x){ x$send() })
+  purrr::map( \(x){ x$send() })
 
   # 下書きメールの一斉削除
   # 12_39_mail-ms365r-auto-drafts-delete.R
 outlook$get_drafts()$list_emails() |>
-  purrr::map(function(x){ x$delete(confirm = FALSE) })
+  purrr::map( \(x){ x$delete(confirm = FALSE) })
 
