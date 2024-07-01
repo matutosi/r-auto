@@ -31,8 +31,8 @@ KeyboardSimulator::keybd.press("enter")
 mouse.get_cursor()
  ## [1] 297  306
 
-  # マウス位置の取得する関数の定義
-  # 06_08_kybd-mouse-record.R
+  # マウス位置の取得する関数
+  # 06_08_kybd-mouse-record-fun.R
 mouse_record <- function(n = 3, interval = -1){
   pos <- list()
   for(i in seq(n)){
@@ -47,6 +47,9 @@ mouse_record <- function(n = 3, interval = -1){
   }
   return(invisible(pos))
 }
+
+  # マウス位置の取得
+  # 06_09_kybd-mouse-record.R
 mouse_record()
  ## Press Enter on R console
  ## 1: x = 568, y = 143
@@ -56,16 +59,16 @@ mouse_record()
  ## 3: x = 602, y = 484
 
   # マウスの位置移動
-  # 06_09_kybd-mouse-move.R
+  # 06_10_kybd-mouse-move.R
 mouse.move(x = 400, y = 200)
 mouse.move(200, 200, duration = 1, step_ratio = 0.1)
 
   # マウスのクリック
-  # 06_10_kybd-mouse-click.R
+  # 06_11_kybd-mouse-click.R
 mouse.click(button = "left", hold = FALSE) # 既定値のクリック
 
   # マウスを移動してクリックする関数
-  # 06_11_kybd-mouse-move-click-fun.R
+  # 06_12_kybd-mouse-move-click-fun.R
 mouse_move_click <- function(x, y, button = "left", hold = FALSE, 
                              sleep_sec = 0.1){
   KeyboardSimulator::mouse.move(x, y)
@@ -74,38 +77,38 @@ mouse_move_click <- function(x, y, button = "left", hold = FALSE,
 }
 
   # 左上のファイルをダブルクリック
-  # 06_12_kybd-mouse-move-click.R
+  # 06_13_kybd-mouse-move-click.R
 mouse_move_click(50,50)
 mouse_move_click(50,50)
 
   # 左上のファイルをドラッグして移動
-  # 06_13_kybd-mouse-move-click-hold.R
+  # 06_14_kybd-mouse-move-click-hold.R
 mouse_move_click(50,50, hold = TRUE, sleep_sec = 0.1)
 mouse_move_click(150,50)
 mouse.release()
 
   # screenshotのインストール
-  # 06_14_kybd-screenshot-install.R
+  # 06_15_kybd-screenshot-install.R
 install.packages("screenshot")
 
   # screenshotの呼び出し
-  # 06_15_kybd-screenshot-library.R
+  # 06_16_kybd-screenshot-library.R
 library(screenshot)
 
   # スクリーンショット撮影のバッチファイルのインストール
-  # 06_16_kybd-screenshot-install-screenshot.R
+  # 06_17_kybd-screenshot-install-screenshot.R
  # fs::path_package("screenshot")にイントールされる
 screenshot::install_screenshot()
 
   # スクリーンショット撮影
-  # 06_17_kybd-screenshot.R
+  # 06_18_kybd-screenshot.R
 ss <- screenshot::screenshot()
  ## C:/Users/USERNAME/AppData/Local/Temp/RtmpkP1iLf/sc_287c4b4873da.png
 imager::load.image(ss) |> plot() # imagerで読み込み・表示
   # shell.exec(ss) # 関連付けアプリで開く場合
 
   # 位置特定用の画像の準備
-  # 06_18_kybd-screenshot-needle-image.R
+  # 06_19_kybd-screenshot-needle-image.R
 needle_image <- 
   magick::image_read(ss) |>
   magick::image_crop(geometry = "60x60+0+0")
@@ -115,12 +118,12 @@ magick::image_write(needle_image, path_needle)
  # shell.exec(path_needle)
 
   # 画像の位置特定によるマウスの移動・クリック
-  # 06_19_kybd-screenshot-locate-image.R
+  # 06_20_kybd-screenshot-locate-image.R
 screenshot::locate_image(needle_image = path_needle)
 screenshot::locate_image(path_needle, center = FALSE)
 
   # USB取り出し用マウス位置の取得
-  # 06_20_kybd-remove-usb-pos.R
+  # 06_21_kybd-remove-usb-pos.R
 pos <- mouse_record(n = 4)
  ## Press Enter on R consolepos # xy座標の位置は環境によって全く異なる
  ## 1: x = 1050, y = 671
@@ -132,7 +135,7 @@ pos <- mouse_record(n = 4)
  ## 4: x = 1021, y = 677
 
   # コード生成の自動化
-  # 06_21_kybd-gen-code.R
+  # 06_22_kybd-gen-code.R
 for(p in pos){
   pre <- "mouse_move_click("
   mid <- ", "
@@ -146,7 +149,7 @@ for(p in pos){
  ## mouse_move_click(1021, 677)
 
   # USBの取り出しコードの例
-  # 06_22_kybd-remove-usb.R
+  # 06_23_kybd-remove-usb.R
 pos_original <- KeyboardSimulator::mouse.get_cursor()
  # スクリプトで使用時は，mouse_move_click()の定義が必要
 mouse_move_click(225, 843) # 位置は適宜変更の必要あり

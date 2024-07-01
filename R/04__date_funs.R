@@ -1,3 +1,5 @@
+  # 日付っぽい文字列の正規表現を返す関数
+  # 04_13_date-date-ish-fun.R
 date_ish <- function(){
   era <- "([MTSHRＭＴＳＨＲ]|明治|大正|昭和|平成|令和)?"
   yr <- "[\\d元]{0,4}[-－.．_＿/／年]?"
@@ -11,6 +13,8 @@ date_ish <- function(){
   pattern <- paste(p_1, p_2, p_3, p_4, sep = "|")
   return(pattern)
 }
+  # 日付っぽい文字列を抽出する関数
+  # 04_16_date-extract-date-ish-fun.R
 extract_date_ish <- function(str, simplify = FALSE){
   pattern <- date_ish()
   res <-
@@ -20,10 +24,14 @@ extract_date_ish <- function(str, simplify = FALSE){
   }
   return(res)
 }
+  # 和暦判別の関数
+  # 04_20_date-is-jp-date-fun.R
 is_jp_date <- function(str){
   era <- "^([MTSHRＭＴＳＨＲ]|明治|大正|昭和|平成|令和)[\\d元]"
   stringr::str_detect(str, era)
 }
+  # 年の有無の判別関数
+  # 04_23_date-has-yr-fun.R
 has_yr <- function(str){
   dw <- "\\([月火水木金土日祝]+\\)$"
   str <-
@@ -42,6 +50,8 @@ has_yr <- function(str){
     )
   return(res)
 }
+  # 年追加の助関数
+  # 04_25_date-paste-year-helper-fun.R
 this_year <- function(){
   lubridate::today() |>
     lubridate::year()
@@ -49,6 +59,8 @@ this_year <- function(){
 is_future <- function(date){
   lubridate::today() < date
 }
+  # 年の追加関数
+  # 04_26_date-paste-year-fun.R
 paste_year <- function(str, past = FALSE){
   str <- stringi::stri_trans_general(str, "fullwidth-halfwidth")
   yr <- this_year()
@@ -65,6 +77,8 @@ paste_year <- function(str, past = FALSE){
     )
   return(date)
 }
+  # 日付っぽい文字列を日付に変換する関数
+  # 04_28_date-date-ish2date-fun.R
 date_ish2date <- function(str, past = FALSE){
   str <- stringi::stri_trans_general(str, "fullwidth-halfwidth")
   str <-
@@ -77,6 +91,8 @@ date_ish2date <- function(str, past = FALSE){
     )
   return(str)
 }
+  # 西暦年と和暦年を変換する関数
+  # 04_32_date-convert-yr-fun.R
 convert_yr <- function(str, out_format = "west"){
   no_nen <- stringr::str_which(str, "年", negate = TRUE) # "年"無の序数
   str <-
@@ -89,6 +105,7 @@ convert_yr <- function(str, out_format = "west"){
   str <- paste0(str, nen)
   return(str)
 }
+  # 和暦年と西暦年の書式
 format_year <- function(x, out_format = "west"){
   if(out_format == "west"){
     format <- "uuuu"
@@ -101,6 +118,8 @@ format_year <- function(x, out_format = "west"){
   x <- stringi::stri_datetime_format(x, format = format, locale = locale)
   return(x)
 }
+  # 曜日を取り出す関数
+  # 04_36_date-extract-wday-fun.R
 extract_wday <- function(str){
   str <- stringi::stri_trans_general(str, "fullwidth-halfwidth")
   mn <- "\\d{1,2}[-.,_/月]" # 月
@@ -114,6 +133,8 @@ extract_wday <- function(str){
     stringr::str_extract(dw)               # 曜日の抽出
   return(wd)
 }
+  # 日付と曜日との整合性を確認する関数
+  # 04_38_date-is-correct-wday-fun.R
 is_correct_wday <- function(str){
   wday_orig <- extract_wday(str) # 元の曜日
   date <- date_ish2date(str)     # 日付
@@ -126,6 +147,8 @@ is_correct_wday <- function(str){
               wday_orig = wday_orig, date = date, wday = wday)
   return(res)
 }
+  # 曜日を修正する関数
+  # 04_40_date-update-wday-fun.R
 update_wday <- function(str, out_format = "west"){
   res <- is_correct_wday(str)   # 曜日が正しいか判定
   if(out_format == "original"){ # 元の書式
@@ -135,12 +158,16 @@ update_wday <- function(str, out_format = "west"){
   }
   return(date)
 }
+  # 元の書式のまま曜日のみ置換する関数
+  # 04_41_date-replace-wday-fun.R
 replace_wday <- function(str, wday_orig, wday){
   pattern <- paste0("([\\(（])", wday_orig, "([\\)）])") # 置換前
   replacement <- paste0("\\1", wday, "\\2")              # 置換後
   date <- stringr::str_replace(str, pattern, replacement)
   return(date)
 }
+  # 日付を指定の書式にする関数
+  # 04_42_date-format-date-fun.R
 format_date <- function(x, out_format = "west"){
   if(out_format == "west"){ # 西暦
     format <- "uuuu年M月d日(E)"
@@ -153,9 +180,13 @@ format_date <- function(x, out_format = "west"){
   x <- stringi::stri_datetime_format(x, format = format, locale = locale)
   return(x)
 }
+  # 各曜日での序数を得る関数
+  # 04_45_date-mweek-fun.R
 mweek <- function(x){
   (lubridate::mday(x) + 6) %/% 7
 }
+  # 1年後の同一位置の年月日を取得する関数
+  # 04_46_date-same-pos-next-yr-fun.R
 same_pos_next_yr <- function(x, out_format = "west"){
   yr <- lubridate::year(x)  # 年
   mn <- lubridate::month(x) # 月

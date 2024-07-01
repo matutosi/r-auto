@@ -1,3 +1,5 @@
+  # マウス位置の取得する関数
+  # 06_08_kybd-mouse-record-fun.R
 mouse_record <- function(n = 3, interval = -1){
   pos <- list()
   for(i in seq(n)){
@@ -12,4 +14,11 @@ mouse_record <- function(n = 3, interval = -1){
   }
   return(invisible(pos))
 }
+  # マウスを移動してクリックする関数
+  # 06_12_kybd-mouse-move-click-fun.R
 mouse_move_click <- function(x, y, button = "left", hold = FALSE, 
+                             sleep_sec = 0.1){
+  KeyboardSimulator::mouse.move(x, y)
+  KeyboardSimulator::mouse.click(button = button, hold = hold)
+  Sys.sleep(sleep_sec)
+}

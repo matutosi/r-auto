@@ -380,29 +380,30 @@ purrr::map2(pdfs, gg_sales_split, ggsave,
             device = cairo_pdf, width = 7, height = 7)
   # shell.exec(pdfs[1])
 
-  # 繰り返し処理のエラー対応
-  # 02_59_analysis-purrr-safely.R
-error_if_two <- function(x){ # 0のときにエラーになる関数
+  # 2のときにエラーになる関数
+  # 02_59_analysis-purrr-safely-prep.R
+error_if_two <- function(x){
   if(x == 2){
     stop("エラーです")
   }else{
     return(x)
   }
 }
+
+  # 繰り返し処理のエラー対応
+  # 02_60_analysis-purrr-safely.R
 purrr::map(1:3, error_if_two)  # そのままのとき
-error_if_two_safely <- safely(error_if_two) # エラーでも継続
-purrr::map(1:3, error_if_two_safely) 
 error_if_two_possibly <- possibly(error_if_two, otherwise = 0) # エラー時は0
 purrr::map_dbl(1:3, error_if_two_possibly)
 
   # 順次処理の関数の基本動作
-  # 02_60_analysis-purrr-reduce-add.R
+  # 02_61_analysis-purrr-reduce-add.R
 accumulate(1:4, `*`)
 reduce(1:4, `*`)
 
-  # 順次処理の関数
-  # 02_61_analysis-purrr-reduce.R
-paste_if_not_exist <- function(x, y){
+  # 新しいものを追加する関数
+  # 02_62_analysis-purrr-paste-if-new-fun.R
+paste_if_new <- function(x, y){
   pattern <- paste0("(^|;)+", y, "(;|$)+")
   if(stringr::str_detect(x, pattern)){
     x
@@ -410,7 +411,10 @@ paste_if_not_exist <- function(x, y){
     paste0(x, ";", y)
   }
 }
+
+  # 順次処理の関数
+  # 02_63_analysis-purrr-reduce.R
 answer |> 
-  dplyr::summarise(apps = reduce(apps, paste_if_not_exist), 
+  dplyr::summarise(apps = reduce(apps, paste_if_new), 
                    .by = c(area, satisfy))
 

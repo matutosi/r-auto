@@ -1,3 +1,5 @@
+  # 文字列を箇条書きに変換する関数
+  # 10_09_powerpoint-str2ul-fun.R
 str2ul <- function(str, sep = ";", symbol = "-"){
   if(length(str) == 1){                      # 1つの文字列のとき
     str <- 
@@ -14,7 +16,63 @@ str2ul <- function(str, sep = ";", symbol = "-"){
                        level_list = level_list)
   return(ul)
 }
+  # Title and Contentのレイアウトでタイトルと画像を挿入する関数
+  # 10_14_powerpoint-add-fig-fun.R
 add_fig <- function(pp, title = "", path_img, fig_full_size = FALSE,
+                    conter_horizontal = TRUE, conter_vertical = TRUE){
+  # レイアウト・設置場所
+  name <- "Title and Content"
+  ph_label <- "Content Placeholder 2"
+  # スライドのサイズ
+  ss <- slide_size(pp)
+  # 配置場所のサイズ
+  cont_ph <- 
+    layout_properties(pp) |>
+    dplyr::filter(name == {{name}} & ph_label == {{ph_label}})
+  if(fig_full_size){
+    offx <- 0
+  }else{
+    offx <- cont_ph$offx
+  }
+  offy <- cont_ph$offy
+  # 配置サイズ：全体 - offset
+  w_cont <- ss$width  - offx * 2 # 幅，* 2：左右分
+  h_cont <- ss$height - offy     # 高さ
+  # 画像のサイズ
+  img <- magick::image_read(path_img)
+  w_img <- magick::image_info(img)$width
+  h_img <- magick::image_info(img)$height
+  # 縦横比
+  ratio_img <- w_img / h_img      # 画像
+  ratio_cont <- w_cont / h_cont   # 配置場所
+  ratio <- ratio_img / ratio_cont # 画像と配置場所の比率
+    # 縦長・横長での補正
+  if(ratio > 1){
+    h_cont <- h_cont / ratio # 図が横長
+  }else{
+    w_cont <- w_cont * ratio # 図が縦長
+  }
+  # 補正
+  if(conter_horizontal){ # 水平方向
+    offx <- (ss$width - w_cont) / 2
+  } 
+  if(conter_vertical){   # 垂直方向
+    offy <- (offy + ss$height - h_cont) / 2
+  }
+  # スライドの追加
+  pp <- add_slide(pp, layout = "Title and Content")
+  # 画像の追加
+  pp <- ph_with(pp, 
+                value = external_img(path_img),
+                location = ph_location(left = offx, top = offy,
+                                       width = w_cont, height = h_cont))
+  # タイトルの追加
+  pp <- ph_with(pp, value = title,
+                location = ph_location_type(type = "title"))
+  return(pp)
+}
+  )
+  # purrr::reduce()をデータフレームに適用する糖衣関数
 preduce <- function(.l, .f, ..., .init, .dir = c("forward", "backward")){
   .dir <- match.arg(.dir)
   purrr::reduce(
@@ -22,6 +80,11 @@ preduce <- function(.l, .f, ..., .init, .dir = c("forward", "backward")){
     \(x, y){ rlang::exec(.f, x, !!!y, ...) }, 
     .init = .init, .dir = .dir)
 }
+pp <- preduce(df, add_fig, .init = pp)
+print(pp, target = path)
+  # shell.exec(path)
+  # パワーポイントから文字列を取り出す関数
+  # 10_20_extract-pp-text-fun.R
 extract_pp_text <- function(path){
   paragraph <- 
     path |>
@@ -40,6 +103,8 @@ extract_pp_text <- function(path){
     `$`(_, "text") # 文字列を取り出し
   return(text)
 }
+  # パワーポイントから表のデータを取り出す関数
+  # 10_23_powerpoint-extract-pp-table-fun.R
 extract_pp_table <- function(path){
   table <- 
     path |>
@@ -50,6 +115,8 @@ extract_pp_table <- function(path){
                    value = "text", split = c("id", "slide_id"))
   return(table)
 }
+  # パワーポイントから画像データを取り出す関数
+  # 10_27_powerpoint-extract-pp-image-fun.R
 extract_pp_image <- function(path, out_dir = NULL, overwrite = TRUE){
   pp <- officer::read_pptx(path)                           # 読み込み
   imgs <-                                                  # 画像の一覧
@@ -79,6 +146,8 @@ extract_pp_image <- function(path, out_dir = NULL, overwrite = TRUE){
   fs::file_copy(image_files, out_files, overwrite = overwrite)
   return(out_files)
 }
+  # パワーポイントを画像・PDF・動画に変換する関数
+  # 10_30_powerpoint-pp2img-fun.R
 pp2ext <- function(path, format = "png"){
   format_no <- switch(format,
                       ppt = 1, rtf = 5, pptx = 11, ppsx = 28, pdf = 32, 

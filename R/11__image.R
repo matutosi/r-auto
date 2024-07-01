@@ -380,8 +380,8 @@ mor <-
   image_write(animated)
   # shell.exec(animated)
 
-  # PDFファイルの背景の透明化
-  # 11_47_image-etc-transparent.R
+  # PDFファイルの背景を透明化する関数
+  # 11_47_image-etc-transparent-fun.R
 gg_point <- function(path, size, color, fill){ # 散布図の描画・保存
   tibble(x = runif(1000), y = runif(1000)) |>
     ggplot(aes(x, y)) + 
@@ -395,6 +395,9 @@ pdf_transparent <- function(path){ # PDF背景の透明化
     image_transparent("white") |> # 白を透明化
     image_write(path, format = "pdf")
 }
+
+  # PDFファイルの背景の透明化
+  # 11_48_image-etc-transparent.R
 path <- fs::path_temp(c("gg_1.pdf", "gg_2.pdf"))      # 個別の散布図のPDF
 path_out <- fs::path_temp(c("fill.pdf", "trans.pdf")) # 重ね合わせしたPDF
 tibble(path = path, 
@@ -410,7 +413,7 @@ out <- pdftools::pdf_combine(c(path, path_out))              # 全PDFを結合
   # shell.exec(out)
 
   # ディレクトリ内の画像にファイル名を書き込んで結合する関数
-  # 11_48_image-annotate-fnames-fun.R
+  # 11_49_image-annotate-fnames-fun.R
 image_annotate_fnames <- function(dir, 
   regexp = "\\.(png|jpg)$", ncol = NULL, 
   scale = "200", border = "x30", size = 25, color = "white"){
@@ -462,23 +465,23 @@ same_height <- function(imgs){
 }
 
   # ファイル名を書き込んで結合する
-  # 11_49_image-annotate-fnames.R
+  # 11_50_image-annotate-fnames.R
 dir <- fs::path_temp()
 regexp <- "r_\\d+\\.(png|jpg)$"
 img_all <- image_annotate_fnames(dir = dir, regexp = regexp, ncol = 8)
 plot(img_all)
 
   # screenshotのインストールと呼び出し
-  # 11_50_image-screenshot-install.R
+  # 11_51_image-screenshot-install.R
 install.packages("screenshot")
 library(screenshot)
 
   # スクリーンショットのためのアプリのインストール
-  # 11_51_image-screenshot-install-screenshot.R
+  # 11_52_image-screenshot-install-screenshot.R
 screenshot::install_screenshot()
 
   # スクリーンショットの保存
-  # 11_52_image-screenshot-screenshot.R
+  # 11_53_image-screenshot-screenshot.R
 ss <- screenshot::screenshot()
 fs::path_file(ss) # ファイル名のみ
  ## [1] "sc_158839211323.png"
@@ -486,12 +489,12 @@ magick::image_read(ss)
   # shell.exec(ss) # 関連付けアプリで起動
 
   # スクリーンショットの保存
-  # 11_53_image-screenshot.R
+  # 11_54_image-screenshot.R
 clipboard_img <- save_clipboard_image()
   # shell.exec(clipboard_img)
 
   # クリップボード画像の自動保存
-  # 11_54_img-save-screenshot-code.R
+  # 11_55_img-save-screenshot-code.R
 
 wd <- fs::path(fs::path_home(), "desktop")  # 保存先ディレクトリ
 setwd(wd)                                   # 保存ファイルの指定

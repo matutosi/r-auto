@@ -5,5 +5,3 @@ content_cols <- function(wb, sheet, str){
   which(colnames(df) == str)
 }
 
-：セルの文字列に合わせて罫線を引く関数
-

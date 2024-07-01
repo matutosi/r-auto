@@ -177,8 +177,8 @@ cmd <- "taskkill /im Acrobat.exe" # コマンド
 (res <- system(cmd, intern = TRUE)) # 実行
 iconv(res, "sjis", "utf8") # 文字コード変換
 
-  # zipファイルの解凍
-  # 05_16_command-unzip.R
+  # zipファイルを解凍する関数
+  # 05_16_command-unzip-fun.R
 unzip_with_dir <- function(zip){
   dir <- fs::path_dir(zip)                    # ディレクトリ
   unzip_dir <- fs::path_file(zip)             # ファイル名
@@ -188,6 +188,9 @@ unzip_with_dir <- function(zip){
   utils::unzip(zip, exdir = unzip_dir)        # 解凍
   return(unzip_dir)
 }
+
+  # zipファイルの解凍
+  # 05_17_command-unzip.R
 dir_usr <- Sys.getenv("USERPROFILE")        # "c:/Users/USERNAME"
 dsk <- fs::path(dir_usr, "Desktop")         # デスクトップのディレクトリ
 zips <- fs::dir_ls(dsk, regexp = "\\.zip")  # zipファイル一覧
@@ -195,7 +198,7 @@ dirs <- purrr::map(zips, unzip_with_dir)    # 解凍
 purrr::map(dirs, shell.exec)                # ディレクトリを開く
 
   # パスワード付きのzipファイルの解凍
-  # 05_17_command-unzip-pass.R
+  # 05_18_command-unzip-pass.R
 unzip_with_password <- function(zip, passwd = "", bin_path = ""){
   dir <- fs::path_dir(zip)
   unzip_dir <- 
@@ -222,7 +225,7 @@ dirs <- zips |>
 purrr::map(dirs, shell.exec)     # ディレクトリを開く
 
   # クリップボードの取り出し
-  # 05_18_command-clipboard.R
+  # 05_19_command-clipboard.R
 passwd <- read.table("clipboard")[[1]] |>
   as.list()
 

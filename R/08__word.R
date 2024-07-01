@@ -272,9 +272,8 @@ comment <-
   tibble::as_tibble() |>
   print()
 
-  # コメントの保存
-  # 08_30_word-docx-comment-write.R
-comment_path <- fs::path_temp("comment.xlsx")
+  # 文字列を比較して異なるときのみ貼り付ける関数
+  # 08_30_word-cumulative-paste-fun.R
 cumulative_paste <- function(x, y){
   if(x == y){    # xとyが同じなら
     x            #   xのまま
@@ -282,6 +281,10 @@ cumulative_paste <- function(x, y){
     paste0(x, y) #   xとyを貼り付け
   }
 }
+
+  # コメントの保存
+  # 08_31_word-docx-comment-write.R
+comment_path <- fs::path_temp("comment.xlsx")
 comment |>
   tidyr::unnest_longer(-comment_id) |> 
   dplyr::summarise(
@@ -289,13 +292,13 @@ comment |>
     text = reduce(text, cumulative_paste),
     commented_text = reduce(commented_text, cumulative_paste)) |> 
   openxlsx::write.xlsx(comment_path)
-wb <- openxlsx::loadWorkbook(comment_path) # ワークブック読み込み
+wb <- openxlsx::loadWorkbook(comment_path)                 # 読み込み
 openxlsx::setColWidths(wb, 1, cols = 1:7, width = "auto")  # 列幅の変更
-openxlsx::saveWorkbook(wb, comment_path, overwrite = TRUE)  # ワークブックの書き込み
+openxlsx::saveWorkbook(wb, comment_path, overwrite = TRUE) # 保存
   # shell.exec(comment_path)
 
   # ディクトリ内のワードから画像を抽出する関数
-  # 08_31_word-extract-docx-img-fun.R
+  # 08_32_word-extract-docx-img-fun.R
 extract_docx_imgs <- function(path) {
   docxs <- fs::dir_ls(path, regexp = "\\.docx$") # ワードの一覧
   zips <-
@@ -315,7 +318,7 @@ extract_docx_imgs <- function(path) {
 }
 
   # ディレクトリから画像を抽出する関数
-  # 08_32_word-extract-img-fun.R
+  # 08_33_word-extract-img-fun.R
 extract_imgs <- function(zip_dir) {
   img_dir <- fs::path(zip_dir, "word/media") # 画像ディレクトリ
   if(fs::dir_exists(img_dir)){               # ディレクトリの有無の確認
@@ -331,7 +334,7 @@ extract_imgs <- function(zip_dir) {
 }
 
   # ディクトリ内のワードから画像を抽出
-  # 08_33_word-extract-docx-img.R
+  # 08_34_word-extract-docx-img.R
 dir <- fs::dir_create(fs::path_temp(), "images") # ディレクトリの作成
 fs::file_copy(c(path_doc_1, path_doc_2), dir)    # ファイルを複写
 imgs <- extract_docx_imgs(dir)                   # ワードから画像を抽出
@@ -339,7 +342,7 @@ fs::path_file(imgs)                              # 抽出した画像のファ�
  # shell.exec(dir)
 
   # ワードの文書内の日付の修正
-  # 08_34_word-update-dates.R
+  # 08_35_word-update-dates.R
 text <- extract_docx_text(doc_1) # 文字列の抽出
 dates_before <- # 日付の抽出
   extract_date_ish(text) |>
@@ -358,7 +361,7 @@ print(doc_1, path_doc_1)
   # }
 
   # 日付の1年後の同じ位置への更新
-  # 08_35_word-dates-next-yr.R
+  # 08_36_word-dates-next-yr.R
 dates_next_yr <- 
   dates_before |>
   lubridate::ymd() |>

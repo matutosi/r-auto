@@ -1,3 +1,5 @@
+  # パラメータの変更
+  # 14_22_ai-gemini-parameter-fun.R
 gemini_para <- function(prompt, temperature){
   # (中略)
   response <- POST(

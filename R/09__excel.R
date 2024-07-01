@@ -334,17 +334,6 @@ content_cols <- function(wb, sheet, str){
   which(colnames(df) == str)
 }
 
-：セルの文字列に合わせて罫線を引く関数
-
-  # ```{theorem, excel-border-condition-hour-fun-code, name = 'excel-border-condition-hour-fun.R'}
-  # 09_38_```{theorem, excel-border-condition-hour-fun-code, name = 'excel-border-condition-hour-fun.R'}
-content_cols <- function(wb, sheet, str){
-  df <- openxlsx::readWorkbook(wb, sheet)
-  which(colnames(df) == str)
-}
-
-：セルの文字列に合わせて罫線を引く関数
-
   # セルの文字列に合わせて罫線を引く関数
   # 09_39_excel-border-condition-hour-fun.R
 border_between_contents <- function(wb, sheet, border = "right", 
@@ -354,7 +343,7 @@ border_between_contents <- function(wb, sheet, border = "right",
   set_border(wb, sheet, cols = cols, style = style)                # 設定
 }
 
-  # `hour`列の右に二重線を引く
+  # hour列の右に二重線を引く
   # 09_40_excel-border-condition-hour.R
 wb <- loadWorkbook(file_timetable)
 map_wb(wb, border_between_contents, str = "hour")

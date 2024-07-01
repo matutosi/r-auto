@@ -26,7 +26,4 @@ scrape_jma <- function(url){
     # shell.exec(rain_gif)
   return(rain_gif)
 }
-  # 使用例
-  # url <- "https://www.jma.go.jp/bosai/nowc/xxxxxxxx"
-  # scrape_jma(url)
 

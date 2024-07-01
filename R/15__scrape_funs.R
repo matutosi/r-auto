@@ -1,3 +1,5 @@
+  # CRANのパッケージを取得する関数
+  # 15_22_scrape-scrape-cran-fun.R
 scrape_cran_pkgs <- function(){
   url <- 
     "https://cran.r-project.org/web/packages/available_packages_by_name.html"
@@ -11,6 +13,8 @@ scrape_cran_pkgs <- function(){
       description = stringr::str_replace_all(description, "\n", " "))
   return(pkgs)
 }
+  # パッケージを検索する関数
+  # 15_23_search_cran_pkgs-fun.R
 search_cran_pkgs <- function(pkgs, pattern){
   pkgs <- 
     pkgs |>
@@ -21,6 +25,8 @@ search_cran_pkgs <- function(pkgs, pattern){
   urls <- paste0(url, pkgs)
   return(list(pkg = pkgs, url = urls))
 }
+  # 新刊情報のページ一覧を取得する関数
+  # 15_26_scrape-.R
 get_monthly_urls <- function(){
   Sys.sleep(5)
   "https://www.morikita.co.jp/news/category/newbook" |>
@@ -29,6 +35,8 @@ get_monthly_urls <- function(){
     rvest::html_elements("a") |>          # <a>タグ
     rvest::html_attr("href")              # hrefの属性値
 }
+  # 新刊紹介の個別ページを取得する関数
+  # 15_28_scrape-book-urls-fun.R
 get_new_book_urls <- function(url){
   Sys.sleep(5)
   url |> 
@@ -36,10 +44,14 @@ get_new_book_urls <- function(url){
     rvest::html_elements("a.book_title.show_pc") |>
     rvest::html_attr("href") 
 }
+  # 個別ページの内容を取得する関数
+  # 15_30_scrape-books-detail-urls-fun.R
 get_book_html <- function(url){
   Sys.sleep(5)
   rvest::read_html(url)
 }
+  # 新刊の詳細情報を取得する関数
+  # 15_32_scrape-books-details-fun.R
 detail2df <- function(details){
   selectors <-  # 取得する要素のCSSセレクタ
     c(".book_titles_wrapper > .book_title", 
@@ -62,6 +74,8 @@ detail2elm_txt <- function(details, css){
     rvest::html_text2() |>        # 文字列のみ
     paste0(collapse = ", ")       # 複数著者への対応
 }
+  # 雨雲の動きの動画の取得
+  # 15_44_scrape-jma-whole-game.R
 scrape_jma <- function(url){
   session <- selenider::selenider_session(session = "chromote", timeout = 10)
   selenider::open_url(url)
@@ -88,3 +102,4 @@ scrape_jma <- function(url){
     # shell.exec(rain_gif)
   return(rain_gif)
 }
+
