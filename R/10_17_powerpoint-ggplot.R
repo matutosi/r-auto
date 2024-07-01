@@ -1,8 +1,6 @@
   # ggplotのグラフを追加
   # 10_17_powerpoint-ggplot.R
   # install.packages("rvg")
-  # path <- fs::path_temp("temp.pptx")
-  # pp <- read_pptx()
 gg_iris <- # ggplotオブジェクト
   iris |> 
   ggplot2::ggplot(ggplot2::aes(Sepal.Length, Petal.Length, color = Species)) +

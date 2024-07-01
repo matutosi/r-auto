@@ -1,0 +1,9 @@
+  # ```{theorem, excel-border-condition-hour-fun-code, name = 'excel-border-condition-hour-fun.R'}
+  # 09_38_```{theorem, excel-border-condition-hour-fun-code, name = 'excel-border-condition-hour-fun.R'}
+content_cols <- function(wb, sheet, str){
+  df <- openxlsx::readWorkbook(wb, sheet)
+  which(colnames(df) == str)
+}
+
+：セルの文字列に合わせて罫線を引く関数
+

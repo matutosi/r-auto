@@ -10,7 +10,7 @@ str_locate(str_neko, pattern)
 str_locate_all(str_neko, pattern)
 
   # 字数合わせ
-str_pad(1:10, width = 2, pad = "0")
+str_pad(1:10, width = 2, side = "left", pad = "0")
 
   # 切り捨てて省略
 str_trunc(str_neko, 7, "right")

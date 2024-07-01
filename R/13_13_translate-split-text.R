@@ -1,4 +1,4 @@
-  # 文に分割する関数
+  # 文への分割
   # 13_13_translate-split-text.R
 result <- 
   tibble::tibble(en = split_sentence(text), 

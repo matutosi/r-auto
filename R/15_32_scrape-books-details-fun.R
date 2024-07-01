@@ -9,17 +9,17 @@ detail2df <- function(details){
       ".book_data.js-bookDataHeight > div:nth-child(1) > span.data",
       ".book_data.js-bookDataHeight > div:nth-child(3) > span.data", 
       ".book_data.js-bookDataHeight > div:nth-child(4) > span.data")
-  names(selectors) <- # 名前を付けて
+  names(selectors) <-             # 名前を付ける
     c("title", "subtitle", "toc", "author", "price", "content", 
       "page", "isbn", "yyyymm")
   selectors |>
-    purrr::map(~detail2elm_txt(details, .)) |>
+    purrr::map(\(x){ detail2elm_txt(details, x) }) |>
     tibble::as_tibble()
 }
 detail2elm_txt <- function(details, css){
   details |>
-    rvest::html_elements(css) |>   # CSSセレクタ
-    rvest::html_text2() |>         # 文字列のみ
-    paste0(collapse = ", ") # 複数著者などの対応
+    rvest::html_elements(css) |>  # CSSセレクタ
+    rvest::html_text2() |>        # 文字列のみ
+    paste0(collapse = ", ")       # 複数著者への対応
 }
 

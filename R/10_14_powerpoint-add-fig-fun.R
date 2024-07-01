@@ -38,7 +38,7 @@ add_fig <- function(pp, title = "", path_img, fig_full_size = FALSE,
   if(conter_horizontal){ # 水平方向
     offx <- (ss$width - w_cont) / 2
   } 
-  if(conter_vertical){ # 垂直方向
+  if(conter_vertical){   # 垂直方向
     offy <- (offy + ss$height - h_cont) / 2
   }
   # スライドの追加

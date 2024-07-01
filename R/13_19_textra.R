@@ -3,8 +3,8 @@
   # 環境変数に保存したとき
   # textra_key <- Sys.getenv("TEXTRA_KEY")
   # textra_secret <- Sys.getenv("TEXTRA_SECRET")
-textra_key <- "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" # APIキー
-textra_secret <- "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"       # API secret
-name <- "LOGIN_ID"                                 # ログインID
-params <- gen_params(key = key, secret = secret, name = name)
+textra_key <- "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"     # APIキー
+textra_secret <- "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"           # API secret
+name <- "LOGIN_ID"                                            # ログインID
+params <- gen_params(key = key, secret = secret, name = name) # 認証情報
 

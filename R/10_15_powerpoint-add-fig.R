@@ -24,9 +24,7 @@ preduce <- function(.l, .f, ..., .init, .dir = c("forward", "backward")){
     \(x, y){ rlang::exec(.f, x, !!!y, ...) }, 
     .init = .init, .dir = .dir)
 }
-
 pp <- preduce(df, add_fig, .init = pp)
-
 print(pp, target = path)
   # shell.exec(path)
 

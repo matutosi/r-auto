@@ -8,5 +8,5 @@ text <-
   rvest::html_elements(".main_text") |>
   rvest::html_text() |>
   stringr::str_remove_all("\\s+") # 空白文字を削除
-stringr::str_sub(text, 1, 34) # 1-34文字目の表示
+stringr::str_sub(text, 1, 34)     # 1-34文字目の表示
 
