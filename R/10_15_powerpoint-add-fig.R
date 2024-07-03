@@ -1,9 +1,12 @@
   # Title and Contentのレイアウトでのタイトルと画像の挿入
   # 10_15_powerpoint-add-fig.R
   # pp <- read_pptx()
-wide <- "d:/matu/work/todo/r-auto/data/image_03_wide.jpg"
-long <- "d:/matu/work/todo/r-auto/data/r_07.png"
-
+imgs <- c("image_03_wide.jpg", "r_07.png")
+urls <- paste0("https://matutosi.github.io/r-auto/data/", imgs)
+path_imgs <- fs::path_temp(imgs)
+curl::multi_download(urls, path_imgs) # urlからPDFをダウンロード
+wide <- path_imgs[1]
+long <- path_imgs[2]
 df <- 
   tibble::tribble(
     ~title             , ~path, ~conter_horiz , ~conter_vert , ~fig_full,

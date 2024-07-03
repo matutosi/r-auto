@@ -151,7 +151,9 @@ print(pp, target = path)
 
   # スライドに画像を追加
   # 10_13_powerpoint-ph-with-img.R
-path_img <- "d:/matu/work/todo/r-auto/data/r_gg.png"
+url <- "https://matutosi.github.io/r-auto/data/r_gg.png"
+path_img <- fs::path_temp("r_gg.png")
+curl::curl_download(url, path_img) # urlからPDFをダウンロード
   # ph_location_fullsize()：スライド全体
 pp <- add_slide(pp)
 pp <- ph_with(pp, 
@@ -243,9 +245,12 @@ add_fig <- function(pp, title = "", path_img, fig_full_size = FALSE,
   # Title and Contentのレイアウトでのタイトルと画像の挿入
   # 10_15_powerpoint-add-fig.R
   # pp <- read_pptx()
-wide <- "d:/matu/work/todo/r-auto/data/image_03_wide.jpg"
-long <- "d:/matu/work/todo/r-auto/data/r_07.png"
-
+imgs <- c("image_03_wide.jpg", "r_07.png")
+urls <- paste0("https://matutosi.github.io/r-auto/data/", imgs)
+path_imgs <- fs::path_temp(imgs)
+curl::multi_download(urls, path_imgs) # urlからPDFをダウンロード
+wide <- path_imgs[1]
+long <- path_imgs[2]
 df <- 
   tibble::tribble(
     ~title             , ~path, ~conter_horiz , ~conter_vert , ~fig_full,
@@ -406,7 +411,7 @@ extract_pp_image <- function(path, out_dir = NULL, overwrite = TRUE){
     fs::path_ext_remove()                                  # 拡張子除去
   out_files <-                                             # 連番のファイル名
     seq_along(image_files) |>                              # 連番
-    stringr::str_padwidth = 2, side = "left", pad = "0")   # 桁合わせ
+    stringr::str_pad(width = 2, side = "left", pad = "0")  # 桁合わせ
   out_files <-
     paste0(slide_id, "_", out_files) |>                    # スライド番号追加
     fs::path_ext_set(image_exts)                           # 拡張子の設定

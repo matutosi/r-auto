@@ -1,19 +1,15 @@
   # TexTraによる翻訳
   # 13_21_translate-textrar.R
+models <- c("transLM", "patentNT", "seikatsu")
 text <- split_sentence(text)
-tr_gener <- list()
-tr_paten <- list()
-tr_seika <- list()
 len <- length(text)
-for(i in 1:len){
-  tr_gener[i] <- textra(text[i], params)
-  tr_paten[i] <- textra(text[i], params, model = "patentNT")
-  tr_seika[i] <- textra(text[i], params, model = "seikatsu")
+translated_models <- list()
+for(model in models){
+  for(i in 1:len){
+    translated_models[[model]][i] <- textra(text[i], params, model = model)
+  }
 }
-tr_gener <- unlist(tr_gener)
-tr_paten <- unlist(tr_paten)
-tr_seika <- unlist(tr_seika)
-result2 <- tibble::tibble(gener = tr_gener, paten = tr_paten, seika = tr_seika)
+result2 <- tibble::as_tibble(translated_models)
 result <- dplyr::bind_cols(result, result2) |>
   print()
 

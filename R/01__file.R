@@ -61,13 +61,16 @@ dir_ls(type = "directory") # ディレクトリのみ
   # 01_12_file-ls-stringr.R
 dir_ls(path = path_package("stringr"))
 
+/stringr/data
+
+
   # 作業ディレクトリでの一覧の取得
   # 01_13_file-ls-fullpath.R
 dir_ls(path = path_wd(), type = "file")
 
   # 正規表現を使った一覧の取得
   # 01_14_file-regexp.R
-dir_ls(type = "file", recurse = TRUE, regexp = "\\.html$")
+dir_ls(type = "file", recurse = TRUE, regexp = "(doc|html)")
 
   # ディレクトリのツリー表示
   # 01_15_file-ls-tree.R

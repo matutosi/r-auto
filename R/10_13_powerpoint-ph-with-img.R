@@ -1,6 +1,8 @@
   # スライドに画像を追加
   # 10_13_powerpoint-ph-with-img.R
-path_img <- "d:/matu/work/todo/r-auto/data/r_gg.png"
+url <- "https://matutosi.github.io/r-auto/data/r_gg.png"
+path_img <- fs::path_temp("r_gg.png")
+curl::curl_download(url, path_img) # urlからPDFをダウンロード
   # ph_location_fullsize()：スライド全体
 pp <- add_slide(pp)
 pp <- ph_with(pp, 

@@ -197,8 +197,8 @@ zips <- fs::dir_ls(dsk, regexp = "\\.zip")  # zipファイル一覧
 dirs <- purrr::map(zips, unzip_with_dir)    # 解凍
 purrr::map(dirs, shell.exec)                # ディレクトリを開く
 
-  # パスワード付きのzipファイルの解凍
-  # 05_18_command-unzip-pass.R
+  # パスワード付きのzipファイルを解凍する関数
+  # 05_18_command-unzip-pass-fun.R
 unzip_with_password <- function(zip, passwd = "", bin_path = ""){
   dir <- fs::path_dir(zip)
   unzip_dir <- 
@@ -216,6 +216,9 @@ unzip_with_password <- function(zip, passwd = "", bin_path = ""){
   system(cmd)
   return(unzip_dir)
 }
+
+  # パスワード付きのzipファイルの解凍
+  # 05_19_command-unzip-pass.R
 zips <- 
   fs::path_home("Desktop") |>
   fs::dir_ls(regexp = "\\.zip")
@@ -225,7 +228,7 @@ dirs <- zips |>
 purrr::map(dirs, shell.exec)     # ディレクトリを開く
 
   # クリップボードの取り出し
-  # 05_19_command-clipboard.R
+  # 05_20_command-clipboard.R
 passwd <- read.table("clipboard")[[1]] |>
   as.list()
 

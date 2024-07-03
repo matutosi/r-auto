@@ -57,36 +57,43 @@ pattern_ic <- fixed("a.c", ignore_case = TRUE)
 str_view(str, pattern)    # 文字列そのもの，大・小の区別あり
 str_view(str, pattern_ic) # 文字列そのもの，大・小の区別なし
 
+  # エスケープ文字とメタ文字の例
+  # 03_08_string-regexp-meta.R
+str <- "Hello. "
+str_view(str, ".") # 全てにマッチ
+str_view(str, "\.") # エラー
+str_view(str, "\\.") # .(ドット)にマッチ
+
   # 文字列の置換
-  # 03_08_string-str-replace.R
+  # 03_09_string-str-replace.R
 str_replace(str_neko, " ", "◆")     # 最初の半角スペースを◆に置換
 str_replace_all(str_neko, " ", "◆") # 全部を置換
 
   # 正規表現を使った文字列の置換
-  # 03_09_string-str-replace-regrep.R
+  # 03_10_string-str-replace-regrep.R
 pattern <- "[は猫。a]"
 str_replace(str_neko, pattern, "◆")
 str_replace_all(str_neko, pattern, "◆")
 
   # 正規表現を使った文字列の削除
-  # 03_10_string-str-remove.R
+  # 03_11_string-str-remove.R
 str_remove(str_neko, "[a-z]")     # [a-z]：小文字のアルファベット全部
 str_remove_all(str_neko, "[a-z]")
 str_remove(str_neko, "[あ-ん]")   # [あ-ん]：ひらがな全部
 str_remove_all(str_neko, "[あ-ん]")
 
   # str_remove()の中身
-  # 03_11_string-str-remove-fun.R
+  # 03_12_string-str-remove-fun.R
 str_remove # 関数の中身
 
   # 文字列の検索
-  # 03_12_string-str-brothers.R
+  # 03_13_string-str-brothers.R
 str_detect(str_neko, "猫")
 str_starts(str_neko, "名前")
 str_ends(str_neko, "t.")
 
   # データフレームの表示を短縮する関数
-  # 03_13_string-filter-fun.R
+  # 03_14_string-filter-fun.R
   # 表示を短縮するため
 prnt_5 <- function(df){
   dplyr::distinct(df) |> # 重複を除く
@@ -94,25 +101,25 @@ prnt_5 <- function(df){
 }
 
   # 文字列の検索
-  # 03_14_string-filter-detect.R
+  # 03_15_string-filter-detect.R
   # library(tidyverse) # tidyverseを呼び出していないとき
 (mpg <- mpg[,1:5]) # 自動車の燃費データ(dplyrに含まれる)のうち5列だけ
 dplyr::filter(mpg, str_detect(model, "pickup")) |> prnt_5()  # pickupを含む
 dplyr::filter(mpg, !str_detect(model, "pickup")) |> prnt_5() # !で否定
 
   # 最初と最後にマッチする文字列の検索
-  # 03_15_string-filter-starts.R
+  # 03_16_string-filter-starts.R
 dplyr::filter(mpg, str_starts(model, "m")) |> prnt_5()       # mで始まる
 dplyr::filter(mpg, str_ends(model, "4wd")) |> prnt_5()       # 4wdで終わる
 
   # 正規表現を使った複数文字列の検索
-  # 03_16_string-filter-.R
+  # 03_17_string-filter-.R
 str <- "subaru|toyota" # subaruかtoyota
 dplyr::filter(mpg, str_detect(manufacturer, str)) |> prnt_5()
   # dplyr::filter(mpg, manufacturer %in% c("subaru", "toyota")) # 上と同じ
 
   # 文字列の抽出
-  # 03_17_string-str-subset.R
+  # 03_18_string-str-subset.R
 str_stringr <- ls("package:stringr") # パッケージのオブジェクト一覧
 length(str_stringr)   # 要素数
 head(str_stringr, 15) # 最初の15個
@@ -120,7 +127,7 @@ str_subset(str_stringr, "^str_s") # 最初がstr_s
 str_subset(str_stringr, "t$")     # 末尾がt
 
   # 文字列の抽出
-  # 03_18_string-str-sub.R
+  # 03_19_string-str-sub.R
 str_123 <- 
   c(paste0(1:9, collapse = ""), 
     "abcdefg", 
@@ -129,7 +136,7 @@ str_sub(str_123, start = 2, end = 6) # 全て2-6を抽出
 str_sub(str_123, 1:3, 3:5)           # 前から順に1-3，2-4，3-5を抽出
 
   # stringrのその他の関数
-  # 03_19_string-others.R
+  # 03_20_string-others.R
 pattern <- "[a-z]+|[あ-ん]+" # アルファベットの小文字かひらがなが1つ以上
 
   # マッチ箇所の数
@@ -165,4 +172,23 @@ str_width(str_123)
   # 重複除去
 (str_number <- letters[c(1:5, 3:7)])
 str_unique(str_number)
+
+  # diffrのインストールと呼び出し
+  # 03_21_string-diffr-install.R
+install.packages("diffr")
+library(diffr)
+
+  # 文章の比較
+  # 03_22_string-compare-diffr.R
+f1 <- fs::file_temp()
+f2 <- fs::file_temp()
+writeLines("日本語での比較実験\n今日は晴れです．\n同じ文章", con = f1)
+writeLines("英語での比較の実験\n今日は天気です．\n同じ文章", con = f2)
+diffr::diffr(f1, f2, before = fs::path_file(f1), after = fs::path_file(f1))
+
+  # 比較結果のHTMLの設定ファイル
+  # 03_23_word-css-path.R
+path <- fs::path(fs::path_package("diffr"), 
+          "htmlwidgets/lib/codediff/codediff.css") 
+shell.exec(path)
 

@@ -132,7 +132,7 @@ extract_pp_image <- function(path, out_dir = NULL, overwrite = TRUE){
     fs::path_ext_remove()                                  # 拡張子除去
   out_files <-                                             # 連番のファイル名
     seq_along(image_files) |>                              # 連番
-    stringr::str_padwidth = 2, side = "left", pad = "0")   # 桁合わせ
+    stringr::str_pad(width = 2, side = "left", pad = "0")  # 桁合わせ
   out_files <-
     paste0(slide_id, "_", out_files) |>                    # スライド番号追加
     fs::path_ext_set(image_exts)                           # 拡張子の設定

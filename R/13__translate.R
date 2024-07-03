@@ -164,14 +164,15 @@ install.packages("textrar")
 library(textrar)
 
   # TexTraの認証情報の取得
-  # 13_19_textra.R
+  # 13_19_textra-auth.R
   # 環境変数に保存したとき
   # textra_key <- Sys.getenv("TEXTRA_KEY")
   # textra_secret <- Sys.getenv("TEXTRA_SECRET")
-textra_key <- "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"     # APIキー
-textra_secret <- "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"           # API secret
-name <- "LOGIN_ID"                                            # ログインID
-params <- gen_params(key = key, secret = secret, name = name) # 認証情報
+textra_key <- "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"  # APIキー
+textra_secret <- "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"        # API secret
+name <- "LOGIN_ID"                                         # ログインID
+params <- gen_params(key = textra_key,                     # 認証情報
+                     secret = textra_secret, name = name)
 
   # モデルによる翻訳の違い
   # 13_20_translate-textra-models.R
@@ -185,20 +186,16 @@ textra(sample, params = params, model = "seikatsu") # 日常会話
 
   # TexTraによる翻訳
   # 13_21_translate-textrar.R
+models <- c("transLM", "patentNT", "seikatsu")
 text <- split_sentence(text)
-tr_gener <- list()
-tr_paten <- list()
-tr_seika <- list()
 len <- length(text)
-for(i in 1:len){
-  tr_gener[i] <- textra(text[i], params)
-  tr_paten[i] <- textra(text[i], params, model = "patentNT")
-  tr_seika[i] <- textra(text[i], params, model = "seikatsu")
+translated_models <- list()
+for(model in models){
+  for(i in 1:len){
+    translated_models[[model]][i] <- textra(text[i], params, model = model)
+  }
 }
-tr_gener <- unlist(tr_gener)
-tr_paten <- unlist(tr_paten)
-tr_seika <- unlist(tr_seika)
-result2 <- tibble::tibble(gener = tr_gener, paten = tr_paten, seika = tr_seika)
+result2 <- tibble::as_tibble(translated_models)
 result <- dplyr::bind_cols(result, result2) |>
   print()
 

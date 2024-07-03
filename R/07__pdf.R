@@ -43,8 +43,12 @@ pdf_odd_rev <- pdf_subset(pdf_base, pages = odd_rev)
   # 07_08_pdf-subset-dup.R
 pdf_dup <- pdf_subset(pdf_base, pages = rep(1:3, 2)) # 重複はエラー
 
+  # ユーザからの入力関連の関数の読み込み
+  # 07_09_pdf-source-extra.R
+source("https://matutosi.github.io/r-auto/R/99__extra_funs.R")
+
   # 複数のPDFファイルからファイルを選択して分割する関数
-  # 07_09_pdf-subset-fun.R
+  # 07_10_pdf-subset-fun.R
 subset_pdf <- function(){
   # ファイルの選択
   files <- fs::dir_ls(regexp = "\\.pdf$") # PDFファイルの一覧取得
@@ -74,13 +78,13 @@ subset_pdf <- function(){
 }
 
   # subset_pdf()の実行例
-  # 07_10_pdf-subset-exec.R
+  # 07_11_pdf-subset-exec.R
 subset_pdf()
   #   $a_output.pdf
   # [1] "C:\\Users\\ユザー名\\a_output_output.pdf"
 
   # PDFの結合
-  # 07_11_pdf-combine.R
+  # 07_12_pdf-combine.R
 pdf_spl |>                      # 分割したPDF
   purrr::map_int(pdf_length)    # 各PDFのページ数
 pdf_com <- pdf_combine(pdf_spl) # 結合
@@ -88,7 +92,7 @@ fs::path_file(pdf_com)          # 結合したファイル名
 pdf_length(pdf_com)             # 結合したPDFのページ数
 
   # ディレクトリ内のPDFのうち指定したものを結合する関数
-  # 07_12_pdf-combine-fun.R
+  # 07_13_pdf-combine-fun.R
 combine_pdf <- function(){
   files <- fs::dir_ls(regexp = "\\.pdf$")
   choices <- gen_choices(files)
@@ -99,25 +103,25 @@ combine_pdf <- function(){
 }
 
   # PDFの回転
-  # 07_13_pdf-rotate.R
+  # 07_14_pdf-rotate.R
 pdf_rtt <- pdf_rotate_pages(pdf_com, pages = c(1,3))
 fs::path_file(pdf_rtt) # ファイル名のみ
 
   # PDFの圧縮と最適化
-  # 07_14_eval.R
+  # 07_15_eval.R
 pdf_compressed <- pdf_compress(pdf_base, linearize = TRUE)
 
   # PDFから文字列の抽出
-  # 07_15_pdf-text.R
+  # 07_16_pdf-text.R
 text <- 
-  pdf_spl[1:3] |>     # 1-3ページ
-  pdf_combine() |>    # 結合
-  pdf_text() # 文字列の抽出
+  pdf_spl[1:3] |>  # 1-3ページ
+  pdf_combine() |> # 結合
+  pdf_text()       # 文字列の抽出
 text |>
   stringr::str_split("\n") # 改行(\n)で分割
 
   # PDFを画像ファイルに変換
-  # 07_16_pdf-convert.R
+  # 07_17_pdf-convert.R
   # pdf_convert(pdf_base, pages = 1:2) # かなり時間がかかる
 pdf_combine(pdf_spl[1:2]) |>
   pdf_convert(filenames = paste0("072_", 1:2, ".png")) # 既定値の72dpi
@@ -126,12 +130,12 @@ pngs <-
   pdf_convert(filenames = paste0("300_", 1:2, ".png"), dpi = 300)
 
   # tesseractのインストール
-  # 07_17_pdf-tesseract-install.R
+  # 07_18_pdf-tesseract-install.R
 install.packages("tesseract")
 tesseract::tesseract_download(lang = "jpn")
 
   # PDF内の画像の文字認識
-  # 07_18_pdf-ocr.R
+  # 07_19_pdf-ocr.R
 ocr_data <- 
   pdf_ocr_data(pdf_spl[1], language = "jpn") |>
   magrittr::extract2(1) # [[[1]]と同じ
@@ -142,7 +146,7 @@ pdf_ocr_text(pdf_spl[1], language = "jpn") |>
   head()
 
   # 精度の高い結果のみを抽出
-  # 07_19_pdf-ocr-filter.R
+  # 07_20_pdf-ocr-filter.R
 word <- 
   ocr_data |>
   dplyr::filter(confidence > 75) |>
@@ -150,7 +154,7 @@ word <-
   paste0(collapse = "") # 文字列の結合
 
   # PDFに含まれる画像を抽出する関数
-  # 07_20_pdf-extract-images-fun.R
+  # 07_21_pdf-extract-images-fun.R
 extract_images <- function(pdf, out = fs::path_temp(), bin_dir = ""){
   f_name <- 
     fs::path_file(pdf) |> # ファイル名のみ
@@ -172,12 +176,12 @@ extract_images <- function(pdf, out = fs::path_temp(), bin_dir = ""){
 }
 
   # PDFに含まれる画像の抽出
-  # 07_21_pdf-extract-images.R
+  # 07_22_pdf-extract-images.R
 image_dir <- extract_images(pdf_base)
   # shell.exec(image_dir) # ディレクトリを表示
 
   # ページ番号だけのページを作成する関数
-  # 07_22_pdf-plot-page-number.R
+  # 07_23_pdf-plot-page-number.R
 plot_page_number <- function(label, x_pos = width / 2, y_pos = 5,
                              size = 5, colour = "black", 
                              width = 210, height = 297, ...){
@@ -191,7 +195,7 @@ plot_page_number <- function(label, x_pos = width / 2, y_pos = 5,
 }
 
   # 複数ページ分のページ番号のPDFを生成する関数
-  # 07_23_pdf-gen-page-numbers-fun.R
+  # 07_24_pdf-gen-page-numbers-fun.R
 gen_page_numbers <- function(n, x_pos = width / 2, y_pos = 5, 
                              size = 5, colour = "black", 
                              width = 210, height = 297, ...){
@@ -210,11 +214,11 @@ gen_page_numbers <- function(n, x_pos = width / 2, y_pos = 5,
 }
 
   # ページ番号を大きく作成
-  # 07_24_pdf-gen-page-numbers.R
+  # 07_25_pdf-gen-page-numbers.R
 pdf_pages <- gen_page_numbers(n = 10, size = 200, y_pos = 150)
 
   # ページ番号を重ね合わせる関数
-  # 07_25_pdf-add-page-numbers-fun.R
+  # 07_26_pdf-add-page-numbers-fun.R
 add_page_numbers <- function(path, y_pos = 5, size = 5, 
                              colour = "black", backside = FALSE, ...){
   pdf_spl <- pdftools::pdf_split(path) # 分割
@@ -235,6 +239,6 @@ add_page_numbers <- function(path, y_pos = 5, size = 5,
 }
 
   # ページ番号の重ね合わせ
-  # 07_26_pdf-add-page-numbers.R
+  # 07_27_pdf-add-page-numbers.R
 pdf_paged <- add_page_numbers(pdf_base, size = 200, y_pos = 150, colour = "yellow")
 

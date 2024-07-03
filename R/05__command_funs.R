@@ -87,8 +87,8 @@ unzip_with_dir <- function(zip){
   utils::unzip(zip, exdir = unzip_dir)        # 解凍
   return(unzip_dir)
 }
-  # パスワード付きのzipファイルの解凍
-  # 05_18_command-unzip-pass.R
+  # パスワード付きのzipファイルを解凍する関数
+  # 05_18_command-unzip-pass-fun.R
 unzip_with_password <- function(zip, passwd = "", bin_path = ""){
   dir <- fs::path_dir(zip)
   unzip_dir <- 
@@ -106,10 +106,3 @@ unzip_with_password <- function(zip, passwd = "", bin_path = ""){
   system(cmd)
   return(unzip_dir)
 }
-zips <- 
-  fs::path_home("Desktop") |>
-  fs::dir_ls(regexp = "\\.zip")
-bin_path <- "c:/DIRECTORY/7zip/" # 要修正
-dirs <- zips |>
-  purrr::map(unzip_with_password, pass = "", bin_path = bin_path) # 解凍
-purrr::map(dirs, shell.exec)     # ディレクトリを開く
