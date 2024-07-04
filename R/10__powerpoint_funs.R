@@ -71,7 +71,7 @@ add_fig <- function(pp, title = "", path_img, fig_full_size = FALSE,
                 location = ph_location_type(type = "title"))
   return(pp)
 }
-  )
+
   # purrr::reduce()をデータフレームに適用する糖衣関数
 preduce <- function(.l, .f, ..., .init, .dir = c("forward", "backward")){
   .dir <- match.arg(.dir)
@@ -147,7 +147,7 @@ extract_pp_image <- function(path, out_dir = NULL, overwrite = TRUE){
   return(out_files)
 }
   # パワーポイントを画像・PDF・動画に変換する関数
-  # 10_30_powerpoint-pp2img-fun.R
+  # 10_29_powerpoint-pp2img-fun.R
 pp2ext <- function(path, format = "png"){
   format_no <- switch(format,
                       ppt = 1, rtf = 5, pptx = 11, ppsx = 28, pdf = 32, 

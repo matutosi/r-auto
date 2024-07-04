@@ -61,9 +61,6 @@ dir_ls(type = "directory") # ディレクトリのみ
   # 01_12_file-ls-stringr.R
 dir_ls(path = path_package("stringr"))
 
-/stringr/data
-
-
   # 作業ディレクトリでの一覧の取得
   # 01_13_file-ls-fullpath.R
 dir_ls(path = path_wd(), type = "file")

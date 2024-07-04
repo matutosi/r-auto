@@ -70,10 +70,10 @@ extract_docx_text <- function(docx, normal = TRUE, heading = TRUE, flatten = TRU
   if(sum(normal, heading) == 0){ # 両方ともFALSEのとき
     return("") # ""を返す
   }
-  condtion <- # 検索条件："normal|heading", "normal", "heading" のうち1つ
+  condtion <-  # 検索条件："normal|heading", "normal", "heading" のうち1つ
     c("Normal"[normal], "heading"[heading]) |>
     paste0(collapse = "|")
-  text <- # 文字列
+  text <-      # 文字列
     docx |>
     officer::docx_summary() |>
     dplyr::filter(stringr::str_detect(style_name, condtion)) |>
@@ -341,8 +341,12 @@ imgs <- extract_docx_imgs(dir)                   # ワードから画像を抽�
 fs::path_file(imgs)                              # 抽出した画像のファイル名
  # shell.exec(dir)
 
+  # 日付関連の関数の読み込み
+  # 08_35_word-date-fun.R
+source("https://matutosi.github.io/r-auto/R/04__date_funs.R")
+
   # ワードの文書内の日付の修正
-  # 08_35_word-update-dates.R
+  # 08_36_word-update-dates.R
 text <- extract_docx_text(doc_1) # 文字列の抽出
 dates_before <- # 日付の抽出
   extract_date_ish(text) |>
@@ -361,7 +365,7 @@ print(doc_1, path_doc_1)
   # }
 
   # 日付の1年後の同じ位置への更新
-  # 08_36_word-dates-next-yr.R
+  # 08_37_word-dates-next-yr.R
 dates_next_yr <- 
   dates_before |>
   lubridate::ymd() |>

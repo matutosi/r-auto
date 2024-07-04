@@ -4,10 +4,10 @@ extract_docx_text <- function(docx, normal = TRUE, heading = TRUE, flatten = TRU
   if(sum(normal, heading) == 0){ # 両方ともFALSEのとき
     return("") # ""を返す
   }
-  condtion <- # 検索条件："normal|heading", "normal", "heading" のうち1つ
+  condtion <-  # 検索条件："normal|heading", "normal", "heading" のうち1つ
     c("Normal"[normal], "heading"[heading]) |>
     paste0(collapse = "|")
-  text <- # 文字列
+  text <-      # 文字列
     docx |>
     officer::docx_summary() |>
     dplyr::filter(stringr::str_detect(style_name, condtion)) |>

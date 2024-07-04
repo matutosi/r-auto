@@ -1,7 +1,7 @@
   # Title and Contentのレイアウトでのタイトルと画像の挿入
   # 10_15_powerpoint-add-fig.R
   # pp <- read_pptx()
-imgs <- c("image_03_wide.jpg", "r_07.png")
+imgs <- c("image_03_wide.jpg", "r_07_long.png")
 urls <- paste0("https://matutosi.github.io/r-auto/data/", imgs)
 path_imgs <- fs::path_temp(imgs)
 curl::multi_download(urls, path_imgs) # urlからPDFをダウンロード

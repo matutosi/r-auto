@@ -1,27 +1,24 @@
-  # deeplrのインストール
+  # deeplrのインストールと呼び出し
   # 13_01_translate-install.R
 install.packages("deeplr")
-
-  # deeplrの呼び出し
-  # 13_02_translate-library.R
 library(deeplr)
 
   # キーの設定
-  # 13_03_translate-set-key.R
+  # 13_02_translate-set-key.R
 deepl_key <- "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx:xx"
 
   # ユーザのドキュメントのディレクトリを開く
-  # 13_04_translate-api-key-dir.R
+  # 13_03_translate-api-key-dir.R
 fs::path(Sys.getenv("HOME")) |> # c:\Users\USERNAME\Documents
   shell.exec() # ディレクトリを開く
 
   # 環境変数の読み込み
-  # 13_05_translate-api-sys-getenv.R
+  # 13_04_translate-api-sys-getenv.R
 deepl_key <- Sys.getenv("DEEPL_API_KEY")
 deepl_key
 
   # 利用可能な言語の一覧
-  # 13_06_translate-available-languages.R
+  # 13_05_translate-available-languages.R
 langs <- available_languages2(deepl_key)
 head(langs, 14)
  ## # A tibble: 29 × 2
@@ -43,7 +40,7 @@ head(langs, 14)
  ## 14 JA       Japanese  
 
   # 翻訳の例
-  # 13_07_translate-translate.R
+  # 13_06_translate-translate.R
 text <- "This is an example of a translation by DeepL."
 translate2(text = text, target_lang = "JA", 
   source_lang = "EN", auth_key = deepl_key)
@@ -54,7 +51,7 @@ translate2(text = text, target_lang = "JA",
  ## 私は猫だ。名前はない。今日も元気だ。
 
   # 翻訳用の文書の保存
-  # 13_08_translate-weitelines.R
+  # 13_07_translate-weitelines.R
 path <- fs::path_temp("sample.txt")
 head(sentences) # stringrのデータ
 paste0(sentences[1:30], collapse = " ") |>
@@ -62,7 +59,7 @@ paste0(sentences[1:30], collapse = " ") |>
   # shell.exec(path)
 
   # 翻訳用の文書の読み込みと分割
-  # 13_09_translate-readlines.R
+  # 13_08_translate-readlines.R
 en <- 
   path |>
   readLines() |>
@@ -76,7 +73,7 @@ en
  ## 3       1          3 Two blue fish swam in the tank. Her purse …
 
   # deeplrによる翻訳(for版)
-  # 13_10_translate-translated.R
+  # 13_09_translate-translated.R
 text <- en$segment_text
 translated <- list()
 len <- length(text)
@@ -91,7 +88,7 @@ translated
  ## [3] "水槽には2匹の青い魚が泳いでいた。彼女の財布は無駄なゴミで..."
 
   # deeplrによる翻訳(map版)
-  # 13_11_translate-translated-safely.R
+  # 13_10_translate-translated-safely.R
 text <- en$segment_text
 translate2_possibly <- purrr::possibly(translate2, otherwise = "!翻訳エラー")
 translated <- 
@@ -104,7 +101,7 @@ translated
  ## [3] "水槽には2匹の青い魚が泳いでいた。彼女の財布は無駄なゴミで..."
 
   # 文に分割する関数
-  # 13_12_translate-split-sentence-fun.R
+  # 13_11_translate-split-sentence-fun.R
 split_sentence <- function(x){
   x <- 
     x |>
@@ -115,7 +112,7 @@ split_sentence <- function(x){
 }
 
   # 文への分割
-  # 13_13_translate-split-text.R
+  # 13_12_translate-split-text.R
 result <- 
   tibble::tibble(en = split_sentence(text), 
                  jp = split_sentence(translated)) |>
@@ -136,7 +133,7 @@ result <-
  ## # ℹ 20 more rows
 
   # 翻訳結果をエクセルに書き込み
-  # 13_14_translate-write-xlsx.R
+  # 13_13_translate-write-xlsx.R
 path <- fs::path_temp("sample.xlsx")
 openxlsx::write.xlsx(result, path)                        # エクセルに書き込み
 wb <- openxlsx::loadWorkbook(path)                        # 読み込み
@@ -145,26 +142,23 @@ openxlsx::saveWorkbook(wb, path, overwrite = TRUE)        # 書き込み
   # shell.exec(path)
 
   # 中間言語を使った文章の改善
-  # 13_15_translate-pimp2.R
+  # 13_14_translate-pimp2.R
 text <- "In former times I lived in Kobe"
 pimp2(text = text, source_lang = "EN", help_lang = "JA", auth_key = deepl_key)
 text <- "私の大きい兄弟は，仕事を教師です．" # 変な日本語
 pimp2(text = text, source_lang = "JA", help_lang = "EN", auth_key = deepl_key)
 
   # 利用量の確認
-  # 13_16_translate-usage.R
+  # 13_15_translate-usage.R
 usage2(deepl_key)
 
-  # textrarのインストール
-  # 13_17_translate-textrar-install.R
+  # textrarのインストールと呼び出し
+  # 13_16_translate-textrar-install.R
 install.packages("textrar")
-
-  # textrarの呼び出し
-  # 13_18_translate-textrar-library.R
 library(textrar)
 
   # TexTraの認証情報の取得
-  # 13_19_textra-auth.R
+  # 13_17_textra-auth.R
   # 環境変数に保存したとき
   # textra_key <- Sys.getenv("TEXTRA_KEY")
   # textra_secret <- Sys.getenv("TEXTRA_SECRET")
@@ -175,7 +169,7 @@ params <- gen_params(key = textra_key,                     # 認証情報
                      secret = textra_secret, name = name)
 
   # モデルによる翻訳の違い
-  # 13_20_translate-textra-models.R
+  # 13_18_translate-textra-models.R
 sample <- "I am a cat. I have no name. It is fine today."
 textra(sample, params = params)                     # 新エンジン(既定値)
  ## [1] "私は猫です。 名前はありません。 今日はいい天気です。"
@@ -185,7 +179,7 @@ textra(sample, params = params, model = "seikatsu") # 日常会話
  ## [1] "私は猫を飼っています。名前は書いてありません。今日はお天気もいいです。"
 
   # TexTraによる翻訳
-  # 13_21_translate-textrar.R
+  # 13_19_translate-textrar.R
 models <- c("transLM", "patentNT", "seikatsu")
 text <- split_sentence(text)
 len <- length(text)
@@ -200,7 +194,7 @@ result <- dplyr::bind_cols(result, result2) |>
   print()
 
   # 翻訳結果のエクセルへの書き込み
-  # 13_22_tidy.R
+  # 13_20_tidy.R
 path <- fs::path_temp("sample.xlsx")
 openxlsx::write.xlsx(result, path) # エクセルに一旦書き込み
 wb <- openxlsx::loadWorkbook(path) # 読み込み

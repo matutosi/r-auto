@@ -13,7 +13,7 @@ keybd.press("win+left") # アプリを左側に
   # キーボードからの文字入力
   # 06_04_kybd-keybd-type.R
 keybd.type_string("abc") # abcを入力
- # keybd.press("a+b+c") # 上と同じ
+ # keybd.press("a+b+c")  # 上と同じ
 
   # キーボードの値一覧
   # 06_05_kybd-keyboard-value.R
@@ -37,9 +37,9 @@ mouse_record <- function(n = 3, interval = -1){
   pos <- list()
   for(i in seq(n)){
     if(interval < 0){
-      readline("Press Enter on R console")
+      readline("Press Enter on R console") # クリックごと
     }else{
-      Sys.sleep(interval)
+      Sys.sleep(interval)                  # 一定時間ごと
     }
     pos[[i]] <- KeyboardSimulator::mouse.get_cursor()
     position <- paste0(i, ": x = ", pos[[i]][1], ", y = ", pos[[i]][2], "\n")
@@ -102,15 +102,16 @@ screenshot::install_screenshot()
 
   # スクリーンショット撮影
   # 06_18_kybd-screenshot.R
-ss <- screenshot::screenshot()
+sc <- screenshot::screenshot()
  ## C:/Users/USERNAME/AppData/Local/Temp/RtmpkP1iLf/sc_287c4b4873da.png
-imager::load.image(ss) |> plot() # imagerで読み込み・表示
-  # shell.exec(ss) # 関連付けアプリで開く場合
+imager::load.image(sc) # imagerで読み込み
+  |> plot()            # 表示
+  # shell.exec(sc) # 関連付けアプリで開く場合
 
   # 位置特定用の画像の準備
   # 06_19_kybd-screenshot-needle-image.R
 needle_image <- 
-  magick::image_read(ss) |>
+  magick::image_read(sc) |>
   magick::image_crop(geometry = "60x60+0+0")
 plot(needle_image)
 path_needle <- fs::file_temp(ext = "png")

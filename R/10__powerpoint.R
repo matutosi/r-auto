@@ -245,7 +245,7 @@ add_fig <- function(pp, title = "", path_img, fig_full_size = FALSE,
   # Title and Contentのレイアウトでのタイトルと画像の挿入
   # 10_15_powerpoint-add-fig.R
   # pp <- read_pptx()
-imgs <- c("image_03_wide.jpg", "r_07.png")
+imgs <- c("image_03_wide.jpg", "r_07_long.png")
 urls <- paste0("https://matutosi.github.io/r-auto/data/", imgs)
 path_imgs <- fs::path_temp(imgs)
 curl::multi_download(urls, path_imgs) # urlからPDFをダウンロード
@@ -431,19 +431,8 @@ extract_pp_image <- function(path, out_dir = NULL, overwrite = TRUE){
 out_dir <- fs::path_home("desktop")
 extract_pp_image(path, out_dir, overwrite = TRUE)
 
-  # RDCOMClientのインストール
-  # 10_29_RDCOMClient-install.R
-  # zipファイルでのインストール
-install.packages("RDCOMClient", 
-                 repos = "http://www.omegahat.net/R", type = "win.binary")
-
-  # ソースファイルからビルドしてインストール
-  # install.packages("remotes") # remotesをインストールしていないとき
-  # Rtoolsも必要
-remotes::install_github("omegahat/RDCOMClient")
-
   # パワーポイントを画像・PDF・動画に変換する関数
-  # 10_30_powerpoint-pp2img-fun.R
+  # 10_29_powerpoint-pp2img-fun.R
 pp2ext <- function(path, format = "png"){
   format_no <- switch(format,
                       ppt = 1, rtf = 5, pptx = 11, ppsx = 28, pdf = 32, 
@@ -468,15 +457,15 @@ pp2ext <- function(path, format = "png"){
 }
 
   # パワーポイントのpngへの変換
-  # 10_31_powerpoint-pp2img-png.R
+  # 10_30_powerpoint-pp2img-png.R
 library(RDCOMClient) # 最初は呼び出さないとエラーになる
 pp2ext(path, format = "png")
 
   # パワーポイントのPDFへの変換
-  # 10_32_powerpoint-pp2img-pdf.R
+  # 10_31_powerpoint-pp2img-pdf.R
 pp2ext(path, format = "pdf")
 
   # パワーポイントのmp4への変換
-  # 10_33_powerpoint-pp2img-mp4.R
+  # 10_32_powerpoint-pp2img-mp4.R
 pp2ext(path, format = "mp4") # 時間がかかる，ポップアップのクリックが必要_
 

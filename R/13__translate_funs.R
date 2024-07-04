@@ -1,5 +1,5 @@
   # 文に分割する関数
-  # 13_12_translate-split-sentence-fun.R
+  # 13_11_translate-split-sentence-fun.R
 split_sentence <- function(x){
   x <- 
     x |>

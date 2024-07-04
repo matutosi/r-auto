@@ -77,7 +77,7 @@ subset_pdf <- function(){
   return(res)
 }
 
-  # subset_pdf()の実行例
+  # 複数のPDFファイルからファイルを選択して分割
   # 07_11_pdf-subset-exec.R
 subset_pdf()
   #   $a_output.pdf
@@ -157,20 +157,20 @@ word <-
   # 07_21_pdf-extract-images-fun.R
 extract_images <- function(pdf, out = fs::path_temp(), bin_dir = ""){
   f_name <- 
-    fs::path_file(pdf) |> # ファイル名のみ
-    fs::path_ext_remove() # 拡張子の除去
-  out_dir <- fs::path(out, f_name) # 出力ディレクトリ
+    fs::path_file(pdf) |>                         # ファイル名のみ
+    fs::path_ext_remove()                         # 拡張子の除去
+  out_dir <- fs::path(out, f_name)                # 出力ディレクトリ
   dir_create(out_dir)
-  out_file <- fs::path(out_dir, f_name) # 出力ファイル
+  out_file <- fs::path(out_dir, f_name)           # 出力ファイル
   bin <- "pdfimages"
   if(bin_dir != ""){
-    bin <- fs::path(bin_dir, bin) # ディレクトリと実行ファイル
+    bin <- fs::path(bin_dir, bin)     # 実行ファイルのディレクトリ
   }
   cmd <- paste0(bin, " -all ", pdf, " ", out_file) # 実行コマンド
-  paste0("Runnning ", cmd) |> # 実行中の表示
+  paste0("Runnning ", cmd) |>                      # 実行中の表示
     message()
-  system(cmd, intern = TRUE) |> # コマンド実行
-    iconv("sjis", "utf8") |> # 文字化け対策
+  system(cmd, intern = TRUE) |>                    # コマンド実行
+    iconv("sjis", "utf8") |>                       # 文字化け対策
     message()
   return(out_dir)
 }
@@ -222,7 +222,7 @@ pdf_pages <- gen_page_numbers(n = 10, size = 200, y_pos = 150)
 add_page_numbers <- function(path, y_pos = 5, size = 5, 
                              colour = "black", backside = FALSE, ...){
   pdf_spl <- pdftools::pdf_split(path) # 分割
-  n <- length(pdf_spl) # PDFのページ数
+  n <- length(pdf_spl)                 # PDFのページ数
   pdf_pages <- 
     gen_page_numbers(n = n, y_pos = y_pos, # ページ番号のPDF生成
                      size = size, colour = colour, ...)
@@ -233,8 +233,8 @@ add_page_numbers <- function(path, y_pos = 5, size = 5,
   }
   pdf_paged <- purrr::map2_chr(
     pdf_pages, pdf_spl, qpdf::pdf_overlay_stamp) # ページ番号の重ね合わせ
-  pdf_com <- pdftools::pdf_combine(pdf_paged) # PDFの結合
-  fs::file_delete(c(pdf_pages, pdf_paged)) # 不要なPDFの削除
+  pdf_com <- pdftools::pdf_combine(pdf_paged)    # PDFの結合
+  fs::file_delete(c(pdf_pages, pdf_paged))       # 不要なPDFの削除
   return(pdf_com)
 }
 

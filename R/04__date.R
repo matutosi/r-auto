@@ -67,12 +67,10 @@ dw <- "([\\(（][月火水木金土日祝]+[\\)）])?"
 
   # 数字のみでの日付の正規表現
   # 04_12_date-date-ish-pattern.R
-mn_dy <- "(0[1-9]|[12][0-9]|3[01])"        # 月日
-yr_2 <-  "([0-9]{2}(0[1-9]|1[0-2])"        # 2桁の年
-yr_4 <-  "((19|20)[0-9]{2}(0[1-9]|1[0-2])" # 4桁の年
-paste0(      mn_dy, dw) # 月日のみ
-paste0(yr_2, mn_dy, dw) # 2桁の年と月日
-paste0(yr_4, mn_dy, dw) # 4桁の年と月日
+mn_dy <- "(0[1-9]|[12][0-9]|3[01])" # 月日
+yr_4 <-  "(19|20)?[0-9]{2}"         # 2桁か4桁の年
+paste0(      mn_dy)                 # 月日のみ
+paste0(yr_4, mn_dy)                 # 2桁か4桁の年と月日
 
   # 日付っぽい文字列の正規表現を返す関数
   # 04_13_date-date-ish-fun.R
@@ -82,11 +80,12 @@ date_ish <- function(){
   mn <- "\\d{1,2}[-－.．_＿/／月]"
   dy <- "\\d{1,2}日?"
   dw <- "([\\(（][月火水木金土日祝]+[\\)）])?"
+  mn_dy <- "(0[1-9]|[12][0-9]|3[01])" # 月日
+  yr_4 <-  "(19|20)?[0-9]{2}"         # 2桁か4桁の年
   p_1 <- paste0(era, yr, mn, dy, dw)
-  p_2 <- paste0("((0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01]))", dw)
-  p_3 <- paste0("([0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01]))", dw)
-  p_4 <- paste0("((19|20)[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01]))", dw)
-  pattern <- paste(p_1, p_2, p_3, p_4, sep = "|")
+  p_2 <- paste0(      mn_dy)          # 数字のみの月日
+  p_3 <- paste0(yr_4, mn_dy)          # 数字のみの年月日
+  pattern <- paste(p_1, p_2, p_3, sep = "|")
   return(pattern)
 }
 
@@ -123,7 +122,7 @@ extract_date_ish <- function(str, simplify = FALSE){
 
   # 日付っぽい文字列の抽出
   # 04_17_date-extract-date-ish.R
-paste(dates, collapse = "と") |> #
+paste(dates, collapse = "◆") |> #
   print() |>
   extract_date_ish() |>
   length()
@@ -159,11 +158,11 @@ dates[is_jp_date(dates)]
   # 04_22_date-is-jp-date-str.R
 dates_half <- stringi::stri_trans_general(dates, "fullwidth-halfwidth")
 converted <-
-  dplyr::if_else(is_jp_date(dates_half), # 和暦と西暦の判別
+  dplyr::if_else(is_jp_date(dates_half),         # 和暦と西暦の判別
              zipangu::convert_jdate(dates_half), # 和暦
              ymd(dates_half, quiet = TRUE)) |>   # 西暦
-  rlang::set_names(dates_half) |> # 名前付きにする
-  as.list() # リストに変換
+  rlang::set_names(dates_half) |>                # 名前付きにする
+  as.list()                                      # リストに変換
 str(converted[1:20])
 
   # 年の有無の判別関数
@@ -173,16 +172,16 @@ has_yr <- function(str){
   str <-
     str |>
     stringi::stri_trans_general("fullwidth-halfwidth") |>
-    stringr::str_remove(dw) |> # 曜日を削除
-    stringr::str_remove("日$") # 最後の"日"を削除
+    stringr::str_remove(dw) |>                              # 曜日を削除
+    stringr::str_remove("日$")                              # 最後の"日"を削除
   res <-
     dplyr::if_else(stringr::str_count(str, "[^0-9]") == 0,  # [^0-9]：数字以外
       dplyr::if_else(stringr::str_count(str, "[0-9]") >= 6, # 数字のみ
-              TRUE,   # 6桁以上
-              FALSE), # 5桁以下
+              TRUE,                                         # 6桁以上
+              FALSE),                                       # 5桁以下
       dplyr::if_else(stringr::str_count(str, "[^0-9]") >= 2, # 数字以外あり
-              TRUE,   # 区切り文字が2つ以上：年あり
-              FALSE)  # 区切り文字が1つ：年なし
+              TRUE,                           # 区切り文字が2つ以上：年あり
+              FALSE)                          # 区切り文字が1つ：年なし
     )
   return(res)
 }
@@ -237,9 +236,9 @@ paste_year(str, past = TRUE)
 date_ish2date <- function(str, past = FALSE){
   str <- stringi::stri_trans_general(str, "fullwidth-halfwidth")
   str <-
-    dplyr::if_else(is_jp_date(str), # 和暦or西暦
-      zipangu::convert_jdate(str),  # 和暦を日付に変換
-      dplyr::if_else(has_yr(str),   # 西暦，年の有無
+    dplyr::if_else(is_jp_date(str),        # 和暦or西暦
+      zipangu::convert_jdate(str),         # 和暦を日付に変換
+      dplyr::if_else(has_yr(str),          # 西暦，年の有無
         lubridate::ymd(str, quiet = TRUE), # 日付に変換
         paste_year(str, past = past)       # 年を追加して日付に変換
       )
@@ -273,12 +272,12 @@ c("2019-04-30", "2019-05-01") |>
 convert_yr <- function(str, out_format = "west"){
   no_nen <- stringr::str_which(str, "年", negate = TRUE) # "年"無の序数
   str <-
-    paste0(str, "-12-31") |> # 12月31日として処理
-    stringr::str_remove("年") |> # "年"の除去
+    paste0(str, "-12-31") |>             # 12月31日として処理
+    stringr::str_remove("年") |>         # "年"の除去
     date_ish2date() |>
     format_year(out_format = out_format) # 変換
   nen <- rep("年", times = length(str))
-  nen[no_nen] <- "" # 年の有無に合わせる
+  nen[no_nen] <- ""                      # 年の有無に合わせる
   str <- paste0(str, nen)
   return(str)
 }

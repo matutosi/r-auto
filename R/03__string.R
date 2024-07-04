@@ -1,6 +1,6 @@
   # tidyverseのインストール
   # 03_01_string-install.R
-install.packages("tidyverse") # stringrを含むパッケージ群をインストール
+install.packages("tidyverse")   # stringrを含むパッケージ群をインストール
   # install.packages("stringr") # 単独でのインストール
 
   # tidyverseの呼び出し
@@ -92,34 +92,28 @@ str_detect(str_neko, "猫")
 str_starts(str_neko, "名前")
 str_ends(str_neko, "t.")
 
-  # データフレームの表示を短縮する関数
-  # 03_14_string-filter-fun.R
-  # 表示を短縮するため
-prnt_5 <- function(df){
-  dplyr::distinct(df) |> # 重複を除く
-  print(n = 5)            # 最初の5行のみ
-}
-
   # 文字列の検索
-  # 03_15_string-filter-detect.R
+  # 03_14_string-filter-detect.R
   # library(tidyverse) # tidyverseを呼び出していないとき
 (mpg <- mpg[,1:5]) # 自動車の燃費データ(dplyrに含まれる)のうち5列だけ
-dplyr::filter(mpg, str_detect(model, "pickup")) |> prnt_5()  # pickupを含む
-dplyr::filter(mpg, !str_detect(model, "pickup")) |> prnt_5() # !で否定
+dplyr::filter(mpg, # pickupとマッチするもの
+  str_detect(model, "pickup")) |> print(n = 5)
+dplyr::filter(mpg, # pickupとマッチしないもの
+  str_detect(model, "pickup", negate = TRUE)) |> print(n = 5)
 
   # 最初と最後にマッチする文字列の検索
-  # 03_16_string-filter-starts.R
-dplyr::filter(mpg, str_starts(model, "m")) |> prnt_5()       # mで始まる
-dplyr::filter(mpg, str_ends(model, "4wd")) |> prnt_5()       # 4wdで終わる
+  # 03_15_string-filter-starts.R
+dplyr::filter(mpg, str_starts(model, "m")) |> print(n = 5) # mで始まる
+dplyr::filter(mpg, str_ends(model, "4wd")) |> print(n = 5) # 4wdで終わる
 
   # 正規表現を使った複数文字列の検索
-  # 03_17_string-filter-.R
+  # 03_16_string-filter-.R
 str <- "subaru|toyota" # subaruかtoyota
-dplyr::filter(mpg, str_detect(manufacturer, str)) |> prnt_5()
+dplyr::filter(mpg, str_detect(manufacturer, str)) |> print(n = 5)
   # dplyr::filter(mpg, manufacturer %in% c("subaru", "toyota")) # 上と同じ
 
   # 文字列の抽出
-  # 03_18_string-str-subset.R
+  # 03_17_string-str-subset.R
 str_stringr <- ls("package:stringr") # パッケージのオブジェクト一覧
 length(str_stringr)   # 要素数
 head(str_stringr, 15) # 最初の15個
@@ -127,32 +121,41 @@ str_subset(str_stringr, "^str_s") # 最初がstr_s
 str_subset(str_stringr, "t$")     # 末尾がt
 
   # 文字列の抽出
-  # 03_19_string-str-sub.R
+  # 03_18_string-str-sub.R
 str_123 <- 
   c(paste0(1:9, collapse = ""), 
     "abcdefg", 
-    "あいうえおかきくけこ")
+    "あいうえおかきくけこ") |>
+  print()
 str_sub(str_123, start = 2, end = 6) # 全て2-6を抽出
 str_sub(str_123, 1:3, 3:5)           # 前から順に1-3，2-4，3-5を抽出
 
   # stringrのその他の関数
-  # 03_20_string-others.R
-pattern <- "[a-z]+|[あ-ん]+" # アルファベットの小文字かひらがなが1つ以上
+  # 03_19_string-others.R
+  # 文字列
+str_123
+str_neko
+  # アルファベットの小文字かひらがなが1つ以上
+pattern <- "[a-z]+|[あ-ん]+"
+
+  # マッチ箇所の確認
+str_view(str_neko, pattern)
 
   # マッチ箇所の数
 str_count(str_neko, pattern)
 
-  # マッチ箇所の位置(start, end)
+  # 1つ目のマッチ箇所の位置(start, end)
 str_locate(str_neko, pattern)
+  # 全てのマッチ箇所の位置(start, end)
 str_locate_all(str_neko, pattern)
 
   # 字数合わせ
 str_pad(1:10, width = 2, side = "left", pad = "0")
 
   # 切り捨てて省略
-str_trunc(str_neko, 7, "right")
-str_trunc(str_neko, 7, "center")
-str_trunc(str_neko, 7, "left")
+str_trunc(str_neko, 7, "right")  # 右を切り捨て
+str_trunc(str_neko, 7, "center") # 中央を切り捨て
+str_trunc(str_neko, 7, "left")   # 左を切り捨て
 
   # 分割
 (splitted <- str_split(str_neko, "は| ")) # 「は」か半角スペース
@@ -166,20 +169,24 @@ str_which(str_neko, "猫|cat")
   # 文字列の長さ(個数)
 str_length(str_123)
 
-  # 文字列の表示幅
+  # 文字列の表示幅(半角は1，全角は2)
 str_width(str_123)
 
   # 重複除去
 (str_number <- letters[c(1:5, 3:7)])
 str_unique(str_number)
 
+  # 空白文字の除去
+str_trim("    a   b  c  ") # 端のみ除去
+str_squish("  a   b  c  ") # 重複も除去
+
   # diffrのインストールと呼び出し
-  # 03_21_string-diffr-install.R
+  # 03_20_string-diffr-install.R
 install.packages("diffr")
 library(diffr)
 
   # 文章の比較
-  # 03_22_string-compare-diffr.R
+  # 03_21_string-compare-diffr.R
 f1 <- fs::file_temp()
 f2 <- fs::file_temp()
 writeLines("日本語での比較実験\n今日は晴れです．\n同じ文章", con = f1)
@@ -187,8 +194,8 @@ writeLines("英語での比較の実験\n今日は天気です．\n同じ文章"
 diffr::diffr(f1, f2, before = fs::path_file(f1), after = fs::path_file(f1))
 
   # 比較結果のHTMLの設定ファイル
-  # 03_23_word-css-path.R
+  # 03_22_word-css-path.R
 path <- fs::path(fs::path_package("diffr"), 
-          "htmlwidgets/lib/codediff/codediff.css") 
+                 "htmlwidgets/lib/codediff/codediff.css")
 shell.exec(path)
 
