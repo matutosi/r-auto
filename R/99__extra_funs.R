@@ -1,10 +1,10 @@
   # 文字列を数値として返す関数
 user_input <- function(prompt = "", choices = ""){
   prompt <- stringr::str_c(prompt, choices)
-  if(interactive()){ # 双方向式のとき
+  if(interactive()){          # 双方向式のとき
     input <- readline(prompt) # 入力受付
     return(input)
-  } else { # 双方向でないとき(スクリプトなど)
+  } else {                    # 双方向でないとき(スクリプトなど)
     cat(prompt)
     input <- readLines("stdin", n = 1) # 入力受付
     return(input)
@@ -20,10 +20,10 @@ eval_strings <- function(x){
   x |>
     stringr::str_replace_all("-", ":") |> # 「-」を「:」に変換
     stringr::str_split_1(",") |> # 「,」で分割
-    str2expression() |> # 文字列を式に
-    as.list() |> # mapを使うためリストに
-    purrr::map(eval) |> # 評価
-    unlist() # ベクトルに
+    str2expression() |>          # 文字列を式に
+    as.list() |>                 # mapを使うためリストに
+    purrr::map(eval) |>          # 評価
+    unlist()                     # ベクトルに
 }
   # 実行例
   # eval_strings("1,5-9,21:25")
