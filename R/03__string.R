@@ -158,7 +158,8 @@ str_trunc(str_neko, 7, "center") # 中央を切り捨て
 str_trunc(str_neko, 7, "left")   # 左を切り捨て
 
   # 分割
-(splitted <- str_split(str_neko, "は| ")) # 「は」か半角スペース
+(splitted <- str_split(str_neko, "は| "))      # 「は」か半角スペース
+str_flatten(str_neko) |> str_split_1("。|\\.") # 「。」か「.」
 
   # 文字列ベクトルの結合
 str_flatten(splitted[[1]], collapse = "◆")

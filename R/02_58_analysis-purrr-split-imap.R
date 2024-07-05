@@ -12,5 +12,4 @@ gg_sales_split <-
       ggplot2::labs(title = .y)
     }
   )
-gg_sales_split[[2]] # 2番目のグラフ
 

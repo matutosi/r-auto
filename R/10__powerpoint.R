@@ -242,8 +242,18 @@ add_fig <- function(pp, title = "", path_img, fig_full_size = FALSE,
   return(pp)
 }
 
+  # purrr::reduce()をデータフレームに適用する糖衣関数
+  # 10_15_powerpoint-preduce-fun.R
+preduce <- function(.l, .f, ..., .init, .dir = c("forward", "backward")){
+  .dir <- match.arg(.dir)
+  purrr::reduce(
+    purrr::transpose(.l), 
+    \(x, y){ rlang::exec(.f, x, !!!y, ...) }, 
+    .init = .init, .dir = .dir)
+}
+
   # Title and Contentのレイアウトでのタイトルと画像の挿入
-  # 10_15_powerpoint-add-fig.R
+  # 10_16_powerpoint-add-fig.R
   # pp <- read_pptx()
 imgs <- c("image_03_wide.jpg", "r_07_long.png")
 urls <- paste0("https://matutosi.github.io/r-auto/data/", imgs)
@@ -263,20 +273,12 @@ df <-
     "縦長(余白)"       , long , FALSE         ,  FALSE       , FALSE    ,
     "縦長(余白，中央)" , long , TRUE          ,  TRUE        , FALSE    
   )
-  # purrr::reduce()をデータフレームに適用する糖衣関数
-preduce <- function(.l, .f, ..., .init, .dir = c("forward", "backward")){
-  .dir <- match.arg(.dir)
-  purrr::reduce(
-    purrr::transpose(.l), 
-    \(x, y){ rlang::exec(.f, x, !!!y, ...) }, 
-    .init = .init, .dir = .dir)
-}
 pp <- preduce(df, add_fig, .init = pp)
 print(pp, target = path)
   # shell.exec(path)
 
   # タイトルと画像のスライドの追加(擬似コード)
-  # 10_16_powerpoint-add-fig-sample.R
+  # 10_17_powerpoint-add-fig-sample.R
 titles <- c("1枚目" , "2枚目" , "3枚目")
 images <- c("01.png", "02.png", "03.png")
 pp <- read_pptx()
@@ -289,7 +291,7 @@ print(pp, target = path)
   # shell.exec(path)
 
   # ggplotのグラフを追加
-  # 10_17_powerpoint-ggplot.R
+  # 10_18_powerpoint-ggplot.R
   # install.packages("rvg")
 gg_iris <- # ggplotオブジェクト
   iris |> 
@@ -319,20 +321,20 @@ print(pp, target = path)
   # shell.exec(path)
 
   # パワーポイントの概要表示
-  # 10_18_powerpoint-summary.R
+  # 10_19_powerpoint-summary.R
 library(officer)
 pp |>
   pptx_summary() |>
   tibble::tibble()
 
   # 文字列のデータ
-  # 10_19_powerpoint-summary-text.R
+  # 10_20_powerpoint-summary-text.R
 pptx_summary(pp) |>
   dplyr::filter(content_type == "paragraph") |>
   tibble::tibble()
 
   # パワーポイントから文字列を取り出す関数
-  # 10_20_extract-pp-text-fun.R
+  # 10_21_extract-pp-text-fun.R
 extract_pp_text <- function(path){
   paragraph <- 
     path |>
@@ -353,12 +355,12 @@ extract_pp_text <- function(path){
 }
 
   # パワーポイントからの文字列の取り出し
-  # 10_21_extract-pp-text.R
+  # 10_22_extract-pp-text.R
 extract_pp_text(path) |> 
   head(3)
 
   # 表のデータ
-  # 10_22_powerpoint-summary-table.R
+  # 10_23_powerpoint-summary-table.R
 pptx_summary(pp) |>
   dplyr::filter(content_type == "table cell") |>
   dplyr::transmute(id, row_id, cell_id, 
@@ -366,7 +368,7 @@ pptx_summary(pp) |>
   tibble::tibble()
 
   # パワーポイントから表のデータを取り出す関数
-  # 10_23_powerpoint-extract-pp-table-fun.R
+  # 10_24_powerpoint-extract-pp-table-fun.R
 extract_pp_table <- function(path){
   table <- 
     path |>
@@ -379,23 +381,23 @@ extract_pp_table <- function(path){
 }
 
   # パワーポイントからの表のデータの取り出し
-  # 10_24_powerpoint-extract-pp-table.R
+  # 10_25_powerpoint-extract-pp-table.R
 extract_pp_table(path) |> 
   head(1) # 3つの表の内容は同じなので2つ目以降は省略
 
   # 画像データの一覧の取り出し
-  # 10_25_powerpoint-summary-image.R
+  # 10_26_powerpoint-summary-image.R
 pptx_summary(pp) |>
   dplyr::filter(content_type == "image") |>
   `$`(_, "media_file") |> 
   head()
 
   # パワーポイントのファイルのディレクトリ
-  # 10_26_powerpoint-package-dir.R
+  # 10_27_powerpoint-package-dir.R
 fs::path(pp$package_dir)
 
   # パワーポイントから画像データを取り出す関数
-  # 10_27_powerpoint-extract-pp-image-fun.R
+  # 10_28_powerpoint-extract-pp-image-fun.R
 extract_pp_image <- function(path, out_dir = NULL, overwrite = TRUE){
   pp <- officer::read_pptx(path)                           # 読み込み
   imgs <-                                                  # 画像の一覧
@@ -427,12 +429,12 @@ extract_pp_image <- function(path, out_dir = NULL, overwrite = TRUE){
 }
 
   # パワーポイントからの画像データの取り出し
-  # 10_28_powerpoint-extract-pp-image.R
+  # 10_29_powerpoint-extract-pp-image.R
 out_dir <- fs::path_home("desktop")
 extract_pp_image(path, out_dir, overwrite = TRUE)
 
   # パワーポイントを画像・PDF・動画に変換する関数
-  # 10_29_powerpoint-pp2img-fun.R
+  # 10_30_powerpoint-pp2img-fun.R
 pp2ext <- function(path, format = "png"){
   format_no <- switch(format,
                       ppt = 1, rtf = 5, pptx = 11, ppsx = 28, pdf = 32, 
@@ -457,15 +459,15 @@ pp2ext <- function(path, format = "png"){
 }
 
   # パワーポイントのpngへの変換
-  # 10_30_powerpoint-pp2img-png.R
+  # 10_31_powerpoint-pp2img-png.R
 library(RDCOMClient) # 最初は呼び出さないとエラーになる
 pp2ext(path, format = "png")
 
   # パワーポイントのPDFへの変換
-  # 10_31_powerpoint-pp2img-pdf.R
+  # 10_32_powerpoint-pp2img-pdf.R
 pp2ext(path, format = "pdf")
 
   # パワーポイントのmp4への変換
-  # 10_32_powerpoint-pp2img-mp4.R
+  # 10_33_powerpoint-pp2img-mp4.R
 pp2ext(path, format = "mp4") # 時間がかかる，ポップアップのクリックが必要_
 

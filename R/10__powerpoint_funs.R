@@ -71,8 +71,8 @@ add_fig <- function(pp, title = "", path_img, fig_full_size = FALSE,
                 location = ph_location_type(type = "title"))
   return(pp)
 }
-
   # purrr::reduce()をデータフレームに適用する糖衣関数
+  # 10_15_powerpoint-preduce-fun.R
 preduce <- function(.l, .f, ..., .init, .dir = c("forward", "backward")){
   .dir <- match.arg(.dir)
   purrr::reduce(
@@ -80,11 +80,8 @@ preduce <- function(.l, .f, ..., .init, .dir = c("forward", "backward")){
     \(x, y){ rlang::exec(.f, x, !!!y, ...) }, 
     .init = .init, .dir = .dir)
 }
-pp <- preduce(df, add_fig, .init = pp)
-print(pp, target = path)
-  # shell.exec(path)
   # パワーポイントから文字列を取り出す関数
-  # 10_20_extract-pp-text-fun.R
+  # 10_21_extract-pp-text-fun.R
 extract_pp_text <- function(path){
   paragraph <- 
     path |>
@@ -104,7 +101,7 @@ extract_pp_text <- function(path){
   return(text)
 }
   # パワーポイントから表のデータを取り出す関数
-  # 10_23_powerpoint-extract-pp-table-fun.R
+  # 10_24_powerpoint-extract-pp-table-fun.R
 extract_pp_table <- function(path){
   table <- 
     path |>
@@ -116,7 +113,7 @@ extract_pp_table <- function(path){
   return(table)
 }
   # パワーポイントから画像データを取り出す関数
-  # 10_27_powerpoint-extract-pp-image-fun.R
+  # 10_28_powerpoint-extract-pp-image-fun.R
 extract_pp_image <- function(path, out_dir = NULL, overwrite = TRUE){
   pp <- officer::read_pptx(path)                           # 読み込み
   imgs <-                                                  # 画像の一覧
@@ -147,7 +144,7 @@ extract_pp_image <- function(path, out_dir = NULL, overwrite = TRUE){
   return(out_files)
 }
   # パワーポイントを画像・PDF・動画に変換する関数
-  # 10_29_powerpoint-pp2img-fun.R
+  # 10_30_powerpoint-pp2img-fun.R
 pp2ext <- function(path, format = "png"){
   format_no <- switch(format,
                       ppt = 1, rtf = 5, pptx = 11, ppsx = 28, pdf = 32, 
