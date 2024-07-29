@@ -1,25 +1,18 @@
-  # officerのインストール
+  # officerとRDCOMClientのインストールと呼び出し
   # 08_01_word-install.R
 install.packages("officer")
-
-  # RDCOMClientのインストール
-  # 08_02_RDCOMClient-install.R
-
   # zipファイルでのインストール
 install.packages("RDCOMClient", 
                  repos = "http://www.omegahat.net/R", type = "win.binary")
-  # ソースファイルからビルドしてインストール
+  # ソースファイルからビルドしてインストール(Rtoolsが必要)
   # install.packages("remotes") # remotesをインストールしていないとき
-  # Rtoolsも必要
 remotes::install_github("omegahat/RDCOMClient")
-
-  # officerとRDCOMClientの呼び出し
-  # 08_03_word-library.R
+  # 呼び出し
 library("officer")
 library("RDCOMClient")
 
   # 作業用ファイルのダウンロード
-  # 08_04_word-download.R
+  # 08_02_word-download.R
   # install.packages("curl")
 url <- "https://matutosi.github.io/r-auto/data/doc_1.docx"
 path_doc_1 <- 
@@ -29,43 +22,45 @@ curl::curl_download(url, path_doc_1) # urlからPDFをダウンロード
   # shell.exec(path_doc_1)
 
   # ワードファイルの読み込み
-  # 08_05_word-read-docx.R
+  # 08_03_word-read-docx.R
 doc_1 <- read_docx(path_doc_1)
 doc_1
 
   # 文書の書き出し
-  # 08_06_word-print.R
+  # 08_04_word-print.R
 path_doc_2 <- fs::path_temp("doc_2.docx")
 print(x = doc_1, target = path_doc_2)
   # shell.exec(path_doc_2)
 
   # 概要の表示
-  # 08_07_word-docx-summary.R
+  # 08_05_word-docx-summary.R
 doc_1 |>
   docx_summary() |>
   tibble::as_tibble() |>
   head()
 
   # 見出しを含む本文の取り出し
-  # 08_08_word-docx-summary-filter-paragraph.R
+  # 08_06_word-docx-summary-filter-paragraph.R
 doc_1 |>
   docx_summary() |>
   tibble::as_tibble() |>
   dplyr::filter(content_type == "paragraph") |>
   dplyr::select(content_type, style_name, text) |>
-  dplyr::filter(text != "")
+  dplyr::filter(text != "") |>
+  print(n = 5)
 
   # 見出しを除く本文の取り出し
-  # 08_09_word-docx-summary-filter-normal.R
+  # 08_07_word-docx-summary-filter-normal.R
 doc_1 |>
   docx_summary() |>
   tibble::as_tibble() |>
   dplyr::filter(style_name == "Normal") |>
   dplyr::select(content_type, style_name, text) |>
-  dplyr::filter(text != "")
+  dplyr::filter(text != "") |>
+  print(n = 5)
 
   # ワードから文字列を抽出する関数
-  # 08_10_word-docx-extract-text-fun.R
+  # 08_08_word-docx-extract-text-fun.R
 extract_docx_text <- function(docx, normal = TRUE, heading = TRUE, flatten = TRUE){
   if(sum(normal, heading) == 0){ # 両方ともFALSEのとき
     return("") # ""を返す
@@ -84,12 +79,12 @@ extract_docx_text <- function(docx, normal = TRUE, heading = TRUE, flatten = TRU
 }
 
   # ワードから文字列の抽出
-  # 08_11_word-docx-extract-text.R
+  # 08_09_word-docx-extract-text.R
 extract_docx_text(doc_1, heading = FALSE)
 extract_docx_text(doc_1, normal = FALSE, flatten = FALSE)
 
   # ワードの内容をテキストとして保存
-  # 08_12_word-save-text.R
+  # 08_10_word-save-text.R
 path_txt <- fs::path_temp("doc.txt")
 doc_1 |>
   extract_docx_text(flatten = FALSE) |>
@@ -97,7 +92,7 @@ doc_1 |>
   # shell.exec(path_txt)
 
   # 正規表現による置換
-  # 08_13_word-replace-regexp-1.R
+  # 08_11_word-replace-regexp-1.R
 doc_1 |> # 置換前
   extract_docx_text(heading = FALSE) |>
   `[`(_, 1:5)
@@ -108,13 +103,13 @@ doc_1 |> # 置換後
   `[`(_, 1:5)
 
   # 正規表現による置換(マッチ部分の参照)
-  # 08_14_word-replace-regexp-2.R
+  # 08_12_word-replace-regexp-2.R
 str <- c(paste0("第", 1:3, "回"), "次第", "回転")
 str
 stringr::str_replace_all(str, "第(\\d)回", "\\1回目")
 
   # フォントサイズとフォントタイプを変更
-  # 08_15_word-set-font.R
+  # 08_13_word-set-font.R
 doc_1 <- 
   doc_1 |>
   docx_set_paragraph_style(style_id = "Normal", style_name = "Normal",
@@ -128,7 +123,7 @@ doc_1 <-
 print(x = doc_1, target = path_doc_1)
 
   # ページ設定
-  # 08_16_word-page.R
+  # 08_14_word-page.R
 size <- page_size(orient = "landscape") # 横向き
 mar <- 0.4                              # 1インチ：約1cm
 margins <- page_mar(mar, mar, mar, mar, # 順に下上右左の余白
@@ -139,7 +134,7 @@ doc_1 <- body_set_default_section(doc_1, value = ps)
 print(x = doc_1, target = path_doc_1)
 
   # ワードと各種形式との相互変換の関数
-  # 08_17_word-convert-fun.R
+  # 08_15_word-convert-fun.R
 convert_docs <- function(path, format){
   if (fs::path_ext(path) == format){ # 拡張子が入力と同じとき
     return(invisible(path))          # 終了
@@ -159,23 +154,25 @@ convert_docs <- function(path, format){
                                      ConfirmConversions = FALSE)
   doc$SaveAs2(converted, FileFormat = format_no) # 名前をつけて保存
   doc$close()
+  cmd <- "taskkill /f /im word.exe"        # 終了コマンド
+  system(cmd)                              # コマンド実行
   return(converted)
 }
 
   # ワードと各種形式との相互変換
-  # 08_18_word-convert.R
+  # 08_16_word-convert.R
 library(RDCOMClient) # 無いと関数実行時にエラーが出る
 path_pdf <- convert_docs(path_doc_1, "pdf")
 fs::path_file(path_pdf)
   # shell.exec(path_pdf)
 
   # 文書の新規作成
-  # 08_19_word-new-docx.R
+  # 08_17_word-new-docx.R
 doc_2 <- read_docx()
 doc_2
 
   # 文書にパラグラフを追加
-  # 08_20_word-body-add-par.R
+  # 08_18_word-body-add-par.R
 doc_2 <- 
   doc_2 |>
   body_add_par(value = "大項目(heading 1)", style = "heading 1") |>
@@ -190,12 +187,12 @@ doc_2 <-
 doc_2
 
   # 作成中の文書の概要
-  # 08_21_word-body-add-par-summary.R
+  # 08_19_word-body-add-par-summary.R
 docx_summary(doc_2) |>
   tibble::as_tibble() # 見やすくするためにtibbleに変換
 
   # 文字列をまとめて入力する関数
-  # 08_22_word-insert-text-fun.R
+  # 08_20_word-insert-text-fun.R
 insert_text <- function(docx, str, style = "Normal"){
   docx <- 
     str |> # strを順番に
@@ -204,7 +201,7 @@ insert_text <- function(docx, str, style = "Normal"){
 }
 
   # 文字列をまとめて入力
-  # 08_23_word-insert-text.R
+  # 08_21_word-insert-text.R
 text <- 
   c("これは2ページ目の本文です．",
     "甲南女子学園は2020年11月27日に100周年を迎えました．",
@@ -220,12 +217,12 @@ docx_summary(doc_2) |>
   tail(8) # 最後の8行のみ
 
   # ワードの保存
-  # 08_24_word-doc-2-text-print.R
+  # 08_22_word-doc-2-text-print.R
 print(doc_2, target = path_doc_2)
   # shell.exec(path_doc_2)
 
   # 文書への図表の追加
-  # 08_25_word-boy-add-img.R
+  # 08_23_word-boy-add-img.R
 img <- "https://matutosi.github.io/r-auto/data/r_gg.png" # 画像
 gg_point <-                                              # ggplot
   tibble::tibble(x = rnorm(100), y = runif(100)) |>
@@ -241,12 +238,12 @@ doc_2 <-
   body_add_table(mpg_tbl)                                # 表の追加
 
   # 図と表を追加後の保存
-  # 08_26_word-fig-print.R
+  # 08_24_word-fig-print.R
 print(doc_2, target = path_doc_2)
   # shell.exec(path_doc_2)
 
   # コメントの追加
-  # 08_27_word-run-comment.R
+  # 08_25_word-run-comment.R
 comment <- run_comment(
   cmt = block_list("これはコメントです．"), 
   run = ftext("コメントが追加された部分の本文です．"),
@@ -261,19 +258,19 @@ doc_2 <-
   body_add_fpar(value = par, style = "Normal")
 
   # コメントを追加後の保存
-  # 08_28_word-doc-2-comment-print.R
+  # 08_26_word-doc-2-comment-print.R
 print(doc_2, target = path_doc_2)
   # shell.exec(path_doc_2)
 
   # コメントの抽出
-  # 08_29_word-docx-comment.R
+  # 08_27_word-docx-comment.R
 comment <- 
   docx_comments(doc_2) |>
   tibble::as_tibble() |>
   print()
 
   # 文字列を比較して異なるときのみ貼り付ける関数
-  # 08_30_word-cumulative-paste-fun.R
+  # 08_28_word-cumulative-paste-fun.R
 cumulative_paste <- function(x, y){
   if(x == y){    # xとyが同じなら
     x            #   xのまま
@@ -283,7 +280,7 @@ cumulative_paste <- function(x, y){
 }
 
   # コメントの保存
-  # 08_31_word-docx-comment-write.R
+  # 08_29_word-docx-comment-write.R
 comment_path <- fs::path_temp("comment.xlsx")
 comment |>
   tidyr::unnest_longer(-comment_id) |> 
@@ -298,7 +295,7 @@ openxlsx::saveWorkbook(wb, comment_path, overwrite = TRUE) # 保存
   # shell.exec(comment_path)
 
   # ディクトリ内のワードから画像を抽出する関数
-  # 08_32_word-extract-docx-img-fun.R
+  # 08_30_word-extract-docx-img-fun.R
 extract_docx_imgs <- function(path) {
   docxs <- fs::dir_ls(path, regexp = "\\.docx$") # ワードの一覧
   zips <-
@@ -318,7 +315,7 @@ extract_docx_imgs <- function(path) {
 }
 
   # ディレクトリから画像を抽出する関数
-  # 08_33_word-extract-img-fun.R
+  # 08_31_word-extract-img-fun.R
 extract_imgs <- function(zip_dir) {
   img_dir <- fs::path(zip_dir, "word/media") # 画像ディレクトリ
   if(fs::dir_exists(img_dir)){               # ディレクトリの有無の確認
@@ -334,7 +331,7 @@ extract_imgs <- function(zip_dir) {
 }
 
   # ディクトリ内のワードから画像を抽出
-  # 08_34_word-extract-docx-img.R
+  # 08_32_word-extract-docx-img.R
 dir <- fs::dir_create(fs::path_temp(), "images") # ディレクトリの作成
 fs::file_copy(c(path_doc_1, path_doc_2), dir)    # ファイルを複写
 imgs <- extract_docx_imgs(dir)                   # ワードから画像を抽出
@@ -342,11 +339,11 @@ fs::path_file(imgs)                              # 抽出した画像のファ�
  # shell.exec(dir)
 
   # 日付関連の関数の読み込み
-  # 08_35_word-date-fun.R
+  # 08_33_word-date-fun.R
 source("https://matutosi.github.io/r-auto/R/04__date_funs.R")
 
   # ワードの文書内の日付の修正
-  # 08_36_word-update-dates.R
+  # 08_34_word-update-dates.R
 text <- extract_docx_text(doc_1) # 文字列の抽出
 dates_before <- # 日付の抽出
   extract_date_ish(text) |>
@@ -365,7 +362,7 @@ print(doc_1, path_doc_1)
   # }
 
   # 日付の1年後の同じ位置への更新
-  # 08_37_word-dates-next-yr.R
+  # 08_35_word-dates-next-yr.R
 dates_next_yr <- 
   dates_before |>
   lubridate::ymd() |>

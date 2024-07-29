@@ -14,7 +14,7 @@ scrape_cran_pkgs <- function(){
   return(pkgs)
 }
   # パッケージを検索する関数
-  # 15_23_search_cran_pkgs-fun.R
+  # 15_23_scrape-search-cran-pkgs-fun.R
 search_cran_pkgs <- function(pkgs, pattern){
   pkgs <- 
     pkgs |>
@@ -26,7 +26,7 @@ search_cran_pkgs <- function(pkgs, pattern){
   return(list(pkg = pkgs, url = urls))
 }
   # 新刊情報のページ一覧を取得する関数
-  # 15_26_scrape-.R
+  # 15_26_scrape-monthly-urls-fun.R
 get_monthly_urls <- function(){
   Sys.sleep(5)
   "https://www.morikita.co.jp/news/category/newbook" |>
@@ -36,7 +36,7 @@ get_monthly_urls <- function(){
     rvest::html_attr("href")              # hrefの属性値
 }
   # 新刊紹介の個別ページを取得する関数
-  # 15_28_scrape-book-urls-fun.R
+  # 15_28_scrape-books-urls-fun.R
 get_new_book_urls <- function(url){
   Sys.sleep(5)
   url |> 

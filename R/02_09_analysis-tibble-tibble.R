@@ -8,5 +8,5 @@ area <- sample(
     n, replace = TRUE)
 period <- sample(1:30, n, replace = TRUE, prob = 30:1)
 tibble::tibble(id, area, period) |>
-  head(5)
+  head(3)
 

@@ -1,7 +1,6 @@
   # 利用可能な言語の一覧
   # 13_05_translate-available-languages.R
-langs <- available_languages2(deepl_key)
-head(langs, 14)
+available_languages2(deepl_key)
  ## # A tibble: 29 × 2
  ##    language name      
  ##    <chr>    <chr>     
@@ -11,12 +10,6 @@ head(langs, 14)
  ##  4 DE       German    
  ##  5 EL       Greek     
  ##  6 EN       English   
- ##  7 ES       Spanish   
- ##  8 ET       Estonian  
- ##  9 FI       Finnish   
- ## 10 FR       French    
- ## 11 HU       Hungarian 
- ## 12 ID       Indonesian
- ## 13 IT       Italian   
+ ##  (省略)
  ## 14 JA       Japanese  
 

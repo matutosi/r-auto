@@ -1,37 +1,34 @@
-  # pdftoolsとqpdfのインストール
+  # pdftoolsとqpdfのインストールと呼び出し
   # 07_01_pdf-install.R
 install.packages("pdftools")
 install.packages("qpdf")
-
-  # pdftoolsとqpdfの呼び出し
-  # 07_02_pdf-library.R
 library(pdftools)  # Popplerのバージョンが表示される
 library(qpdf)
 
   # 作業用PDFのダウンロード
-  # 07_03_pdf-download.R
+  # 07_02_pdf-download.R
   # install.packages("curl")
 url <- "https://matutosi.github.io/r-auto/data/base.pdf"
 pdf_base <- fs::path_temp("base.pdf")
 curl::curl_download(url, pdf_base) # urlからPDFをダウンロード
 
   # PDFのページ数の取得
-  # 07_04_pdf-length.R
+  # 07_03_pdf-length.R
 pdf_length(pdf_base)
 
   # PDFの分割
-  # 07_05_pdf-split.R
+  # 07_04_pdf-split.R
 pdf_spl <- 
   pdf_split(pdf_base)
 fs::path_file(pdf_spl) # ファイル名のみ
 
   # PDFのページ抽出
-  # 07_06_pdf-subset.R
+  # 07_05_pdf-subset.R
 pdf_sub <- pdf_subset(pdf_base, pages = c(1,5))
 fs::path_file(pdf_sub)
 
   # PDFのページ順序の入れ替え
-  # 07_07_pdf-subset-reverse.R
+  # 07_06_pdf-subset-reverse.R
 len <- pdf_length(pdf_base)
 pdf_reverse <- pdf_subset(pdf_base, pages = len:1) # 逆順
 odd_pages <- seq(from = 1, to = len, by = 2)       # 奇数ページのみ
@@ -39,16 +36,12 @@ pdf_odd <- pdf_subset(pdf_base, pages = odd_pages)
 odd_rev <- sort(odd_pages, decreasing = TRUE)      # 奇数ページの逆順
 pdf_odd_rev <- pdf_subset(pdf_base, pages = odd_rev)
 
-  # ページの重複エラー
-  # 07_08_pdf-subset-dup.R
-pdf_dup <- pdf_subset(pdf_base, pages = rep(1:3, 2)) # 重複はエラー
-
   # ユーザからの入力関連の関数の読み込み
-  # 07_09_pdf-source-extra.R
+  # 07_07_pdf-source-extra.R
 source("https://matutosi.github.io/r-auto/R/99__extra_funs.R")
 
   # 複数のPDFファイルからファイルを選択して分割する関数
-  # 07_10_pdf-subset-fun.R
+  # 07_08_pdf-subset-fun.R
 subset_pdf <- function(){
   # ファイルの選択
   files <- fs::dir_ls(regexp = "\\.pdf$") # PDFファイルの一覧取得
@@ -78,13 +71,13 @@ subset_pdf <- function(){
 }
 
   # 複数のPDFファイルからファイルを選択して分割
-  # 07_11_pdf-subset-exec.R
+  # 07_09_pdf-subset-exec.R
 subset_pdf()
   #   $a_output.pdf
   # [1] "C:\\Users\\ユザー名\\a_output_output.pdf"
 
   # PDFの結合
-  # 07_12_pdf-combine.R
+  # 07_10_pdf-combine.R
 pdf_spl |>                      # 分割したPDF
   purrr::map_int(pdf_length)    # 各PDFのページ数
 pdf_com <- pdf_combine(pdf_spl) # 結合
@@ -92,7 +85,7 @@ fs::path_file(pdf_com)          # 結合したファイル名
 pdf_length(pdf_com)             # 結合したPDFのページ数
 
   # ディレクトリ内のPDFのうち指定したものを結合する関数
-  # 07_13_pdf-combine-fun.R
+  # 07_11_pdf-combine-fun.R
 combine_pdf <- function(){
   files <- fs::dir_ls(regexp = "\\.pdf$")
   choices <- gen_choices(files)
@@ -103,16 +96,12 @@ combine_pdf <- function(){
 }
 
   # PDFの回転
-  # 07_14_pdf-rotate.R
+  # 07_12_pdf-rotate.R
 pdf_rtt <- pdf_rotate_pages(pdf_com, pages = c(1,3))
 fs::path_file(pdf_rtt) # ファイル名のみ
 
-  # PDFの圧縮と最適化
-  # 07_15_eval.R
-pdf_compressed <- pdf_compress(pdf_base, linearize = TRUE)
-
   # PDFから文字列の抽出
-  # 07_16_pdf-text.R
+  # 07_13_pdf-text.R
 text <- 
   pdf_spl[1:3] |>  # 1-3ページ
   pdf_combine() |> # 結合
@@ -121,40 +110,15 @@ text |>
   stringr::str_split("\n") # 改行(\n)で分割
 
   # PDFを画像ファイルに変換
-  # 07_17_pdf-convert.R
+  # 07_14_pdf-convert.R
   # pdf_convert(pdf_base, pages = 1:2) # かなり時間がかかる
 pdf_combine(pdf_spl[1:2]) |>
   pdf_convert(filenames = paste0("072_", 1:2, ".png")) # 既定値の72dpi
-pngs <- 
-  pdf_combine(pdf_spl[1:2]) |>
-  pdf_convert(filenames = paste0("300_", 1:2, ".png"), dpi = 300)
-
-  # tesseractのインストール
-  # 07_18_pdf-tesseract-install.R
-install.packages("tesseract")
-tesseract::tesseract_download(lang = "jpn")
-
-  # PDF内の画像の文字認識
-  # 07_19_pdf-ocr.R
-ocr_data <- 
-  pdf_ocr_data(pdf_spl[1], language = "jpn") |>
-  magrittr::extract2(1) # [[[1]]と同じ
-head(ocr_data)
-pdf_ocr_text(pdf_spl[1], language = "jpn") |>
-  stringr::str_split("\n") |>
-  magrittr::extract2(1) |> # [[[1]]と同じ
-  head()
-
-  # 精度の高い結果のみを抽出
-  # 07_20_pdf-ocr-filter.R
-word <- 
-  ocr_data |>
-  dplyr::filter(confidence > 75) |>
-  `$`(_, "word") |> # $wordの取り出し
-  paste0(collapse = "") # 文字列の結合
+pngs <- pdf_combine(pdf_spl[1:2]) |>
+        pdf_convert(filenames = paste0("300_", 1:2, ".png"), dpi = 300)
 
   # PDFに含まれる画像を抽出する関数
-  # 07_21_pdf-extract-images-fun.R
+  # 07_15_pdf-extract-images-fun.R
 extract_images <- function(pdf, out = fs::path_temp(), bin_dir = ""){
   f_name <- 
     fs::path_file(pdf) |>                         # ファイル名のみ
@@ -176,12 +140,12 @@ extract_images <- function(pdf, out = fs::path_temp(), bin_dir = ""){
 }
 
   # PDFに含まれる画像の抽出
-  # 07_22_pdf-extract-images.R
+  # 07_16_pdf-extract-images.R
 image_dir <- extract_images(pdf_base)
   # shell.exec(image_dir) # ディレクトリを表示
 
   # ページ番号だけのページを作成する関数
-  # 07_23_pdf-plot-page-number.R
+  # 07_17_pdf-plot-page-number.R
 plot_page_number <- function(label, x_pos = width / 2, y_pos = 5,
                              size = 5, colour = "black", 
                              width = 210, height = 297, ...){
@@ -195,7 +159,7 @@ plot_page_number <- function(label, x_pos = width / 2, y_pos = 5,
 }
 
   # 複数ページ分のページ番号のPDFを生成する関数
-  # 07_24_pdf-gen-page-numbers-fun.R
+  # 07_18_pdf-gen-page-numbers-fun.R
 gen_page_numbers <- function(n, x_pos = width / 2, y_pos = 5, 
                              size = 5, colour = "black", 
                              width = 210, height = 297, ...){
@@ -214,11 +178,11 @@ gen_page_numbers <- function(n, x_pos = width / 2, y_pos = 5,
 }
 
   # ページ番号を大きく作成
-  # 07_25_pdf-gen-page-numbers.R
+  # 07_19_pdf-gen-page-numbers.R
 pdf_pages <- gen_page_numbers(n = 10, size = 200, y_pos = 150)
 
   # ページ番号を重ね合わせる関数
-  # 07_26_pdf-add-page-numbers-fun.R
+  # 07_20_pdf-add-page-numbers-fun.R
 add_page_numbers <- function(path, y_pos = 5, size = 5, 
                              colour = "black", backside = FALSE, ...){
   pdf_spl <- pdftools::pdf_split(path) # 分割
@@ -239,6 +203,29 @@ add_page_numbers <- function(path, y_pos = 5, size = 5,
 }
 
   # ページ番号の重ね合わせ
-  # 07_27_pdf-add-page-numbers.R
+  # 07_21_pdf-add-page-numbers.R
 pdf_paged <- add_page_numbers(pdf_base, size = 200, y_pos = 150, colour = "yellow")
+
+  # PDFの圧縮と最適化
+  # 07_22_pdf-compress.R
+pdf_compressed <- pdf_compress(pdf_base, linearize = TRUE)
+
+  # tesseractのインストールと言語モデルのダウンロード
+  # 07_23_pdf-tesseract-install.R
+install.packages("tesseract")
+tesseract::tesseract_download(lang = "jpn")
+
+  # PDF内の画像の文字認識
+  # 07_24_pdf-ocr.R
+ocr_data <- pdf_ocr_data(pdf_spl[1], language = "jpn") |>  `[[`(_, 1)
+  head(ocr_data, 3)
+pdf_ocr_text(pdf_spl[1], language = "jpn") |>
+  stringr::str_split("\n") |>  `[[`(_, 1) |> head(3)
+
+  # 精度の高い結果のみを抽出
+  # 07_25_pdf-ocr-filter.R
+word <- ocr_data |>  
+  dplyr::filter(confidence > 75) |>
+  `$`(_, "word") |> # $wordの取り出し
+  paste0(collapse = "") # 文字列の結合
 

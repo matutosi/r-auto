@@ -19,10 +19,11 @@ read_all_sheets <- function(path, add_sheet_name = TRUE){
   return(xlsx)
 }
   # 複数回答を集計する関数
-  # 02_38_analysis-dplyr-count-multi-ans-fun.R
-count_multi <- function(df, col, sep = "[^[:alnum:]]+", group_add = TRUE){
+  # 02_34_analysis-dplyr-count-multi-ans-fun.R
+count_multi <- function(df, col, delim = "[^[:alnum:]]+", group_add = TRUE){
   df |>
-    tidyr::separate_rows(tidyselect::all_of(col), sep = sep) |>  # 縦に分割
+    tidyr::separate_longer_delim(tidyselect::all_of(col),        # 縦に分割
+                                 delim = delim) |> 
     dplyr::filter({{ col }} != "") |>                            # 空を除去
     dplyr::filter(!is.na({{ col }})) |>                          # NAを除去
     dplyr::group_by(dplyr::pick({{ col }}), .add = group_add) |> # グループ化
@@ -30,12 +31,12 @@ count_multi <- function(df, col, sep = "[^[:alnum:]]+", group_add = TRUE){
     dplyr::filter({{ col }} != "")                               # 空を除去
 }
   # リストに分割する関数の定義
-  # 02_56_analysis-purrr-split-by-fun.R
+  # 02_53_analysis-purrr-split-by-fun.R
 split_by <- function(df, group){
   split(df, df[[group]])
 }
   # 2のときにエラーになる関数
-  # 02_61_analysis-purrr-safely-prep.R
+  # 02_58_analysis-purrr-safely-prep.R
 error_if_two <- function(x){
   if(x == 2){
     stop("エラーです")
@@ -44,7 +45,7 @@ error_if_two <- function(x){
   }
 }
   # 新しいものを追加する関数
-  # 02_64_analysis-purrr-paste-if-new-fun.R
+  # 02_61_analysis-purrr-paste-if-new-fun.R
 paste_if_new <- function(x, y){
   pattern <- paste0("(^|;)+", y, "(;|$)+")
   if(stringr::str_detect(x, pattern)){

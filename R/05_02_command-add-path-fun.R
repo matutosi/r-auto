@@ -11,10 +11,9 @@ add_path <- function(new_path){
 get_user_path <- function(){
    # レジストリエディタでパスを取得するコマンド
   cmd <- 'reg query "HKEY_CURRENT_USER\\Environment" /v "path"'
-  path <- 
-    system(cmd, intern = TRUE)[3] |> # コマンド実行
-    stringr::str_remove(" *path *REG_[A-z]* *") |> # 必要部分の取り出し
-    double_quote()
+  path <- system(cmd, intern = TRUE)[3] |> # コマンド実行
+          stringr::str_remove(" *path *REG_[A-z]* *") |> # 必要部分の取り出し
+          double_quote()
   return(path)
 }
 double_quote <- function(x){

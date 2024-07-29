@@ -106,7 +106,7 @@ gemini(prompt)
 
   # Geminiへの連続的な質問
   # 14_15_ai-gemini-gemini-chat.R
-chat <- gemini_chat(prompt) 
+chat <- gemini_chat(prompt)
 chat$outputs
 prompt <- "要約をさらに短くして，1文にまとめてください．"
 chat <- gemini_chat(prompt, chat$history)
@@ -138,17 +138,8 @@ for(jpg in jpgs){
 }
 comments
 
-  # Geminiでの文字認識
-  # 14_19_ai-gemini-gemini-images-ocr.R
-url <- "https://matutosi.github.io/r-auto/data/jps.png"
-prompt <- "画像内の文字を教えて下さい．"
-str <- 
-  gemini_image(prompt, url) |>
-  stringr::str_split_1("\n")
-str
-
   # パラメータの変更
-  # 14_20_ai-gemini-parameter-fun.R
+  # 14_19_ai-gemini-parameter-fun.R
 gemini_para <- function(prompt, temperature){
   # (省略)
   generationConfig = list(
@@ -158,16 +149,15 @@ gemini_para <- function(prompt, temperature){
   # (省略)
 }
 
-  # 各種パッケージの呼び出し
-  # 14_21_ai-gemini-library-others.R
+  # パラメータによる回答の制御
+  # 14_20_ai-gemini-parameter.R
 library(httr)
 library(jsonlite)
 library(base64enc)
 prompt <- クイズを3つ出してください．
 gemini_para(prompt, temperature = 0)
 gemini_para(prompt, temperature = 0)
-gemini_para(prompt, temperature = 0)
 gemini_para(prompt, temperature = 1)
-gemini_para(prompt, temperature = 1)
+私は何ですか？
 gemini_para(prompt, temperature = 1)
 

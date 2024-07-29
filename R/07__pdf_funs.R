@@ -1,5 +1,5 @@
   # 複数のPDFファイルからファイルを選択して分割する関数
-  # 07_10_pdf-subset-fun.R
+  # 07_08_pdf-subset-fun.R
 subset_pdf <- function(){
   # ファイルの選択
   files <- fs::dir_ls(regexp = "\\.pdf$") # PDFファイルの一覧取得
@@ -28,7 +28,7 @@ subset_pdf <- function(){
   return(res)
 }
   # ディレクトリ内のPDFのうち指定したものを結合する関数
-  # 07_13_pdf-combine-fun.R
+  # 07_11_pdf-combine-fun.R
 combine_pdf <- function(){
   files <- fs::dir_ls(regexp = "\\.pdf$")
   choices <- gen_choices(files)
@@ -38,7 +38,7 @@ combine_pdf <- function(){
   pdf_combine(files)
 }
   # PDFに含まれる画像を抽出する関数
-  # 07_21_pdf-extract-images-fun.R
+  # 07_15_pdf-extract-images-fun.R
 extract_images <- function(pdf, out = fs::path_temp(), bin_dir = ""){
   f_name <- 
     fs::path_file(pdf) |>                         # ファイル名のみ
@@ -59,7 +59,7 @@ extract_images <- function(pdf, out = fs::path_temp(), bin_dir = ""){
   return(out_dir)
 }
   # ページ番号だけのページを作成する関数
-  # 07_23_pdf-plot-page-number.R
+  # 07_17_pdf-plot-page-number.R
 plot_page_number <- function(label, x_pos = width / 2, y_pos = 5,
                              size = 5, colour = "black", 
                              width = 210, height = 297, ...){
@@ -72,7 +72,7 @@ plot_page_number <- function(label, x_pos = width / 2, y_pos = 5,
     ggplot2::theme_void()
 }
   # 複数ページ分のページ番号のPDFを生成する関数
-  # 07_24_pdf-gen-page-numbers-fun.R
+  # 07_18_pdf-gen-page-numbers-fun.R
 gen_page_numbers <- function(n, x_pos = width / 2, y_pos = 5, 
                              size = 5, colour = "black", 
                              width = 210, height = 297, ...){
@@ -90,7 +90,7 @@ gen_page_numbers <- function(n, x_pos = width / 2, y_pos = 5,
   return(unlist(filename))
 }
   # ページ番号を重ね合わせる関数
-  # 07_26_pdf-add-page-numbers-fun.R
+  # 07_20_pdf-add-page-numbers-fun.R
 add_page_numbers <- function(path, y_pos = 5, size = 5, 
                              colour = "black", backside = FALSE, ...){
   pdf_spl <- pdftools::pdf_split(path) # 分割

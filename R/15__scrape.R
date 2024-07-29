@@ -7,15 +7,19 @@ library(polite)
   # 15_02_scrape-bow.R
 bow("https://cran.r-project.org/web/packages/")
 
-  # rvestとseleniderのインストール
-  # 15_03_eval.R
+  # rvestとseleniderのインストールと呼び出し
+  # 15_03_scrape-rvest-selenider.R
 install.packages("rvest")
 install.packages("selenider")
+library(rvest)
+library(selenider)
 
-  # chromoteとshowimageのインストール
+  # chromoteとshowimageのインストールと呼び出し
   # 15_04_scrape-selenider-chromote.R
 install.packages("chromote")
 install.packages("showimage")
+library(chromote)
+library(showimage)
 
   # HTMLの内容の読み込み
   # 15_05_scrape-read-html.R
@@ -151,7 +155,7 @@ scrape_cran_pkgs <- function(){
 }
 
   # パッケージを検索する関数
-  # 15_23_search_cran_pkgs-fun.R
+  # 15_23_scrape-search-cran-pkgs-fun.R
 search_cran_pkgs <- function(pkgs, pattern){
   pkgs <- 
     pkgs |>
@@ -174,7 +178,7 @@ pkg_gpt <- search_cran_pkgs(pkgs, pattern)
 purrr::walk(pkg_gpt$url, shell.exec) # ブラウザで閲覧して確認
 
   # 新刊情報のページ一覧を取得する関数
-  # 15_26_scrape-.R
+  # 15_26_scrape-monthly-urls-fun.R
 get_monthly_urls <- function(){
   Sys.sleep(5)
   "https://www.morikita.co.jp/news/category/newbook" |>
@@ -191,7 +195,7 @@ head(monthly_urls, 2)
   # shell.exex(monthly_urls[2]) # 1つ目のページを開く
 
   # 新刊紹介の個別ページを取得する関数
-  # 15_28_scrape-book-urls-fun.R
+  # 15_28_scrape-books-urls-fun.R
 get_new_book_urls <- function(url){
   Sys.sleep(5)
   url |> 

@@ -1,5 +1,5 @@
   # パラメータの変更
-  # 14_20_ai-gemini-parameter-fun.R
+  # 14_19_ai-gemini-parameter-fun.R
 gemini_para <- function(prompt, temperature){
   # (省略)
   generationConfig = list(

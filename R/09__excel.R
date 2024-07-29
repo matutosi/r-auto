@@ -1,44 +1,45 @@
-  # openxlsxとreadxlのインストール
+  # openxlsxとreadxlのインストールと呼び出し
   # 09_01_excel-install.R
 install.packages("openxlsx")
 install.packages("readxl")
-
-  # openxlsxとreadxlの呼び出し
-  # 09_02_excel-library.R
 library(readxl)
 library(openxlsx)
 
   # csvなどの読み込み
-  # 09_03_excel-readr-read.R
+  # 09_02_excel-readr-read.R
 file_csv <- readr::readr_example("mtcars.csv")
 readr::read_csv(file_csv, show_col_types = FALSE) # csv(カンマ区切り)
   # readr::read_tsv(ファイル名)                   # tsv(タブ区切り)
   # readr::read_delim(ファイル名, delim = ",")    # delim：区切り文字
 
   # read_excel()によるデータフレームとしての読み込み
-  # 09_04_excel-readxl-read.R
+  # 09_03_excel-readxl-read.R
 path <- readxl::readxl_example("datasets.xlsx")
 iris <- readxl::read_excel(path, sheet = "iris") # シート名
 iris |> head(3)
 mtcars <- readxl::read_excel(path, sheet = 2)    # 番号
 
   # readWorkbook()によるデータフレームとしての読み込み
-  # 09_05_excel-read.R
+  # 09_04_excel-read.R
 readWorkbook(path) |> head(3) # データフレームとしての読み込み
 
   # ワークブックとしての読み込み
-  # 09_06_excel-load-wb.R
+  # 09_05_excel-load-wb.R
 wb <- loadWorkbook(path) # ワークブックとしての読み込み
 wb
 
   # excel.linkパッケージのインストールと呼び出し
-  # 09_07_excel-ecxel.R
+  # 09_06_excel-ecxel.R
 install.packages("excel.link")
 library(readxl)
 
   # パスワード付きのエクセルファイルを開く疑似コード
-  # 09_08_excel-read-with-password.R
+  # 09_07_excel-read-with-password.R
 excel.link::xl.read.file("ファイル名.xlsx",  password = "パスワード")
+
+  # エクセルの全シートを読み込む関数の読み込み
+  # 09_08_excel-read-all-sheets-source.R
+source("https://matutosi.github.io/r-auto/R/02__analysis_funs.R")
 
   # Googleドライブからのファイルのダウンロード(擬似コード)
   # 09_09_excel-read-googledrive.R
@@ -83,19 +84,16 @@ iris |>
   # 09_14_excel-write.R
 saveWorkbook(wb, file_wb)
 
-  # パッケージのインストール
+  # パッケージのインストールと呼び出し
   # 09_15_excel-pivot-packages.R
 install.packages("pivottabler")
 install.packages("pivotea")
-
-  # パッケージの呼び出し
-  # 09_16_excel-pivot-library.R
 library(pivottabler)
 library(pivotea)
 
   # ピボットテーブルの作成
-  # 09_17_excel-pivot-qpvt.R
-head(diamonds)
+  # 09_16_excel-pivot-qpvt.R
+diamonds
 pt_diamonds <- 
   pivottabler::qpvt(diamonds,
   rows = c("=", "color"),  # "="：結果(price，n)の表示場所・順序の指定に使う
@@ -104,21 +102,22 @@ pt_diamonds <-
 pt_diamonds
 
   # ピボットテーブルの書き込み
-  # 09_18_excel-pivot-save.R
+  # 09_17_excel-pivot-save.R
 df_diamonds <- 
   pt_diamonds$asDataFrame() |>
-  tibble::rownames_to_column("color") |>            # 行名を列に
-  tidyr::separate(color, into = c("calc", "color")) # 結果と色を別の列に
+  tibble::rownames_to_column("color") |>     # 行名を列に
+  tidyr::separate_wider_delim(color,         # 結果と色を別の列に
+    delim = " ", names = c("calc", "color"))
 file_diamonds <- fs::path_temp("df_diamonds.tsv")
 readr::write_tsv(df_diamonds, file_diamonds)
   # shell.exec(file_diamonds) # 関連付けアプリで開く
 
   # ピボットテーブルの表示
-  # 09_19_excel-pivot-show.R
+  # 09_18_excel-pivot-show.R
 pt_diamonds$renderPivot() # ビューア(RStudio)やブラウザ(R)で表示
 
   # 文字列の入った表の作成
-  # 09_20_excel-pivot-pivotea.R
+  # 09_19_excel-pivot-pivotea.R
 url <- "https://matutosi.github.io/r-auto/data/timetable.csv"
 csv <- fs::path_temp("timetable.csv")
 curl::curl_download(url, csv) # urlからPDFをダウンロード
@@ -141,13 +140,13 @@ write.xlsx(timetable, file_timetable) # シート別に書き込み
   # shell.exec(file_timetable)
 
   # 列幅の設定
-  # 09_21_excel-width-sheet1.R
+  # 09_20_excel-width-sheet1.R
 wb <- loadWorkbook(file_timetable) # ワークブック読み込み
 setColWidths(wb, 1, cols = 1:10, width = "auto")  # 列幅の変更
 saveWorkbook(wb, file_timetable, overwrite = TRUE)  # ワークブックの書き込み
 
   # 列幅を変更する関数
-  # 09_22_excel-width-fun.R
+  # 09_21_excel-width-fun.R
 set_col_width_auto <- function(wb_path){ # wb_path：ワークブックのパス(文字列)
   wb <- openxlsx::loadWorkbook(wb_path) # 読込
   for(sheet in sheets(wb)){             # シートごと
@@ -161,17 +160,17 @@ set_col_width_auto <- function(wb_path){ # wb_path：ワークブックのパス
 }
 
   # 列幅の変更
-  # 09_23_excel-width-all.R
+  # 09_22_excel-width-all.R
 set_col_width_auto(file_timetable) # 関数実行
 
   # オートフィルタの設定
-  # 09_24_excel-autofilter.R
+  # 09_23_excel-autofilter.R
 wb <- loadWorkbook(file_timetable)
 addFilter(wb, sheet = 1, rows = 1, cols = 1:10)
 saveWorkbook(wb, file_timetable, overwrite = TRUE)  # ワークブックの書き込み
 
   # 全シートに同じ関数を実行する関数
-  # 09_25_excel-autofilter-map-fun.R
+  # 09_24_excel-autofilter-map-fun.R
 map_wb <- function(wb, fun, ...){
   res <- 
     openxlsx::sheets(wb) |>       # シート名を取得
@@ -180,7 +179,7 @@ map_wb <- function(wb, fun, ...){
 }
 
   # コードを簡潔にするための糖衣関数
-  # 09_26_excel-autofilter-wrapper-fun.R
+  # 09_25_excel-autofilter-wrapper-fun.R
   # addFilter()の糖衣関数
 add_filter <- function(wb, sheet, rows = 1){
   cols <- cols_wb_sheet(wb, sheet)
@@ -198,31 +197,31 @@ cols_wb_sheet <- function(wb, sheet){
 }
 
   # 全シートでのオートフィルタと列幅の設定
-  # 09_27_excel-autofilter-fun.R
+  # 09_26_excel-autofilter-fun.R
 wb <- loadWorkbook(file_timetable)
 map_wb(wb, add_filter)
 map_wb(wb, set_col_width)
 saveWorkbook(wb, file_timetable, overwrite = TRUE)
 
   # 個別のシートでのウィンドウ枠の固定
-  # 09_28_excel-freezepanel.R
+  # 09_27_excel-freezepanel.R
 freezePane(wb, 1, firstRow = TRUE, firstCol = TRUE) # 1行目と1列目を固定
 
   # ウィンドウ枠を固定する関数
-  # 09_29_excel-freezepanel-fun.R
+  # 09_28_excel-freezepanel-fun.R
   # freezePane()の糖衣関数
 freeze_pane <- function(wb, sheet){
   openxlsx::freezePane(wb, sheet, firstRow = TRUE, firstCol = TRUE)
 }
 
   # 全てのシートでのウィンドウ枠の固定
-  # 09_30_excel-freezepanel-all.R
+  # 09_29_excel-freezepanel-all.R
 wb <- loadWorkbook(file_timetable)
 map_wb(wb, freeze_pane)
 saveWorkbook(wb, file_timetable, overwrite = TRUE)
 
   # 設定可能な罫線の一覧作成
-  # 09_31_excel-border-style.R
+  # 09_30_excel-border-style.R
 border <- "bottom"
 style <- 
   c("thin", "medium", "dashed", "dotted", "thick", "double", 
@@ -245,7 +244,7 @@ saveWorkbook(wb, file_border, overwrite = TRUE) # 書き込み
   # shell.exec(file_border)
 
   # 単純な罫線を引く関数
-  # 09_32_excel-border-fun.R
+  # 09_31_excel-border-fun.R
 set_border <- function(wb, sheet, 
                        border = "Bottom", borderStyle = "thin", 
                        style = NULL){
@@ -260,7 +259,7 @@ set_border <- function(wb, sheet,
 }
 
   # シートごとの行数を取得する関数
-  # 09_33_excel-rows_wb-sheet-fun.R
+  # 09_32_excel-rows-wb-sheet-fun.R
 rows_wb_sheet <- function(wb, sheet){
   rows <- 
     openxlsx::readWorkbook(wb, sheet) |> 
@@ -268,13 +267,13 @@ rows_wb_sheet <- function(wb, sheet){
 }
 
   # データの範囲に罫線を引く
-  # 09_34_excel-border-all.R
+  # 09_33_excel-border-all.R
 map_wb(wb, set_border, border = c("bottom", "right"))
 map_wb(wb, set_col_width)
 saveWorkbook(wb, file_border, overwrite = TRUE)
 
   # セルの内容の区別で罫線を引く関数
-  # 09_35_excel-border-condition-fun.R
+  # 09_34_excel-border-condition-fun.R
   # 区別として罫線を引く位置
 new_categ_rows <- function(wb, sheet, col_name, include_end = FALSE){
   df <- openxlsx::readWorkbook(wb, sheet)
@@ -307,20 +306,20 @@ set_border <- function(wb, sheet, rows = NULL, cols = NULL,
 }
 
   # 学年の区別で太線を引く
-  # 09_36_excel-border-condition-grade.R
+  # 09_35_excel-border-condition-grade.R
 wb <- loadWorkbook(file_timetable)
 map_wb(wb, border_between_categ, categ = "grade")
 saveWorkbook(wb, file_timetable, overwrite = TRUE)
 
   # 文字列に合致する列番号を取得する関数
-  # 09_37_excel-content-cols-fun.R
+  # 09_36_excel-content-cols-fun.R
 content_cols <- function(wb, sheet, str){
   df <- openxlsx::readWorkbook(wb, sheet)
   which(colnames(df) == str)
 }
 
   # セルの文字列に合わせて罫線を引く関数
-  # 09_38_excel-border-condition-hour-fun.R
+  # 09_37_excel-border-condition-hour-fun.R
 border_between_contents <- function(wb, sheet, border = "right", 
                                     borderStyle = "double", str){
   style <- createStyle(border = border, borderStyle = borderStyle) # 書式
@@ -329,13 +328,13 @@ border_between_contents <- function(wb, sheet, border = "right",
 }
 
   # hour列の右に二重線を引く
-  # 09_39_excel-border-condition-hour.R
+  # 09_38_excel-border-condition-hour.R
 wb <- loadWorkbook(file_timetable)
 map_wb(wb, border_between_contents, str = "hour")
 saveWorkbook(wb, file_timetable, overwrite = TRUE)
 
   # データの外枠に罫線を引く関数
-  # 09_40_excel-border-condition-frame-fun.R
+  # 09_39_excel-border-condition-frame-fun.R
 border_frame <- function(wb, sheet, borderStyle = "mediumDashDot"){
   # 書式
   style_t <- createStyle(border = "top",    borderStyle = borderStyle)
@@ -357,13 +356,13 @@ border_frame <- function(wb, sheet, borderStyle = "mediumDashDot"){
 }
 
   # データの外枠に1点鎖線を引く
-  # 09_41_excel-border-condition-frame.R
+  # 09_40_excel-border-condition-frame.R
 wb <- loadWorkbook(file_timetable)
 map_wb(wb, border_frame)
 saveWorkbook(wb, file_timetable, overwrite = TRUE)
 
   # 条件付き書式設定による背景色を変更する関数
-  # 09_42_excel-bg-color-fun.R
+  # 09_41_excel-bg-color-fun.R
 set_bg_color <- function(wb, sheet, color = "#FFFF00", strings){
   bg_color <- openxlsx::createStyle(bgFill = color)
   for(str in strings){ # stringの数だけ繰り返し
@@ -375,13 +374,13 @@ set_bg_color <- function(wb, sheet, color = "#FFFF00", strings){
 }
 
   # 条件付き書式設定による背景色の変更
-  # 09_43_excel-bg-color.R
+  # 09_42_excel-bg-color.R
 map_wb(wb, set_bg_color, color = "yellow", strings = c("衣", "食", "住"))
 saveWorkbook(wb, file_timetable, overwrite = TRUE)
   # shell.exec(file_timetable)
 
   # 色々な条件付き書式設定の例
-  # 09_44_excel-conditionals.R
+  # 09_43_excel-conditionals.R
 val <- 1:10
 str <- stringr::fruit[val]
 df <- tibble::tibble(
@@ -416,7 +415,7 @@ conditionalFormatting(wb, 1, cols = 10, rows = rows,
 saveWorkbook(wb, file_cond, overwrite = TRUE)
 
   # ヘッダーとフッターの設定
-  # 09_45_excel-header.R
+  # 09_44_excel-header.R
 wb <- loadWorkbook(file_timetable)
 header <- c("&[Date] &[Time]", "甲南女子大学の時間割", "&[File] &[Tab]")
 footer <- c(NA, "&[Page] / &[Pages]", NA)
@@ -424,13 +423,13 @@ map_wb(wb, setHeaderFooter, header = header, footer = footer)
 saveWorkbook(wb, file_timetable, overwrite = TRUE)
 
   # 横向き等に設定する糖衣関数
-  # 09_46_excel-page-setup-fun.R
+  # 09_45_excel-page-setup-fun.R
 page_setup <- function(wb, sheet, ...){
   pageSetup(wb, sheet, ...)
 }
 
   # 横向き等にページを設定する
-  # 09_47_excel-page-setup.R
+  # 09_46_excel-page-setup.R
 map_wb(wb, page_setup, 
        orientation = "landscape", # 横向き, 
        fitToWidth = TRUE,         # 幅に合わせる(横1ページ)
@@ -439,7 +438,7 @@ saveWorkbook(wb, file_timetable, overwrite = TRUE)
   # shell.exec(file_timetable)
 
   # 改ページのための区切りを取得する関数
-  # 09_48_excel-breaks-grade-fun.R
+  # 09_47_excel-breaks-grade-fun.R
 breaks <- function(wb, sheet, col_name){
   res <- 
     new_categ_rows(wb, sheet, col_name, 
@@ -448,14 +447,14 @@ breaks <- function(wb, sheet, col_name){
 }
 
   # 学年ごとに改ページを設定する関数
-  # 09_49_excel-page-breaks-grade-fun.R
+  # 09_48_excel-page-breaks-grade-fun.R
 page_break <- function(wb, sheet, type = "row", col_name){
   brks <- breaks(wb, sheet, col_name)
   openxlsx::pageBreak(wb, sheet, i = brks, type) 
 }
 
   # 学年ごとに改ページを設定する
-  # 09_50_excel-page-breaks-grade.R
+  # 09_49_excel-page-breaks-grade.R
 wb_breaks <- wb
 map_wb(wb_breaks, page_break, type = "row", "grade")
 file_timetable_breaks <- 
@@ -463,7 +462,7 @@ file_timetable_breaks <-
 saveWorkbook(wb_breaks, file_timetable_breaks, overwrite = TRUE)
 
   # 最大行数と改ページ位置を比較する関数
-  # 09_51_excel-page-compare-breaks-fun.R
+  # 09_50_excel-page-compare-breaks-fun.R
 compare_page_break <- function(breaks, page_size = 30){
   page_size_next <- page_size                              # 最大行数の初期値
   page_breaks <- NULL                                      # 結果を返す変数
@@ -489,13 +488,13 @@ compare_page_break <- function(breaks, page_size = 30){
 }
 
   # 最大行数と改ページ位置を比較
-  # 09_52_excel-page-compare-breaks.R
+  # 09_51_excel-page-compare-breaks.R
   # 動作確認
 breaks <- c(10, 20, 30, 50, 60, 65, 85, 90, 120)
 compare_page_break(breaks, page_size = 40)
 
   # 最大行数と改ページ位置を比較した改ページを設定する関数
-  # 09_53_excel-page-compare-add-breaks-fun.R
+  # 09_52_excel-page-compare-add-breaks-fun.R
 add_page_break <- function(wb, sheet, col_name, page_size = 30){
   breaks <- 
     new_categ_rows(wb, sheet, col_name, 
@@ -506,12 +505,12 @@ add_page_break <- function(wb, sheet, col_name, page_size = 30){
 }
 
   # ページ内に複数学年を許容して改ページを設定
-  # 09_54_excel-page-compare-add-breaks.R
+  # 09_53_excel-page-compare-add-breaks.R
 map_wb(wb, add_page_break, col_name = "grade", page_size = 30)
 saveWorkbook(wb, file_timetable, overwrite = TRUE)
 
   # エクセルをPDFに変換する関数
-  # 09_55_excel-excel2pdf-fun.R
+  # 09_54_excel-excel2pdf-fun.R
 xlsx2pdf <- function(path){
   format_no <- 57                                         # PDFの番号
   path <- normalizePath(path)                             # Windows形式に変換
@@ -523,13 +522,14 @@ xlsx2pdf <- function(path){
   xlsx$SaveAs(converted, FileFormat = format_no)          # 指定形式で保存
   xlsx$close()                                            # エクセルを閉じる
   converted <- fs::path_ext_set(converted, "pdf")         #  拡張子の設定
+  cmd <- "taskkill /f /im excel.exe"                      # 終了コマンド
+  system(cmd)                                             # コマンド実行
   return(converted)
 }
 
   # エクセルのPDFへの変換
-  # 09_56_excel-excel2pdf.R
+  # 09_55_excel-excel2pdf.R
 library(RDCOMClient)
 path_pdf <- xlsx2pdf(file_timetable)
 fs::path_file(path_pdf)
-  # shell.exec(path_pdf)
 

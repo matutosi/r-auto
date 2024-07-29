@@ -1,0 +1,4 @@
+  # メールの一覧取得
+  # 12_27_mail-ms365r-list-emails.R
+outlook$list_emails(n = 2) # メールを2つ表示
+

@@ -1,5 +1,5 @@
   # ワードから文字列を抽出する関数
-  # 08_10_word-docx-extract-text-fun.R
+  # 08_08_word-docx-extract-text-fun.R
 extract_docx_text <- function(docx, normal = TRUE, heading = TRUE, flatten = TRUE){
   if(sum(normal, heading) == 0){ # 両方ともFALSEのとき
     return("") # ""を返す
@@ -17,7 +17,7 @@ extract_docx_text <- function(docx, normal = TRUE, heading = TRUE, flatten = TRU
   return(text)
 }
   # ワードと各種形式との相互変換の関数
-  # 08_17_word-convert-fun.R
+  # 08_15_word-convert-fun.R
 convert_docs <- function(path, format){
   if (fs::path_ext(path) == format){ # 拡張子が入力と同じとき
     return(invisible(path))          # 終了
@@ -37,10 +37,12 @@ convert_docs <- function(path, format){
                                      ConfirmConversions = FALSE)
   doc$SaveAs2(converted, FileFormat = format_no) # 名前をつけて保存
   doc$close()
+  cmd <- "taskkill /f /im word.exe"        # 終了コマンド
+  system(cmd)                              # コマンド実行
   return(converted)
 }
   # 文字列をまとめて入力する関数
-  # 08_22_word-insert-text-fun.R
+  # 08_20_word-insert-text-fun.R
 insert_text <- function(docx, str, style = "Normal"){
   docx <- 
     str |> # strを順番に
@@ -48,7 +50,7 @@ insert_text <- function(docx, str, style = "Normal"){
   return(docx)
 }
   # 文字列を比較して異なるときのみ貼り付ける関数
-  # 08_30_word-cumulative-paste-fun.R
+  # 08_28_word-cumulative-paste-fun.R
 cumulative_paste <- function(x, y){
   if(x == y){    # xとyが同じなら
     x            #   xのまま
@@ -57,7 +59,7 @@ cumulative_paste <- function(x, y){
   }
 }
   # ディクトリ内のワードから画像を抽出する関数
-  # 08_32_word-extract-docx-img-fun.R
+  # 08_30_word-extract-docx-img-fun.R
 extract_docx_imgs <- function(path) {
   docxs <- fs::dir_ls(path, regexp = "\\.docx$") # ワードの一覧
   zips <-
@@ -76,7 +78,7 @@ extract_docx_imgs <- function(path) {
   return(images)
 }
   # ディレクトリから画像を抽出する関数
-  # 08_33_word-extract-img-fun.R
+  # 08_31_word-extract-img-fun.R
 extract_imgs <- function(zip_dir) {
   img_dir <- fs::path(zip_dir, "word/media") # 画像ディレクトリ
   if(fs::dir_exists(img_dir)){               # ディレクトリの有無の確認

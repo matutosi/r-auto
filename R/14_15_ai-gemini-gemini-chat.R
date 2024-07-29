@@ -1,6 +1,6 @@
   # Geminiへの連続的な質問
   # 14_15_ai-gemini-gemini-chat.R
-chat <- gemini_chat(prompt) 
+chat <- gemini_chat(prompt)
 chat$outputs
 prompt <- "要約をさらに短くして，1文にまとめてください．"
 chat <- gemini_chat(prompt, chat$history)

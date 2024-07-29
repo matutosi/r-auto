@@ -19,14 +19,6 @@ df <-
     "縦長(余白)"       , long , FALSE         ,  FALSE       , FALSE    ,
     "縦長(余白，中央)" , long , TRUE          ,  TRUE        , FALSE    
   )
-  # purrr::reduce()をデータフレームに適用する糖衣関数
-preduce <- function(.l, .f, ..., .init, .dir = c("forward", "backward")){
-  .dir <- match.arg(.dir)
-  purrr::reduce(
-    purrr::transpose(.l), 
-    \(x, y){ rlang::exec(.f, x, !!!y, ...) }, 
-    .init = .init, .dir = .dir)
-}
 pp <- preduce(df, add_fig, .init = pp)
 print(pp, target = path)
   # shell.exec(path)

@@ -7,6 +7,8 @@ urls <- paste0("https://matutosi.github.io/r-auto/data/", files)
 curl::multi_download(urls)
 answer <- readxl::read_excel(files[1])
 attribute <- readxl::read_excel(files[2])
-sales <- read_all_sheets(files[3]) |> dplyr::bind_rows()
+sales <- read_all_sheets(files[3]) |> 
+  dplyr::bind_rows() |>       # 結合
+  dplyr::rename(shop = sheet) # 列名の変更
 unit_price <- readxl::read_excel(files[4])
 

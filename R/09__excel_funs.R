@@ -1,5 +1,5 @@
   # 列幅を変更する関数
-  # 09_22_excel-width-fun.R
+  # 09_21_excel-width-fun.R
 set_col_width_auto <- function(wb_path){ # wb_path：ワークブックのパス(文字列)
   wb <- openxlsx::loadWorkbook(wb_path) # 読込
   for(sheet in sheets(wb)){             # シートごと
@@ -12,14 +12,14 @@ set_col_width_auto <- function(wb_path){ # wb_path：ワークブックのパス
   openxlsx::saveWorkbook(wb, wb_path, overwrite = TRUE) # 書き込み
 }
   # 全シートに同じ関数を実行する関数
-  # 09_25_excel-autofilter-map-fun.R
+  # 09_24_excel-autofilter-map-fun.R
 map_wb <- function(wb, fun, ...){
   res <- 
     openxlsx::sheets(wb) |>       # シート名を取得
     purrr::map(fun, wb = wb, ...) # fun(wb = wb, sheet = sheet)のように受け取る
   return(invisible(res)) # 非表示で返す
 }
-  # 09_26_excel-autofilter-wrapper-fun.R
+  # 09_25_excel-autofilter-wrapper-fun.R
   # addFilter()の糖衣関数
 add_filter <- function(wb, sheet, rows = 1){
   cols <- cols_wb_sheet(wb, sheet)
@@ -35,13 +35,13 @@ cols_wb_sheet <- function(wb, sheet){
   openxlsx::readWorkbook(wb, sheet) |> 
     ncol() |> seq()
 }
-  # 09_29_excel-freezepanel-fun.R
+  # 09_28_excel-freezepanel-fun.R
   # freezePane()の糖衣関数
 freeze_pane <- function(wb, sheet){
   openxlsx::freezePane(wb, sheet, firstRow = TRUE, firstCol = TRUE)
 }
   # 単純な罫線を引く関数
-  # 09_32_excel-border-fun.R
+  # 09_31_excel-border-fun.R
 set_border <- function(wb, sheet, 
                        border = "Bottom", borderStyle = "thin", 
                        style = NULL){
@@ -55,13 +55,13 @@ set_border <- function(wb, sheet,
     stack = TRUE)       # 既存の書式に追加
 }
   # シートごとの行数を取得する関数
-  # 09_33_excel-rows_wb-sheet-fun.R
+  # 09_32_excel-rows-wb-sheet-fun.R
 rows_wb_sheet <- function(wb, sheet){
   rows <- 
     openxlsx::readWorkbook(wb, sheet) |> 
     nrow() |> magrittr::add(1) |> seq() # +1：列名の1行を追加
 }
-  # 09_35_excel-border-condition-fun.R
+  # 09_34_excel-border-condition-fun.R
   # 区別として罫線を引く位置
 new_categ_rows <- function(wb, sheet, col_name, include_end = FALSE){
   df <- openxlsx::readWorkbook(wb, sheet)
@@ -93,13 +93,13 @@ set_border <- function(wb, sheet, rows = NULL, cols = NULL,
              stack = TRUE)       # 既存の書式に追加
 }
   # 文字列に合致する列番号を取得する関数
-  # 09_37_excel-content-cols-fun.R
+  # 09_36_excel-content-cols-fun.R
 content_cols <- function(wb, sheet, str){
   df <- openxlsx::readWorkbook(wb, sheet)
   which(colnames(df) == str)
 }
   # セルの文字列に合わせて罫線を引く関数
-  # 09_38_excel-border-condition-hour-fun.R
+  # 09_37_excel-border-condition-hour-fun.R
 border_between_contents <- function(wb, sheet, border = "right", 
                                     borderStyle = "double", str){
   style <- createStyle(border = border, borderStyle = borderStyle) # 書式
@@ -107,7 +107,7 @@ border_between_contents <- function(wb, sheet, border = "right",
   set_border(wb, sheet, cols = cols, style = style)                # 設定
 }
   # データの外枠に罫線を引く関数
-  # 09_40_excel-border-condition-frame-fun.R
+  # 09_39_excel-border-condition-frame-fun.R
 border_frame <- function(wb, sheet, borderStyle = "mediumDashDot"){
   # 書式
   style_t <- createStyle(border = "top",    borderStyle = borderStyle)
@@ -128,7 +128,7 @@ border_frame <- function(wb, sheet, borderStyle = "mediumDashDot"){
   set_border(wb, sheet, rows = rows  , cols = cols_r, style = style_r) # 右
 }
   # 条件付き書式設定による背景色を変更する関数
-  # 09_42_excel-bg-color-fun.R
+  # 09_41_excel-bg-color-fun.R
 set_bg_color <- function(wb, sheet, color = "#FFFF00", strings){
   bg_color <- openxlsx::createStyle(bgFill = color)
   for(str in strings){ # stringの数だけ繰り返し
@@ -139,12 +139,12 @@ set_bg_color <- function(wb, sheet, color = "#FFFF00", strings){
   }
 }
   # 横向き等に設定する糖衣関数
-  # 09_46_excel-page-setup-fun.R
+  # 09_45_excel-page-setup-fun.R
 page_setup <- function(wb, sheet, ...){
   pageSetup(wb, sheet, ...)
 }
   # 改ページのための区切りを取得する関数
-  # 09_48_excel-breaks-grade-fun.R
+  # 09_47_excel-breaks-grade-fun.R
 breaks <- function(wb, sheet, col_name){
   res <- 
     new_categ_rows(wb, sheet, col_name, 
@@ -152,13 +152,13 @@ breaks <- function(wb, sheet, col_name){
     magrittr::subtract(1) # subtract(1)は-1と同じ：区切りの上で改ページするため
 }
   # 学年ごとに改ページを設定する関数
-  # 09_49_excel-page-breaks-grade-fun.R
+  # 09_48_excel-page-breaks-grade-fun.R
 page_break <- function(wb, sheet, type = "row", col_name){
   brks <- breaks(wb, sheet, col_name)
   openxlsx::pageBreak(wb, sheet, i = brks, type) 
 }
   # 最大行数と改ページ位置を比較する関数
-  # 09_51_excel-page-compare-breaks-fun.R
+  # 09_50_excel-page-compare-breaks-fun.R
 compare_page_break <- function(breaks, page_size = 30){
   page_size_next <- page_size                              # 最大行数の初期値
   page_breaks <- NULL                                      # 結果を返す変数
@@ -183,7 +183,7 @@ compare_page_break <- function(breaks, page_size = 30){
   return(c(page_breaks, breaks))
 }
   # 最大行数と改ページ位置を比較した改ページを設定する関数
-  # 09_53_excel-page-compare-add-breaks-fun.R
+  # 09_52_excel-page-compare-add-breaks-fun.R
 add_page_break <- function(wb, sheet, col_name, page_size = 30){
   breaks <- 
     new_categ_rows(wb, sheet, col_name, 
@@ -193,7 +193,7 @@ add_page_break <- function(wb, sheet, col_name, page_size = 30){
   openxlsx::pageBreak(wb, sheet, breaks)
 }
   # エクセルをPDFに変換する関数
-  # 09_55_excel-excel2pdf-fun.R
+  # 09_54_excel-excel2pdf-fun.R
 xlsx2pdf <- function(path){
   format_no <- 57                                         # PDFの番号
   path <- normalizePath(path)                             # Windows形式に変換
@@ -205,5 +205,7 @@ xlsx2pdf <- function(path){
   xlsx$SaveAs(converted, FileFormat = format_no)          # 指定形式で保存
   xlsx$close()                                            # エクセルを閉じる
   converted <- fs::path_ext_set(converted, "pdf")         #  拡張子の設定
+  cmd <- "taskkill /f /im excel.exe"                      # 終了コマンド
+  system(cmd)                                             # コマンド実行
   return(converted)
 }

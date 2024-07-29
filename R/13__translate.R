@@ -19,8 +19,7 @@ deepl_key
 
   # 利用可能な言語の一覧
   # 13_05_translate-available-languages.R
-langs <- available_languages2(deepl_key)
-head(langs, 14)
+available_languages2(deepl_key)
  ## # A tibble: 29 × 2
  ##    language name      
  ##    <chr>    <chr>     
@@ -30,13 +29,7 @@ head(langs, 14)
  ##  4 DE       German    
  ##  5 EL       Greek     
  ##  6 EN       English   
- ##  7 ES       Spanish   
- ##  8 ET       Estonian  
- ##  9 FI       Finnish   
- ## 10 FR       French    
- ## 11 HU       Hungarian 
- ## 12 ID       Indonesian
- ## 13 IT       Italian   
+ ##  (省略)
  ## 14 JA       Japanese  
 
   # 翻訳の例
@@ -51,7 +44,7 @@ translate2(text = text, target_lang = "JA",
  ## 私は猫だ。名前はない。今日も元気だ。
 
   # 翻訳用の文書の保存
-  # 13_07_translate-weitelines.R
+  # 13_07_translate-writelines.R
 path <- fs::path_temp("sample.txt")
 head(sentences) # stringrのデータ
 paste0(sentences[1:30], collapse = " ") |>
@@ -125,12 +118,7 @@ result <-
  ##  3 "It's easy to tell the depth of a..."  "井戸の深さを知るのは簡単だ。"
  ##  4 "These days a chicken leg is a ra..."  "最近、鶏のモモ肉は珍しい料理だ。"
  ##  5 "Rice is often served in round bo..."  "ご飯は丸い茶碗に盛られること..."
- ##  6 "The juice of lemons makes fine p..."  "レモンの果汁はいいパンチを作る。"
- ##  7 "The box was thrown beside the pa..."  "箱は駐車中のトラックの横に投げら"
- ##  8 "The hogs were fed chopped corn a..."  "豚には刻んだトウモロコシと生..."
- ##  9 "Four hours of steady work faced ..."  "4時間の地道な作業が待っていた。"
- ## 10 "A large size in stockings is har..."  "ストッキングの大きいサイズはな..."
- ## # ℹ 20 more rows
+ ##  (省略)
 
   # 翻訳結果をエクセルに書き込み
   # 13_13_translate-write-xlsx.R
@@ -158,7 +146,7 @@ install.packages("textrar")
 library(textrar)
 
   # TexTraの認証情報の取得
-  # 13_17_textra-auth.R
+  # 13_17_translate-textra-auth.R
   # 環境変数に保存したとき
   # textra_key <- Sys.getenv("TEXTRA_KEY")
   # textra_secret <- Sys.getenv("TEXTRA_SECRET")
@@ -194,7 +182,7 @@ result <- dplyr::bind_cols(result, result2) |>
   print()
 
   # 翻訳結果のエクセルへの書き込み
-  # 13_20_tidy.R
+  # 13_20_translate-write-xlsx-code2.R
 path <- fs::path_temp("sample.xlsx")
 openxlsx::write.xlsx(result, path) # エクセルに一旦書き込み
 wb <- openxlsx::loadWorkbook(path) # 読み込み

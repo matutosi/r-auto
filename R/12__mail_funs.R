@@ -1,5 +1,5 @@
   # メール内を検索して表示する関数
-  # 12_10_mail-gm-messages-show-fun.R
+  # 12_09_mail-gm-messages-show-fun.R
 gm_show <- function(search = "", num_results = 3){
   msgs <- 
     gmailr::gm_messages(search = search, num_results = num_results) |>
@@ -8,7 +8,7 @@ gm_show <- function(search = "", num_results = 3){
   return(msgs)
 }
   # メールを自動作成・送信する関数
-  # 12_17_mail-auto-gmails-fun.R
+  # 12_16_mail-auto-gmails-fun.R
 auto_gmails <- function(path){
   df <- 
     path |>
@@ -24,7 +24,7 @@ auto_gmails <- function(path){
   return(list(sent = sent, draft = draft)
 }
   # 複数メールの作成
-  # 12_18_mail-gen-gmails-fun.R
+  # 12_17_mail-gen-gmails-fun.R
 gen_gmails <- function(df){
   cols <- c("to", "cc", "bcc", "subject", "body")
   gmails <- 
@@ -37,7 +37,7 @@ gen_gmails <- function(df){
   return(gmails)
 }
   # 個別メールの作成
-  # 12_19_mail-gen-gmail-fun.R
+  # 12_18_mail-gen-gmail-fun.R
 gen_gmail <- function(to, from, subject, body, cc, bcc){
   gmail <- 
     gmailr::gm_mime(to = to, cc = cc, bcc = bcc,
@@ -45,7 +45,7 @@ gen_gmail <- function(to, from, subject, body, cc, bcc){
   return(gmail)
 }
   # ファイルを添付する(複数対応)
-  # 12_20_mail-attach-files-fun.R
+  # 12_19_mail-attach-files-fun.R
 attach_files_gmail <- function(gmail, files){
   if(is.na(files) | files == ""){ # 添付ファイルなし
     return(gmail)
@@ -56,7 +56,7 @@ attach_files_gmail <- function(gmail, files){
   return(gmail)
 }
   # メールを自動送信する関数
-  # 12_34_mail-ms365r-auto-emails-fun.R
+  # 12_32_mail-ms365r-auto-emails-fun.R
 auto_emails <- function(path, outlook){
   df <- readxl::read_xlsx(path)
   emails <- gen_emails(df, outlook)
@@ -67,7 +67,7 @@ auto_emails <- function(path, outlook){
   return(emails)
 }
   # メールの作成(複数対応)
-  # 12_35_mail-ms365r-gen-emails-fun.R
+  # 12_33_mail-ms365r-gen-emails-fun.R
 gen_emails <- function(df, outlook){
   cols <- c("to", "subject", "body", "cc", "bcc")
   emails <- 
@@ -80,7 +80,7 @@ gen_emails <- function(df, outlook){
   return(emails)
 }
   # ファイルを添付する(複数対応)
-  # 12_36_mail-ms365r-attach-files-fun.R
+  # 12_34_mail-ms365r-attach-files-fun.R
 attach_files <- function(email, files){
   if(is.na(files) | files == ""){     # 添付ファイルなし
     return(invisible(email))

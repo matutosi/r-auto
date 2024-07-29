@@ -1,19 +1,19 @@
   # 複数画像を拡張子の形式で書き込む関数
-  # 11_13_image-write-images-fun.R
+  # 11_12_image-write-images-fun.R
 images_write <- function(images, paths){
   formats <- fs::path_ext(paths) # 拡張子の形式
   tibble::tibble(image = as.list(images), path = paths, format = formats) |>
       purrr::pwalk(magick::image_write)
 }
   # 比率を指定して画像サイズを変更する関数
-  # 11_27_image-scale-ratio-fun.R
+  # 11_23_image-scale-ratio-fun.R
 image_scale_ratio <- function(image, ratio){
   round(magick::image_info(image)$width * ratio) |>
     purrr::map(magick::image_scale, image = image) |>
     magick::image_join()
 }
   # ファイルサイズを指定してサイズを変更する関数
-  # 11_29_image-scale-filesize-fun.R
+  # 11_25_image-scale-filesize-fun.R
 image_scale_filesize <- function(image, filesize){
   info <- magick::image_info(image)
   fm <- info$format
@@ -43,19 +43,17 @@ image_scale_filesize <- function(image, filesize){
   return(image[index])
 }
   # 左上・右下の位置をgeometryに変換する関数
-  # 11_39_image-ltrb2geo-fun.R
+  # 11_28_image-ltrb2geo-fun.R
 ltrb2geo <- function(left_top, right_bottom){
     left <- left_top[1]
     top <- left_top[2]
     right <- right_bottom[1]
     bottom <- right_bottom[2]
-    geometry <- 
-      paste0(right - left, "x", bottom - top, 
-      "+", left, "+", top)
+    geometry <- paste0(right - left, "x", bottom - top, "+", left, "+", top)
     return(geometry)
 }
   # 画像をクリックして位置を取得する関数
-  # 11_41_image-click-locate-image-fun.R
+  # 11_30_image-click-locate-image-fun.R
 click_locate_image <- function(img, n = 2){
   par(mar = rep(0.1, 4))        # 余白を狭く
   par(oma = rep(0.1, 4))
@@ -71,7 +69,7 @@ click_locate_image <- function(img, n = 2){
   return(pos)
 }
   # 指定範囲を切り取る関数
-  # 11_44_click-crop-image-fun.R
+  # 11_33_image-click-crop-image-fun.R
 click_crop_image <- function(path){
   img <- magick::image_read(path)                  # 読み取り
   pos <- click_locate_image(img)                   # 切り取り位置
@@ -83,7 +81,7 @@ click_crop_image <- function(path){
   return(list(path_croped, geometry))
 }
   # PDFファイルの背景を透明化する関数
-  # 11_47_image-etc-transparent-fun.R
+  # 11_35_image-etc-transparent-fun.R
 gg_point <- function(path, size, color, fill){ # 散布図の描画・保存
   tibble(x = runif(1000), y = runif(1000)) |>
     ggplot(aes(x, y)) + 
@@ -98,7 +96,7 @@ pdf_transparent <- function(path){ # PDF背景の透明化
     image_write(path, format = "pdf")
 }
   # ディレクトリ内の画像にファイル名を書き込んで結合する関数
-  # 11_49_image-annotate-fnames-fun.R
+  # 11_37_image-annotate-fnames-fun.R
 image_annotate_fnames <- function(dir, 
   regexp = "\\.(png|jpg)$", ncol = NULL, 
   scale = "200", border = "x30", size = 25, color = "white"){

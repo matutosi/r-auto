@@ -2,5 +2,6 @@
   # 10_19_powerpoint-summary-text.R
 pptx_summary(pp) |>
   dplyr::filter(content_type == "paragraph") |>
-  tibble::tibble()
+  tibble::tibble() |> 
+  print(n = 5)
 

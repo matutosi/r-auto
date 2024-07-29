@@ -17,10 +17,9 @@ add_path <- function(new_path){
 get_user_path <- function(){
    # レジストリエディタでパスを取得するコマンド
   cmd <- 'reg query "HKEY_CURRENT_USER\\Environment" /v "path"'
-  path <- 
-    system(cmd, intern = TRUE)[3] |> # コマンド実行
-    stringr::str_remove(" *path *REG_[A-z]* *") |> # 必要部分の取り出し
-    double_quote()
+  path <- system(cmd, intern = TRUE)[3] |> # コマンド実行
+          stringr::str_remove(" *path *REG_[A-z]* *") |> # 必要部分の取り出し
+          double_quote()
   return(path)
 }
 double_quote <- function(x){
@@ -32,11 +31,11 @@ double_quote <- function(x){
 add_path("c:/Users/USERNAME/shortcut") # 絶対パスで指定
 
   # ショートカットを作成する関数の読み込み
-  # 05_04_command-make-shortcut.R
-source("https://matutosi.github.io/r-auto/R/09__excel_funs.R")
+  # 05_04_command-make-shortcut-source.R
+source("https://matutosi.github.io/r-auto/R/99__extra_funs.R")
 
   # RとRStudioのショートカットを作成してパスを通す
-  # 05_05_make-shortcut.R
+  # 05_05_command-make-shortcut.R
   # RStudioのショートカット作成
   # パスが異なるときは適宜変更
   # exe <- fs::path_home("Appdata/Local/Programs/RStudio/rstudio.exe")
@@ -51,7 +50,6 @@ make_shortcut(exe, shortcut = shortcut, size = size, wd = wd)
 exe <- fs::path(Sys.getenv("R_HOME"), "bin/x64/Rgui.exe")
 shortcut <- "r"
  # --no-restore：環境を復元しない，--no-save：終了時に保存しない
- # --sdi：SDIで起動，--silent：起動時メッセージを出さない
 arg <- "--no-restore --no-save --sdi --silent"
 make_shortcut(exe, shortcut, arg = arg, size = size, wd = wd)
 
@@ -93,9 +91,6 @@ shell.exec(path_pdf)           # PDFファイルを開く
 
   # 拡張子のないファイルをアプリを指定して起動
   # 05_11_command-system-rstudio-menu.R
-  # 半角スペースがあるので文字列として「"」を含める
-  # bin <- '"c:/Program..."' のシングルクオーテーション(')は
-  #   ダブルクオーテーション(")と区別するため
 bin <- '"c:/Program Files/hidemaru/hidemaru.exe"'
 file <- fs::path(Sys.getenv("LOCALAPPDATA"), 
                  "RStudio/monitored/lists/project_mru")
@@ -111,27 +106,20 @@ open_with_hidemaru <- function(file){
   return(ures)
 }
 
-  # 文字列の同一性確認
-  # 05_13_command-quotation-identical.R
-  # どちらも同じ文字列になる
-double_quo <- "\"c:/Program Files/hidemaru/hidemaru.exe\""
-single_quo <- '"c:/Program Files/hidemaru/hidemaru.exe"'
-identical(double_quo, single_quo) # 同一性の確認
-
   # アプリの終了コマンド
-  # 05_14_command-taskkill-win.R
+  # 05_13_command-taskkill-win.R
 fs::path(fs::path_home(), 'plot.pdf')
 pdf(path_pdf)
   plot(rnorm(100), rnorm(100))
 dev.off()
 shell.exec(path_pdf) # pdfを開く
-Sys.sleep(3) # 3秒待つ
-cmd <- "taskkill /im Acrobat.exe" # コマンド
+Sys.sleep(3)         # 3秒待つ
+cmd <- "taskkill /im Acrobat.exe"   # 終了コマンド
 (res <- system(cmd, intern = TRUE)) # 実行
-iconv(res, "sjis", "utf8") # 文字コード変換
+iconv(res, "sjis", "utf8")          # 文字コード変換
 
   # zipファイルを解凍する関数
-  # 05_15_command-unzip-fun.R
+  # 05_14_command-unzip-fun.R
 unzip_with_dir <- function(zip){
   dir <- fs::path_dir(zip)                    # ディレクトリ
   unzip_dir <- fs::path_file(zip)             # ファイル名
@@ -143,7 +131,7 @@ unzip_with_dir <- function(zip){
 }
 
   # zipファイルの解凍
-  # 05_16_command-unzip.R
+  # 05_15_command-unzip.R
 dir_usr <- Sys.getenv("USERPROFILE")       # "c:/Users/USERNAME"
 dsk <- fs::path(dir_usr, "Desktop")        # デスクトップのディレクトリ
 zips <- fs::dir_ls(dsk, regexp = "\\.zip") # zipファイル一覧
@@ -151,37 +139,34 @@ dirs <- purrr::map(zips, unzip_with_dir)   # 解凍
 purrr::map(dirs, shell.exec)               # ディレクトリを開く
 
   # パスワード付きのzipファイルを解凍する関数
-  # 05_17_command-unzip-pass-fun.R
+  # 05_16_command-unzip-pass-fun.R
 unzip_with_password <- function(zip, passwd = "", bin_path = ""){
   dir <- fs::path_dir(zip)
-  unzip_dir <- 
-    fs::path_file(zip) |>
-    fs::path_ext_remove()                 # 拡張子除去
-  unzip_dir <- 
-    fs::path(dir, unzip_dir) |> # 
-    stringr::str_replace_all(" ", "_") |> # スペースを置換
-    fs::dir_create()                      # ディレクトリ作成
+  unzip_dir <- fs::path_file(zip) |>
+               fs::path_ext_remove()                 # 拡張子除去
+  unzip_dir <- fs::path(dir, unzip_dir) |> # 
+               stringr::str_replace_all(" ", "_") |> # スペースを置換
+               fs::dir_create()                      # ディレクトリ作成
   zip <- paste0('"', zip, '"')
   if(passwd == ""){
-    passwd <- read.table("clipboard")[1,] # クリップボードから
+    passwd <- read.table("clipboard")[1,]            # クリップボードから
   }
   cmd <- paste0(bin_path, "7z x ", zip, " -p", passwd, " -o", unzip_dir)
   system(cmd)
   return(unzip_dir)
 }
 
-  # パスワード付きのzipファイルの解凍
-  # 05_18_command-unzip-pass.R
-zips <- 
-  fs::path_home("Desktop") |>
-  fs::dir_ls(regexp = "\\.zip")
-bin_path <- "c:/DIRECTORY/7zip/" # 要修正
-dirs <- zips |>
-  purrr::map(unzip_with_password, pass = "", bin_path = bin_path) # 解凍
+  # パスワード付きのzipファイルの解凍(擬似コード)
+  # 05_17_command-unzip-pass.R
+zips <- fs::path_home("Desktop") |>
+        fs::dir_ls(regexp = "\\.zip")
+bin_path <- "c:/DIRECTORY/7zip/" # 要設定
+pass <- "パスワード"
+dirs <- purrr::map(zips, unzip_with_password, pass, bin_path) # 解凍
 purrr::map(dirs, shell.exec)     # ディレクトリを開く
 
-  # クリップボードの取り出し
-  # 05_19_command-clipboard.R
-passwd <- read.table("clipboard")[[1]] |>
-  as.list()
+  # 複数のパスワード付きファイルの解凍(擬似コード)
+  # 05_18_command-clipboard.R
+passwd <- read.table("clipboard") |> unlist()
+purrr::map2(zips, unzip_with_password, passwd)
 

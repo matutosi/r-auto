@@ -11,10 +11,9 @@ add_path <- function(new_path){
 get_user_path <- function(){
    # レジストリエディタでパスを取得するコマンド
   cmd <- 'reg query "HKEY_CURRENT_USER\\Environment" /v "path"'
-  path <- 
-    system(cmd, intern = TRUE)[3] |> # コマンド実行
-    stringr::str_remove(" *path *REG_[A-z]* *") |> # 必要部分の取り出し
-    double_quote()
+  path <- system(cmd, intern = TRUE)[3] |> # コマンド実行
+          stringr::str_remove(" *path *REG_[A-z]* *") |> # 必要部分の取り出し
+          double_quote()
   return(path)
 }
 double_quote <- function(x){
@@ -35,7 +34,7 @@ open_with_hidemaru <- function(file){
   return(ures)
 }
   # zipファイルを解凍する関数
-  # 05_15_command-unzip-fun.R
+  # 05_14_command-unzip-fun.R
 unzip_with_dir <- function(zip){
   dir <- fs::path_dir(zip)                    # ディレクトリ
   unzip_dir <- fs::path_file(zip)             # ファイル名
@@ -46,19 +45,17 @@ unzip_with_dir <- function(zip){
   return(unzip_dir)
 }
   # パスワード付きのzipファイルを解凍する関数
-  # 05_17_command-unzip-pass-fun.R
+  # 05_16_command-unzip-pass-fun.R
 unzip_with_password <- function(zip, passwd = "", bin_path = ""){
   dir <- fs::path_dir(zip)
-  unzip_dir <- 
-    fs::path_file(zip) |>
-    fs::path_ext_remove()                 # 拡張子除去
-  unzip_dir <- 
-    fs::path(dir, unzip_dir) |> # 
-    stringr::str_replace_all(" ", "_") |> # スペースを置換
-    fs::dir_create()                      # ディレクトリ作成
+  unzip_dir <- fs::path_file(zip) |>
+               fs::path_ext_remove()                 # 拡張子除去
+  unzip_dir <- fs::path(dir, unzip_dir) |> # 
+               stringr::str_replace_all(" ", "_") |> # スペースを置換
+               fs::dir_create()                      # ディレクトリ作成
   zip <- paste0('"', zip, '"')
   if(passwd == ""){
-    passwd <- read.table("clipboard")[1,] # クリップボードから
+    passwd <- read.table("clipboard")[1,]            # クリップボードから
   }
   cmd <- paste0(bin_path, "7z x ", zip, " -p", passwd, " -o", unzip_dir)
   system(cmd)
