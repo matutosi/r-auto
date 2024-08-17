@@ -1,8 +1,5 @@
-  # パワーポイントの新規作成
+  # パワーポイントの読み込み
   # 10_02_powerpoint-read.R
-library(officer)
-pp <- read_pptx()
-  # 既存ファイルの読み込み
-  # path <- "PATH/TO/POWERPOINT/FILE.pptx"
-  # pp <- read_pptx(path)
+path <- "D:/matu/work/ToDo/r-auto/data/slide.pptx"
+pp <- read_pptx(path)
 

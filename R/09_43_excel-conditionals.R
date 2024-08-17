@@ -8,28 +8,28 @@ df <- tibble::tibble(
   beginsWith_a = str, endsWith_e = str, contains_p = str, notContains_c = str)
 file_cond <- fs::path_temp("conditional.xlsx")
 write.xlsx(df, file_cond)
-wb <- loadWorkbook(file_cond)
+wb_cond <- loadWorkbook(file_cond)
 rows <- 2:11
-conditionalFormatting(wb, 1, cols = 1, rows = rows,
+conditionalFormatting(wb_cond, 1, cols = 1, rows = rows,
   type = "expression", rule = "==3")                # 3と同じ
-conditionalFormatting(wb, 1, cols = 2, rows = rows,
+conditionalFormatting(wb_cond, 1, cols = 2, rows = rows,
   type = "colourScale", style = c("blue", "white"), # カラースケール
   rule = c(0, 10))
-conditionalFormatting(wb, 1, cols = 3, rows = rows,
+conditionalFormatting(wb_cond, 1, cols = 3, rows = rows,
   type = "databar", style = c("yellow"))            # データバー
-conditionalFormatting(wb, 1, cols = 4, rows = rows,
+conditionalFormatting(wb_cond, 1, cols = 4, rows = rows,
   type = "topN", rank = 5)                          # 上位5つ
-conditionalFormatting(wb, 1, cols = 5, rows = rows,
+conditionalFormatting(wb_cond, 1, cols = 5, rows = rows,
   type = "bottomN", rank = 3)                       # 下位3つ
-conditionalFormatting(wb, 1, cols = 6, rows = rows,
+conditionalFormatting(wb_cond, 1, cols = 6, rows = rows,
   type = "duplicates")                              # 重複
-conditionalFormatting(wb, 1, cols = 7, rows = rows,
+conditionalFormatting(wb_cond, 1, cols = 7, rows = rows,
   type = "beginsWith",  rule = "a")                 # aで始まる
-conditionalFormatting(wb, 1, cols = 8, rows = rows,
+conditionalFormatting(wb_cond, 1, cols = 8, rows = rows,
   type = "endsWith",    rule = "e")                 # eで終わる
-conditionalFormatting(wb, 1, cols = 9, rows = rows,
+conditionalFormatting(wb_cond, 1, cols = 9, rows = rows,
   type = "contains",    rule = "p")                 # pを含む
-conditionalFormatting(wb, 1, cols = 10, rows = rows,
+conditionalFormatting(wb_cond, 1, cols = 10, rows = rows,
   type = "notContains", rule = "c")                 # cを含まない
-saveWorkbook(wb, file_cond, overwrite = TRUE)
+saveWorkbook(wb_cond, file_cond, overwrite = TRUE)
 

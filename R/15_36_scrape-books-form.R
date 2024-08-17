@@ -1,4 +1,4 @@
-  # フォーム要素の取得
+  # フォーム要素の取得と設定
   # 15_36_scrape-books-form.R
 url <- "https://www.morikita.co.jp/news/category/newbook"
 form <- 
@@ -6,5 +6,6 @@ form <-
   rvest::read_html() |>
   rvest::html_form() |>
   `[[`(_, 1)
-form
+search <- rvest::html_form_set(form, keywords = "テキストマイニング")
+response <- html_form_submit(search)
 

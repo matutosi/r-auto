@@ -2,7 +2,7 @@
   # 09_19_excel-pivot-pivotea.R
 url <- "https://matutosi.github.io/r-auto/data/timetable.csv"
 csv <- fs::path_temp("timetable.csv")
-curl::curl_download(url, csv) # urlからPDFをダウンロード
+curl::curl_download(url, csv) # urlからダウンロード
 syllabus <- 
   readr::read_csv(csv, show_col_types = FALSE) |>
   dplyr::mutate(subj = paste0(stringr::str_sub(subject, 1, 2),
