@@ -1,4 +1,4 @@
-  # Googleドライブからのファイルのダウンロード(擬似コード)
+  # Googleドライブからのファイルのダウンロード(疑似コード)
   # 09_09_excel-read-googledrive.R
 install.packages("googledrive")
 library(googledrive)

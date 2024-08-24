@@ -5,7 +5,7 @@ extract_images <- function(pdf, out = fs::path_temp(), bin_dir = ""){
     fs::path_file(pdf) |>                         # ファイル名のみ
     fs::path_ext_remove()                         # 拡張子の除去
   out_dir <- fs::path(out, f_name)                # 出力ディレクトリ
-  dir_create(out_dir)
+  fs::dir_create(out_dir)
   out_file <- fs::path(out_dir, f_name)           # 出力ファイル
   bin <- "pdfimages"
   if(bin_dir != ""){

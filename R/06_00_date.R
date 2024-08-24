@@ -32,7 +32,7 @@ date_ish <- function(){
   mn <- "\\d{1,2}[-－.．_＿/／月]"                       # 月(区切り必須)
   dy <- "\\d{1,2}日?"                                    # 日(区切り非必須)
   dw <- "([\\(（][月火水木金土日祝]+[\\)）])?"           # 曜日(非必須)
-  mn_dy <- "(0[1-9]|[12][0-9]|3[01])"                    # 月日
+  mn_dy <- "(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])"     # 月日
   yr_4 <-  "(19|20)?[0-9]{2}"                            # 2桁か4桁の年
   p_1 <- paste0(era, yr, mn, dy, dw)
   p_2 <- paste0(      mn_dy)                             # 数字のみの月日
@@ -218,7 +218,7 @@ names(pattern) <- yr_jp # ベクトルに名前を付ける
 stringr::str_replace_all(sentence, pattern) |>
   cat()
 
-  # ワードでの一括変換(擬似コード)
+  # ワードでの一括変換(疑似コード)
   # 06_22_date-convert-yr-replace-word.R
 path <- "DIRECTORY/word.docx"
 doc <- officer::read_docx(path)
@@ -363,7 +363,7 @@ calendR::calendR(year(x) + 1, month(x),
 
   # 1年後の日付への更新
   # 06_35_date-same-pos-next-yr-example.R
-sentence <- "大学祭は，2024年10月26日と10月27日に開催します．"
+sentence <- "大学祭「よつば祭」は，2024年10月26日と10月27日に開催します．"
 days_this_yr <- extract_date_ish(sentence)
 days_next_yr <-
   days_this_yr |>

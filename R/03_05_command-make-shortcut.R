@@ -2,8 +2,8 @@
   # 03_05_command-make-shortcut.R
   # RStudioのショートカット作成
   # パスが異なるときは適宜変更
-  # exe <- fs::path_home("Appdata/Local/Programs/RStudio/rstudio.exe")
-exe <- 'C:/Progra~1/rstudio/rstudio.exe' # こちらの可能性あり
+exe <- fs::path_home("Appdata/Local/Programs/RStudio/rstudio.exe")
+  # exe <- 'C:/Progra~1/rstudio/rstudio.exe' # こちらの可能性あり
 shortcut <- "rs"
 wd <- fs::path_home("shortcut")
 size <- 3

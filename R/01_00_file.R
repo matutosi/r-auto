@@ -11,8 +11,8 @@ ls("package:fs") |> stringr::str_subset("^path") |> head()
 
   # 作業ディレクトリの取得
   # 01_03_file-getwd.R
-  # OSや使用状況などで表示は異なります
-  # Windowsの場合は，USERNAMEにユーザ名が表示されます
+  # OSや使用状況などで表示は異なる
+  # Windowsの場合は，USERNAMEにユーザ名が表示される
 path_wd()
 getwd() # 文字列としては同じ
 
@@ -115,7 +115,6 @@ files <- c("hoge.txt", "fuga.txt", "piyo.txt")
 files
 result <- file_move(files, new_path = "abc")
 result
-  # abc/hoge.txt abc/fuga.txt abc/piyo.txt
 
   # 作業ディレクトリへのファイルの移動
   # 01_22_file-move-again.R
@@ -164,7 +163,7 @@ file_move(old, new)
   # 01_30_file-rename-info-prep.R
 olds <- paste0(letters[1:10], ".xlsx")
 for(old in sample(olds)){
-  file_create(old[i])
+  file_create(old)
   Sys.sleep(60)
 }
 shell.exec(path_wd()) # 作業ディレクトリを開く(Windowsのみ)
@@ -218,7 +217,7 @@ sort_files <- function(dir, show_tree = FALSE, ...){
   return(res)
 }
 
-  # 拡張子でのファイルを整理(擬似コード)
+  # 拡張子でのファイルを整理(疑似コード)
   # 01_34_file-sort.R
 sort_files("dir", show_tree = TRUE)
 

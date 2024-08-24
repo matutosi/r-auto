@@ -248,12 +248,12 @@ answer |> # 複数回答・クロス集計
   tidyr::pivot_wider(names_from = area, values_from = n, values_fill = 0) |>
   print(n = 3)
 
-  # 列の順序変更と列名の変更(擬似コード)
+  # 列の順序変更と列名の変更(疑似コード)
   # 02_37_analysis-dplyr-others.R
 dplyr::relocate(df, 列名)
 dplyr::rename(df, 新しい列名 = 既存の列名)
 
-  # 個数を数えるショートカット(擬似コード)
+  # 個数を数えるショートカット(疑似コード)
   # 02_38_analysis-dplyr-tally.R
 dplyr::group_by(df, 列名) |> 
   dplyr::tally()
@@ -295,8 +295,8 @@ for(s in unique(sales$shop)){
   # 02_43_analysis-ggplot-facet-wrap.R
 sales |>
   ggplot2::ggplot(ggplot2::aes(item, count)) + 
-    ggplot2::geom_boxplot() + 
-    ggplot2::facet_wrap(vars(shop))
+  ggplot2::geom_boxplot() + 
+  ggplot2::facet_wrap(vars(shop))
 
   # 作図のファイルへの保存
   # 02_44_analysis-ggplot-ggsave.R
@@ -345,10 +345,10 @@ path <- fs::file_temp(ext = "pdf")
 ggplot2::ggsave(path, device = cairo_pdf)
   # shell.exec(path)
 
-  # テーマの変更(擬似コード)
+  # テーマの変更(疑似コード)
   # 02_51_analysis-ggplot-theme.R
 df |>
-  ggplot2::ggplot(, ggplot2::aes(x, y)) +
+  ggplot2::ggplot(ggplot2::aes(x, y)) +
   ggplot2::geom_point() +  # 散布図
   ggplot2::theme_bw()      # 白黒のシンプルなテーマに変更
 

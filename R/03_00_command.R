@@ -77,8 +77,8 @@ make_shortcut <- function(exe, shortcut = NULL, dir = NULL,
   # 03_05_command-make-shortcut.R
   # RStudioのショートカット作成
   # パスが異なるときは適宜変更
-  # exe <- fs::path_home("Appdata/Local/Programs/RStudio/rstudio.exe")
-exe <- 'C:/Progra~1/rstudio/rstudio.exe' # こちらの可能性あり
+exe <- fs::path_home("Appdata/Local/Programs/RStudio/rstudio.exe")
+  # exe <- 'C:/Progra~1/rstudio/rstudio.exe' # こちらの可能性あり
 shortcut <- "rs"
 wd <- fs::path_home("shortcut")
 size <- 3
@@ -147,7 +147,7 @@ open_with_hidemaru <- function(file){
 
   # アプリの終了コマンド
   # 03_13_command-taskkill-win.R
-fs::path(fs::path_home(), 'plot.pdf')
+path_pdf <- fs::path(fs::path_home(), 'plot.pdf')
 pdf(path_pdf)
   plot(rnorm(100), rnorm(100))
 dev.off()
@@ -171,8 +171,7 @@ unzip_with_dir <- function(zip){
 
   # zipファイルの解凍
   # 03_15_command-unzip.R
-dir_usr <- Sys.getenv("USERPROFILE")       # "c:/Users/USERNAME"
-dsk <- fs::path(dir_usr, "Desktop")        # デスクトップのディレクトリ
+dsk <- fs::path_home("Desktop")        # デスクトップのディレクトリ
 zips <- fs::dir_ls(dsk, regexp = "\\.zip") # zipファイル一覧
 dirs <- purrr::map(zips, unzip_with_dir)   # 解凍
 purrr::map(dirs, shell.exec)               # ディレクトリを開く
@@ -195,7 +194,7 @@ unzip_with_password <- function(zip, passwd = "", bin_path = ""){
   return(unzip_dir)
 }
 
-  # パスワード付きのzipファイルの解凍(擬似コード)
+  # パスワード付きのzipファイルの解凍(疑似コード)
   # 03_17_command-unzip-pass.R
 zips <- fs::path_home("Desktop") |>
         fs::dir_ls(regexp = "\\.zip")
@@ -204,8 +203,8 @@ pass <- "パスワード"
 dirs <- purrr::map(zips, unzip_with_password, pass, bin_path) # 解凍
 purrr::map(dirs, shell.exec)     # ディレクトリを開く
 
-  # 複数のパスワード付きファイルの解凍(擬似コード)
+  # 複数のパスワード付きファイルの解凍(疑似コード)
   # 03_18_command-clipboard.R
 passwd <- read.table("clipboard") |> unlist()
-purrr::map2(zips, unzip_with_password, passwd)
+purrr::map2(zips, passwd, unzip_with_password)
 

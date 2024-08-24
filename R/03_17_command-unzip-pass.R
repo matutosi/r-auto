@@ -1,4 +1,4 @@
-  # パスワード付きのzipファイルの解凍(擬似コード)
+  # パスワード付きのzipファイルの解凍(疑似コード)
   # 03_17_command-unzip-pass.R
 zips <- fs::path_home("Desktop") |>
         fs::dir_ls(regexp = "\\.zip")

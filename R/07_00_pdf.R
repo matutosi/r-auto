@@ -50,10 +50,6 @@ user_input <- function(prompt = "", choices = ""){
     return(input)
   }
 }
-  # 実行例
-  # user_input("何か入力してください\n")
-  # 1       # 1と入力すると
-  # [1] "1" # 文字列としての"1"が返り値になる 
 
   # 文字列を数値として返す関数
 eval_strings <- function(x){
@@ -65,9 +61,6 @@ eval_strings <- function(x){
     purrr::map(eval) |>          # 評価
     unlist()                     # ベクトルに
 }
-  # 実行例
-  # eval_strings("1,5-9,21:25")
-  # [1]  1  5  6  7  8  9 21 22 23 24 25
 
   # ユーザ入力のページ数を数値に変換する関数
 input_numbers <- function(prompt, choices = ""){
@@ -75,21 +68,12 @@ input_numbers <- function(prompt, choices = ""){
   pages <- eval_strings(inputs)
   return(pages)
 }
-  # 実行例
-  # input_numbers("数字を入力してください\n")
-  # 数字を入力してください
-  # 1:3,6,7-10
-  # [1]  1  2  3  6  7  8  9 10
 
   # ファイルの一覧を選択肢として返す関数
 gen_choices <- function(files){
   no <- seq(files)
   stringr::str_c("  ", no, ": ", files, "\n", collapse = "")
 }
-  # 実行例
-  # paste0(letters[1:3], ".pdf") |>
-  #   gen_choices() |>
-  #   cat()
 
   # 複数のPDFファイルからファイルを選択して分割する関数
   # 07_08_pdf-subset-fun.R
@@ -123,9 +107,8 @@ subset_pdf <- function(){
 
   # 複数のPDFファイルからファイルを選択して分割
   # 07_09_pdf-subset-exec.R
-subset_pdf()
   #   $a_output.pdf
-  # [1] "C:\\Users\\ユザー名\\a_output_output.pdf"
+  # [1] "C:\\Users\\ユザー名\\a_output.pdf"
 
   # PDFの結合
   # 07_10_pdf-combine.R
@@ -175,7 +158,7 @@ extract_images <- function(pdf, out = fs::path_temp(), bin_dir = ""){
     fs::path_file(pdf) |>                         # ファイル名のみ
     fs::path_ext_remove()                         # 拡張子の除去
   out_dir <- fs::path(out, f_name)                # 出力ディレクトリ
-  dir_create(out_dir)
+  fs::dir_create(out_dir)
   out_file <- fs::path(out_dir, f_name)           # 出力ファイル
   bin <- "pdfimages"
   if(bin_dir != ""){
@@ -298,7 +281,6 @@ convert_app <- function(path, format){
     return(invisible(path)) # 終了
   }
   format_no <- set_format_no(base_ext, format)
-  converted <- fs::path_ext_set(converted, format)
   path <- normalizePath(path)        # Windowsの形式("\\")に変換："/"はエラー
   converted <-                       # 変換後の拡張子
     fs::path_ext_set(path, ext = format) |>
@@ -342,7 +324,7 @@ set_format_no <- function(base_ext, format){
                     xps = 19, html = 20, rtf = 23, txt = 25))
 }
 
-  # ワードと各種形式との相互変換(擬似コード)
+  # ワードと各種形式との相互変換(疑似コード)
   # 07_28_word-convert.R
 library(RDCOMClient) # 無いと関数実行時にエラーが出る
 convert_app("dir/word.docx", "pdf")

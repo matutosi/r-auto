@@ -1,4 +1,4 @@
-  # ワードでの一括変換(擬似コード)
+  # ワードでの一括変換(疑似コード)
   # 06_22_date-convert-yr-replace-word.R
 path <- "DIRECTORY/word.docx"
 doc <- officer::read_docx(path)

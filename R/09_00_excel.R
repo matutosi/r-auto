@@ -39,9 +39,9 @@ excel.link::xl.read.file("ファイル名.xlsx",  password = "パスワード")
 
   # エクセルの全シートを読み込む関数の読み込み
   # 09_08_excel-read-all-sheets-source.R
-source("https://matutosi.github.io/r-auto/R/02__analysis_funs.R")
+source("https://matutosi.github.io/r-auto/R/02_00_analysis_funs.R")
 
-  # Googleドライブからのファイルのダウンロード(擬似コード)
+  # Googleドライブからのファイルのダウンロード(疑似コード)
   # 09_09_excel-read-googledrive.R
 install.packages("googledrive")
 library(googledrive)
@@ -51,7 +51,7 @@ path <- "DIRECORY/FILE_NAME.csv"
 googledrive::drive_download(
   sheet$name, path = path, type = "csv", overwrite = TRUE) # 上書きするとき
 
-  # OneDriveからのファイルのダウンロード(擬似コード)
+  # OneDriveからのファイルのダウンロード(疑似コード)
   # 09_10_excel-read-onedrive.R
 install.packages("Microsoft365R")
 library(Microsoft365R)

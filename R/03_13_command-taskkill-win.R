@@ -1,6 +1,6 @@
   # アプリの終了コマンド
   # 03_13_command-taskkill-win.R
-fs::path(fs::path_home(), 'plot.pdf')
+path_pdf <- fs::path(fs::path_home(), 'plot.pdf')
 pdf(path_pdf)
   plot(rnorm(100), rnorm(100))
 dev.off()

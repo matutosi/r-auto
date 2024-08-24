@@ -6,7 +6,6 @@ convert_app <- function(path, format){
     return(invisible(path)) # 終了
   }
   format_no <- set_format_no(base_ext, format)
-  converted <- fs::path_ext_set(converted, format)
   path <- normalizePath(path)        # Windowsの形式("\\")に変換："/"はエラー
   converted <-                       # 変換後の拡張子
     fs::path_ext_set(path, ext = format) |>

@@ -1,4 +1,4 @@
-  # OneDriveからのファイルのダウンロード(擬似コード)
+  # OneDriveからのファイルのダウンロード(疑似コード)
   # 09_10_excel-read-onedrive.R
 install.packages("Microsoft365R")
 library(Microsoft365R)

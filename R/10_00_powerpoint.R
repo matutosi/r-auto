@@ -266,7 +266,7 @@ path <- fs::path_temp("slide.pptx")
 print(pp, target = path)
   # shell.exec(path)
 
-  # タイトルと画像のスライドの追加(擬似コード)
+  # タイトルと画像のスライドの追加(疑似コード)
   # 10_19_powerpoint-add-fig-sample.R
 titles <- c("1枚目" , "2枚目" , "3枚目")
 images <- c("01.png", "02.png", "03.png")
