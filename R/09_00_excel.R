@@ -35,6 +35,7 @@ library(readxl)
 
   # パスワード付きのエクセルファイルを開く疑似コード
   # 09_07_excel-read-with-password.R
+library(RDCOMClient) # ないとエラーになる
 excel.link::xl.read.file("ファイル名.xlsx",  password = "パスワード")
 
   # エクセルの全シートを読み込む関数の読み込み
@@ -63,9 +64,9 @@ odb$download_file(src = src, dest = dest, overwrite = TRUE) # 上書きすると
 
   # csvなどの書き込み
   # 09_11_excel-write-txt.R
-readr::write_csv(mtcars, "mtcars.csv")            # csv(カンマ区切り)
-readr::write_tsv(mtcars, "mtcars.tsv")            # tsv(タブ区切り)
-readr::write_delim(iris, "iris.txt", delim = ";") # delim：区切り文字
+readr::write_csv(mtcars, "fs::path_temp(mtcars.csv"))      # csv(カンマ区切り)
+readr::write_tsv(mtcars, "fs::path_temp(mtcars.tsv"))      # tsv(タブ区切り)
+readr::write_delim(iris, "fs::path_temp(iris.txt"), delim = ";") # ;区切り
 ls("package:readr") |>         # 他にも色々とある
   stringr::str_subset("write") # 詳細はヘルプ参照
 
@@ -82,7 +83,7 @@ iris |>
 
   # ワークブックの書き込み
   # 09_14_excel-write.R
-saveWorkbook(wb, file_wb)
+saveWorkbook(wb, file_wb, overwrite = TRUE)
 
   # パッケージのインストールと呼び出し
   # 09_15_excel-pivot-packages.R

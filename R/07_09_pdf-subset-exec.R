@@ -1,5 +1,0 @@
-  # 複数のPDFファイルからファイルを選択して分割
-  # 07_09_pdf-subset-exec.R
-  #   $a_output.pdf
-  # [1] "C:\\Users\\ユザー名\\a_output.pdf"
-

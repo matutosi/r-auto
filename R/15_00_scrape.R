@@ -34,16 +34,14 @@ h1
 
   # idや属性名での要素の取得
   # 15_07_scrape-html-element-id.R
-html |> html_elements("#text_1") # id = "text_1"
-html |> 
-  html_elements(".list") |>      # class = "list"
-  html_elements("option")        # さらにoptionタグで絞り込み
-html |> html_elements("[href]")  # href属性
+html |> html_elements("#text_1")  # id = "text_1"
+html |> html_elements(".list") |> # class = "list"
+  html_elements("option")         # さらにoptionタグで絞り込み
+html |> html_elements("[href]")   # href属性
 
   # XPathでの要素の取得
   # 15_08_scrape-html-xpath.R
-html |>
-  html_elements(xpath = "/html/body/div[5]/h1")
+html |> html_elements(xpath = "/html/body/div[5]/h1")
 
   # 文字列の取り出し
   # 15_09_scrape-html-text.R
@@ -51,27 +49,17 @@ html_text(h1)
 
   # 文字列の取り出し(ブラウザ的な表示)
   # 15_10_scrape-html-text2.R
-html |>
-  html_elements("p") |>
-  html_text()
-html |>
-  html_elements("p") |>
-  html_text2()
+html |> html_elements("p") |> html_text()
+html |> html_elements("p") |> html_text2()
 
   # 属性値の取り出し
   # 15_11_scrape-html-attr.R
-html |>
-  html_elements("a") |>
-  html_attr("href")
-html |>
-  html_elements("img") |>
-  html_attr("src")
+html |> html_elements("a") |> html_attr("href")
+html |> html_elements("img") |> html_attr("src")
 
   # htmlの読み込み
   # 15_12_scrape-html-table.R
-tables <- 
-  html |>
-  html_table()
+tables <- html |> html_table()
 tables[[1]]
 tables[[2]]
 
@@ -88,10 +76,6 @@ session$driver$view()
   # HTMLの内容の取得
   # 15_15_scrape-selenider-get-page-source.R
 html <- get_page_source(session)
-{html_document}
-<html lang="ja">
-[1] <head>\n<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">\n<meta charset="UTF-8">\n<title>HTMLの例</title>\n< ...
-[2] <body>\n<div class="header">ヘッダーの部分\n  <a href="https://github.com/matutosi/r-auto">サポートページへ</a>\n</div>\n<hr>\n<div class="t ...
 rvest::html_table(html) |>
   `[[`(_, 1)
   ##
@@ -108,11 +92,8 @@ s(xpath = "/html/body/div[2]/h1")
 
   # 文字列の取り出し
   # 15_18_scrape-selenider-text.R
-s("#text_1") |>
-  elem_text()
-ss("option") |>
-  as.list() |>
-  purrr::map_chr(elem_text)
+s("#text_1") |> elem_text()
+ss("option") |> as.list() |> purrr::map_chr(elem_text)
 
   # 属性値の取り出し
   # 15_19_scrape-selenider-attr.R
@@ -124,14 +105,11 @@ ss("a") |>
   # 15_20_scrape-cran-read-html.R
 url <- 
   "https://cran.r-project.org/web/packages/available_packages_by_name.html"
-html <- read_html(url)
-html
+(html <- read_html(url))
 
   # パッケージ一覧の取得
   # 15_21_scrape-cran-html-table.R
-pkgs <-
-  html |>
-  html_table(header = TRUE) |>
+pkgs <- html_table(html, header = TRUE) |>
   `[[`(_, 1) |> # [[1]]と同じ
   magrittr::set_colnames(c("pkg", "description")) |>
   dplyr::mutate(
@@ -285,7 +263,7 @@ form <-
   rvest::html_form() |>
   `[[`(_, 1)
 search <- rvest::html_form_set(form, keywords = "テキストマイニング")
-response <- html_form_submit(search)
+response <- rvest::html_form_submit(search)
 
   # フォームの送信
   # 15_37_scrape-books-form-submit.R

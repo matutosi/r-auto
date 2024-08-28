@@ -59,7 +59,7 @@ ask_chatgpt(prompt)
 install.packages("openai")
 library(openai)
 response <- openai::create_image("光り輝く「R」という文字を生成してください．")
-pngs <- fs::path(fs::path_home("desktop/r.png")))         # ダウンロード先
+pngs <- fs::path(fs::path_home("Desktop/r.png"))          # ダウンロード先
 purrr::map2(response$data$url, pngs, curl::curl_download) # ダウンロード
 
   # gemini.Rのインストールと呼び出し
@@ -120,16 +120,15 @@ url <- "https://matutosi.github.io/r-auto/data/"
 jpgs <- paste0(url, "image_0", 1:3, ".jpg")
 comments <- list()
 for(jpg in jpgs){
-  comments[[jpg]] <- gemini_image(prompt, jpg)
+  comments[[jpg]] <- gemini_image(jpg, prompt)
 }
 comments
 
   # パラメータによる回答の制御
   # 14_17_ai-gemini-parameter.R
-prompt <- クイズを3つ出してください．
-gemini_para(prompt, temperature = 0)
-gemini_para(prompt, temperature = 0)
-gemini_para(prompt, temperature = 1)
-私は何ですか？
-gemini_para(prompt, temperature = 1)
+prompt <- "クイズを3つ出してください．"
+gemini(prompt, temperature = 0)
+gemini(prompt, temperature = 0)
+gemini(prompt, temperature = 1)
+gemini(prompt, temperature = 1)
 

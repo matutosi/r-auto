@@ -50,6 +50,7 @@ messages <- gm_messages(search = "検索文字列", num_results = 3)
 messages
 gm_id(messages)[[1]]  |>
   gm_message()
+threads <- gm_messages(search = "検索文字列", num_results = 3)
 gm_id(threads)[[1]]  |>
   gm_message()
 
@@ -110,7 +111,7 @@ auto_gmails <- function(path){
     sent <- gmails[df$send == "1"] |> # 送信
       purrr::map(gmailr::gm_send_message)
   }
-  return(list(sent = sent, draft = draft)
+  return(list(sent = sent, draft = draft))
 }
 
   # 複数メールの作成
@@ -153,7 +154,7 @@ attach_files_gmail <- function(gmail, files){
 path <- fs::path_temp("email.xlsx")
 tibble::tibble(
   send = c("1", "0"),
-  to = "matutosi@gmail.com",
+  to = "SOMEONE@gmail.com",
   cc = "",
   bcc = "",
   subject = paste0("テストメール", 1:2),
@@ -204,7 +205,7 @@ outlook <- get_business_outlook() # 職場または学校アカウント
 
   # メールの作成と下書きの保存
   # 12_27_mail-ms365r-create-email.R
-email <- outlook$create_email(subject = "メールの件名", to = "hogehoge@gmail.com"
+email <- outlook$create_email(subject = "メールの件名", to = "hogehoge@gmail.com",
                               body = "メールの本文", send_now = FALSE)
 
   # ファイルの添付・作成・削除
@@ -251,7 +252,8 @@ attach_files <- function(email, files){
   # メールの一斉作成
   # 12_30_mail-ms365r-auto-emails-generate.R
 outlook <- get_business_outlook()     # 職場または学校アカウント
-emails <- auto_emails(path = "email.xlsx", outlook)
+emails <- auto_emails(path = fs::path_temp("email.xlsx"), outlook)
+
 
   # 下書きメールの一斉送信
   # 12_31_mail-ms365r-auto-drafts-send.R

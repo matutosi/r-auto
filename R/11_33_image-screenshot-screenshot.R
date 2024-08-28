@@ -1,5 +1,5 @@
   # スクリーンショットの保存
-  # 11_35_image-screenshot-screenshot.R
+  # 11_33_image-screenshot-screenshot.R
 ss <- screenshot::screenshot()
 fs::path_file(ss) # ファイル名のみ
  ## [1] "sc_158839211323.png"

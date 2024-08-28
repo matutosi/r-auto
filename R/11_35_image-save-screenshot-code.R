@@ -1,5 +1,5 @@
   # クリップボード画像の自動保存
-  # 11_37_image-save-screenshot-code.R
+  # 11_35_image-save-screenshot-code.R
 wd <- fs::path(fs::path_home(), "desktop")  # 保存先ディレクトリ
 setwd(wd)                                   # 保存ファイルの指定
 no <- stringr::str_pad(1:99, width = 2, "left", "0") # 2桁の連番

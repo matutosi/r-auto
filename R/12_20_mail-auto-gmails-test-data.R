@@ -3,7 +3,7 @@
 path <- fs::path_temp("email.xlsx")
 tibble::tibble(
   send = c("1", "0"),
-  to = "matutosi@gmail.com",
+  to = "SOMEONE@gmail.com",
   cc = "",
   bcc = "",
   subject = paste0("テストメール", 1:2),

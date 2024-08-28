@@ -7,5 +7,5 @@ form <-
   rvest::html_form() |>
   `[[`(_, 1)
 search <- rvest::html_form_set(form, keywords = "テキストマイニング")
-response <- html_form_submit(search)
+response <- rvest::html_form_submit(search)
 

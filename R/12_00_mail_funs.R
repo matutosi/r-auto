@@ -21,7 +21,7 @@ auto_gmails <- function(path){
     sent <- gmails[df$send == "1"] |> # 送信
       purrr::map(gmailr::gm_send_message)
   }
-  return(list(sent = sent, draft = draft)
+  return(list(sent = sent, draft = draft))
 }
   # 複数メールの作成
   # 12_17_mail-gen-gmails-fun.R

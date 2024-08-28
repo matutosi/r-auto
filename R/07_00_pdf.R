@@ -105,11 +105,6 @@ subset_pdf <- function(){
   return(res)
 }
 
-  # 複数のPDFファイルからファイルを選択して分割
-  # 07_09_pdf-subset-exec.R
-  #   $a_output.pdf
-  # [1] "C:\\Users\\ユザー名\\a_output.pdf"
-
   # PDFの結合
   # 07_10_pdf-combine.R
 pdf_spl |>                      # 分割したPDF
@@ -291,7 +286,7 @@ convert_app <- function(path, format){
            pptx = "PowerPoint.Application",
            "Word.Application") |>
      RDCOMClient::COMCreate()
-  officeApp[["Visible"]] <- FALSE       # アプリ非表示
+  officeApp[["Visible"]] <- TRUE        # アプリ表示
   officeApp[["DisplayAlerts"]] <- FALSE # 警告の非表示
   base_file <- switch(base_ext,
                 xlsx = officeApp$workbooks()$Open(path),

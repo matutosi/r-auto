@@ -12,6 +12,6 @@ auto_gmails <- function(path){
     sent <- gmails[df$send == "1"] |> # 送信
       purrr::map(gmailr::gm_send_message)
   }
-  return(list(sent = sent, draft = draft)
+  return(list(sent = sent, draft = draft))
 }
 

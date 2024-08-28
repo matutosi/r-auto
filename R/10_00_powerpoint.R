@@ -5,7 +5,9 @@ library("officer")
 
   # パワーポイントの読み込み
   # 10_02_powerpoint-read.R
-path <- "D:/matu/work/ToDo/r-auto/data/slide.pptx"
+url <- "https://matutosi.github.io/r-auto/data/slide.pptx"
+path <- fs::path_temp("slide.pptx")
+curl::curl_download(url, path) # urlからPDFをダウンロード
 pp <- read_pptx(path)
 
   # パワーポイントの概要表示

@@ -7,7 +7,7 @@ library(magick)
   # 11_02_image-download.R
 rs <- paste0("r_", stringr::str_pad(1:24, 2, "left", "0"), ".png")
 pts <- paste0("image_", c("01", "02", "03"), ".jpg")
-files <- c(pts, rs)
+files <- c(rs, pts)
 urls <- paste0("https://matutosi.github.io/r-auto/data/", files)
 files <- fs::path_temp(files)
 curl::multi_download(urls, files)
@@ -227,12 +227,9 @@ click_crop_image <- function(path){
 
   # 指定範囲の連続切り取り
   # 11_28_image-click-crop-image.R
-path_imgs <- fs::path_temp(files)
-  # map
-path_imgs[1:3] |>
+files[1:3] |> # map版
   purrr::map(click_crop_image)
-  # for
-for(path in path_imgs[1:3]){
+for(path in files[1:3]){ # for版
   click_crop_image(path)
 }
 
@@ -327,17 +324,8 @@ regexp <- "r_\\d+\\.(png|jpg)$"
 img_all <- image_annotate_fnames(dir = dir, regexp = regexp, ncol = 8)
 plot(img_all)
 
-  # screenshotのインストールと呼び出し
-  # 11_33_image-screenshot-install.R
-install.packages("screenshot")
-library(screenshot)
-
-  # スクリーンショットのためのアプリのインストール
-  # 11_34_image-screenshot-install-screenshot.R
-screenshot::install_screenshot()
-
   # スクリーンショットの保存
-  # 11_35_image-screenshot-screenshot.R
+  # 11_33_image-screenshot-screenshot.R
 ss <- screenshot::screenshot()
 fs::path_file(ss) # ファイル名のみ
  ## [1] "sc_158839211323.png"
@@ -345,12 +333,12 @@ magick::image_read(ss)
   # shell.exec(ss) # 関連付けアプリで起動
 
   # スクリーンショットの保存
-  # 11_36_image-screenshot.R
+  # 11_34_image-screenshot.R
 clipboard_img <- save_clipboard_image()
   # shell.exec(clipboard_img)
 
   # クリップボード画像の自動保存
-  # 11_37_image-save-screenshot-code.R
+  # 11_35_image-save-screenshot-code.R
 wd <- fs::path(fs::path_home(), "desktop")  # 保存先ディレクトリ
 setwd(wd)                                   # 保存ファイルの指定
 no <- stringr::str_pad(1:99, width = 2, "left", "0") # 2桁の連番

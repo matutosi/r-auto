@@ -1,11 +1,8 @@
   # 指定範囲の連続切り取り
   # 11_28_image-click-crop-image.R
-path_imgs <- fs::path_temp(files)
-  # map
-path_imgs[1:3] |>
+files[1:3] |> # map版
   purrr::map(click_crop_image)
-  # for
-for(path in path_imgs[1:3]){
+for(path in files[1:3]){ # for版
   click_crop_image(path)
 }
 
