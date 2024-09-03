@@ -13,14 +13,9 @@ convert_yr <- function(str, out_format = "west"){
   return(str)
 }
 format_year <- function(x, out_format = "west"){
-  if(out_format == "west"){ # 西暦年の書式
-    format <- "uuuu"
-    locale <- NULL
-  }
-  if(out_format == "jp"){   # 和暦年の書式
-    format <- "Gy"
-    locale <- "ja_JP@calendar=japanese"
-  }
+  if(out_format == "west"){ format <- "uuuu" } # 西暦
+  if(out_format == "jp")  { format <- "Gy" }   # 和暦
+  locale <- "ja_JP@calendar=japanese"
   x <- stringi::stri_datetime_format(x, format = format, locale = locale)
   return(x)
 }

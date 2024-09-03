@@ -183,14 +183,9 @@ convert_yr <- function(str, out_format = "west"){
   return(str)
 }
 format_year <- function(x, out_format = "west"){
-  if(out_format == "west"){ # 西暦年の書式
-    format <- "uuuu"
-    locale <- NULL
-  }
-  if(out_format == "jp"){   # 和暦年の書式
-    format <- "Gy"
-    locale <- "ja_JP@calendar=japanese"
-  }
+  if(out_format == "west"){ format <- "uuuu" } # 西暦
+  if(out_format == "jp")  { format <- "Gy" }   # 和暦
+  locale <- "ja_JP@calendar=japanese"
   x <- stringi::stri_datetime_format(x, format = format, locale = locale)
   return(x)
 }
@@ -256,7 +251,7 @@ is_correct_wday <- function(str){
   date <- date_ish2date(str)     # 日付
   wday <-                        # 日付にあう曜日
     date |>
-    lubridate::wday(label = TRUE, locale = "Japanese_Japan.utf8") |>
+    lubridate::wday(label = TRUE, locale = "ja_JP.UTF-8") |>
     as.character()
   is_correct <- (wday == wday_orig) # 正しいか
   res <- list(is_correct = is_correct, date_orig = str,
@@ -283,14 +278,9 @@ replace_wday <- function(str, wday_orig, wday){
   # 日付を指定の書式にする関数
   # 06_28_date-format-date-fun.R
 format_date <- function(x, out_format = "west"){
-  if(out_format == "west"){ # 西暦
-    format <- "uuuu年M月d日(E)"
-    locale <- NULL
-  }
-  if(out_format == "jp"){ # 和暦
-    format <- "Gy年M月d日(E)"
-    locale <- "ja_JP@calendar=japanese"
-  }
+  if(out_format == "west"){ format <- "uuuu年M月d日(E)" } # 西暦
+  if(out_format == "jp")  { format <- "Gy年M月d日(E)" }   # 和暦
+  locale <- "ja_JP@calendar=japanese"
   x <- stringi::stri_datetime_format(x, format = format, locale = locale)
   return(x)
 }

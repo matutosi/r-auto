@@ -150,15 +150,13 @@ pngs <- pdf_combine(pdf_spl[1:2]) |>
   # 07_15_pdf-extract-images-fun.R
 extract_images <- function(pdf, out = fs::path_temp(), bin_dir = ""){
   f_name <- 
-    fs::path_file(pdf) |>                         # ファイル名のみ
-    fs::path_ext_remove()                         # 拡張子の除去
-  out_dir <- fs::path(out, f_name)                # 出力ディレクトリ
+    fs::path_file(pdf) |>                          # ファイル名のみ
+    fs::path_ext_remove()                          # 拡張子の除去
+  out_dir <- fs::path(out, f_name)                 # 出力ディレクトリ
   fs::dir_create(out_dir)
-  out_file <- fs::path(out_dir, f_name)           # 出力ファイル
+  out_file <- fs::path(out_dir, f_name)            # 出力ファイル
   bin <- "pdfimages"
-  if(bin_dir != ""){
-    bin <- fs::path(bin_dir, bin)     # 実行ファイルのディレクトリ
-  }
+  if(bin_dir != "") bin <- fs::path(bin_dir, bin)  # Popplerのディレクトリ
   cmd <- paste0(bin, " -all ", pdf, " ", out_file) # 実行コマンド
   paste0("Runnning ", cmd) |>                      # 実行中の表示
     message()
@@ -246,10 +244,10 @@ tesseract::tesseract_download(lang = "jpn")
 
   # PDF内の画像の文字認識
   # 07_24_pdf-ocr.R
-ocr_data <- pdf_ocr_data(pdf_spl[1], language = "jpn") |>  `[[`(_, 1)
-  head(ocr_data, 3)
-pdf_ocr_text(pdf_spl[1], language = "jpn") |>
-  stringr::str_split("\n") |>  `[[`(_, 1) |> head(3)
+pdf_split(pdf_base)[1] |> pdf_ocr_data(language = "jpn") |> 
+  `[[`(_, 1) |> head(3)
+pdf_split(pdf_base)[1] |> pdf_ocr_text(language = "jpn") |> 
+  stringr::str_split("\n") |> `[[`(_, 1) |> head(3)
 
   # 精度の高い結果のみを抽出
   # 07_25_pdf-ocr-filter.R

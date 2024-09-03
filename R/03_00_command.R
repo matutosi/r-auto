@@ -113,7 +113,7 @@ shell.exec(path)
   # URLからブラウザを起動
   # 03_08_command-exec-url.R
 url <- "https://github.com/matutosi/r-auto"
-shell.exec(url)
+shell.exec(url) # Windowsのみ
 
   # ホームディレクトリを開く
   # 03_09_command-exec-directory.R
