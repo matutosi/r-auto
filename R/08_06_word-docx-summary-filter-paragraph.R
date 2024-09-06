@@ -6,5 +6,5 @@ doc_1 |>
   dplyr::filter(content_type == "paragraph") |>
   dplyr::select(content_type, style_name, text) |>
   dplyr::filter(text != "") |>
-  print(n = 5)
+  print(n = 3)
 

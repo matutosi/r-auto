@@ -81,39 +81,25 @@ str_ends(str_neko, "t.")
 
   # 文字列の検索
   # 05_12_string-filter-detect.R
-  # library(tidyverse) # tidyverseを呼び出していないとき
 mpg <- mpg[,1:5]   # 自動車の燃費データ(dplyrに含まれる)のうち5列だけ
-dplyr::filter(mpg, # pickupとマッチするもの
-  str_detect(model, "pickup")) |> print(n = 5)
-dplyr::filter(mpg, # pickupとマッチしないもの
-  str_detect(model, "pickup", negate = TRUE)) |> print(n = 5)
-
-  # 最初と最後にマッチする文字列の検索
-  # 05_13_string-filter-starts.R
-dplyr::filter(mpg, str_starts(model, "m")) |> print(n = 3) # mで始まる
-dplyr::filter(mpg, str_ends(model, "4wd")) |> print(n = 3) # 4wdで終わる
-
-  # 正規表現を使った複数文字列の検索
-  # 05_14_string-filter-in.R
-str <- "subaru|toyota" # subaruかtoyota
-dplyr::filter(mpg, str_detect(manufacturer, str)) |> print(n = 5)
-  # dplyr::filter(mpg, manufacturer %in% c("subaru", "toyota")) # 上と同じ
+dplyr::filter(mpg, str_detect(model, "pickup")) |> print(n = 3)
+dplyr::filter(mpg, str_detect(model, "pickup", negate = TRUE)) |> print(n = 3)
 
   # 文字列の抽出
-  # 05_15_string-str-subset.R
+  # 05_13_string-str-subset.R
 str_stringr <- ls("package:stringr") # パッケージのオブジェクト一覧
 length(str_stringr)   # 要素数
 str_subset(str_stringr, "^str_s") # 最初がstr_s
 str_subset(str_stringr, "t$")     # 末尾がt
 
   # 文字列の抽出
-  # 05_16_string-str-sub.R
+  # 05_14_string-str-sub.R
 (str_123 <- c(paste0(1:9, collapse = ""), "abcdefg", "あいうえおかきくけこ"))
 str_sub(str_123, start = 2, end = 6) # 全て2-6を抽出
 str_sub(str_123, 1:3, 3:5)           # 前から順に1-3，2-4，3-5を抽出
 
   # stringrのその他の関数
-  # 05_17_string-others.R
+  # 05_15_string-others.R
   # 文字列
 str_123
 str_neko
@@ -152,12 +138,12 @@ str_trim("    a   b  c  ") # 端のみ除去
 str_squish("  a   b  c  ") # 重複も除去
 
   # diffrのインストールと呼び出し
-  # 05_18_string-diffr-install.R
+  # 05_16_string-diffr-install.R
 install.packages("diffr")
 library(diffr)
 
   # 文章の比較
-  # 05_19_string-compare-diffr.R
+  # 05_17_string-compare-diffr.R
 f1 <- fs::file_temp()
 f2 <- fs::file_temp()
 writeLines("日本語での比較実験\n今日は晴れです．\n同じ文章", con = f1)
@@ -165,7 +151,7 @@ writeLines("英語での比較の実験\n今日は天気です．\n同じ文章"
 diffr::diffr(f1, f2, before = fs::path_file(f1), after = fs::path_file(f1))
 
   # 比較結果のHTMLの設定ファイル
-  # 05_20_string-css-path.R
+  # 05_18_string-css-path.R
 path <- fs::path(fs::path_package("diffr"), 
                  "htmlwidgets/lib/codediff/codediff.css")
 shell.exec(path)

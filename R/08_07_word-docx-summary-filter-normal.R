@@ -6,5 +6,5 @@ doc_1 |>
   dplyr::filter(style_name == "Normal") |>
   dplyr::select(content_type, style_name, text) |>
   dplyr::filter(text != "") |>
-  print(n = 5)
+  print(n = 3)
 

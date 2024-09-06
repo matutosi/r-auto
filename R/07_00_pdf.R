@@ -36,8 +36,38 @@ pdf_odd <- pdf_subset(pdf_base, pages = odd_pages)
 odd_rev <- sort(odd_pages, decreasing = TRUE)      # 奇数ページの逆順
 pdf_odd_rev <- pdf_subset(pdf_base, pages = odd_rev)
 
+  # 複数のPDFファイルからファイルを選択して分割する関数
+  # 07_07_pdf-subset-fun.R
+subset_pdf <- function(){
+  # ファイルの選択
+  files <- fs::dir_ls(regexp = "\\.pdf$") # PDFファイルの一覧取得
+  if(length(files) == 0){
+    message("PDFファイルがありません")
+    return(0)
+  }
+  if(length(files) > 1){
+    choices <- gen_choices(files) # ファイルを選択肢に
+    prompt <- "分割するPDFファイルを選択してください\n"
+    file_no <- input_numbers(prompt, choices)
+    selected_files <- files[file_no]
+  }
+  # ページの抽出
+  res <- list()
+  for(file in selected_files){
+    shell.exec(file)
+    len <- pdf_length(file)
+    prompt <- 
+      paste0("ファイル名：", file, "\n",
+             "ページ番号を指定してください．\n例：1,3,5-10\n",
+             "最大ページ数：", len, "\n")
+    pages <- input_numbers(prompt)
+    res[[file]] <- pdftools::pdf_subset(file, pages)
+  }
+  return(res)
+}
+
   # ユーザからの入力関連の関数
-  # 07_07_pdf-user-input.R
+  # 07_08_pdf-user-input.R
   # 文字列を数値として返す関数
 user_input <- function(prompt = "", choices = ""){
   prompt <- stringr::str_c(prompt, choices)
@@ -73,36 +103,6 @@ input_numbers <- function(prompt, choices = ""){
 gen_choices <- function(files){
   no <- seq(files)
   stringr::str_c("  ", no, ": ", files, "\n", collapse = "")
-}
-
-  # 複数のPDFファイルからファイルを選択して分割する関数
-  # 07_08_pdf-subset-fun.R
-subset_pdf <- function(){
-  # ファイルの選択
-  files <- fs::dir_ls(regexp = "\\.pdf$") # PDFファイルの一覧取得
-  if(length(files) == 0){
-    message("PDFファイルがありません")
-    return(0)
-  }
-  if(length(files) > 1){
-    choices <- gen_choices(files) # ファイルを選択肢に
-    prompt <- "分割するPDFファイルを選択してください\n"
-    file_no <- input_numbers(prompt, choices)
-    selected_files <- files[file_no]
-  }
-  # ページの抽出
-  res <- list()
-  for(file in selected_files){
-    shell.exec(file)
-    len <- pdf_length(file)
-    prompt <- 
-      paste0("ファイル名：", file, "\n",
-             "ページ番号を指定してください．\n例：1,3,5-10\n",
-             "最大ページ数：", len, "\n")
-    pages <- input_numbers(prompt)
-    res[[file]] <- pdftools::pdf_subset(file, pages)
-  }
-  return(res)
 }
 
   # PDFの結合
@@ -244,15 +244,14 @@ tesseract::tesseract_download(lang = "jpn")
 
   # PDF内の画像の文字認識
   # 07_24_pdf-ocr.R
-pdf_split(pdf_base)[1] |> pdf_ocr_data(language = "jpn") |> 
-  `[[`(_, 1) |> head(3)
+ocr_data <- pdf_split(pdf_base)[1] |> pdf_ocr_data(language = "jpn") |> `[[`(_, 1) 
+head(ocr_data, 3)
 pdf_split(pdf_base)[1] |> pdf_ocr_text(language = "jpn") |> 
   stringr::str_split("\n") |> `[[`(_, 1) |> head(3)
 
   # 精度の高い結果のみを抽出
   # 07_25_pdf-ocr-filter.R
-word <- ocr_data |>  
-  dplyr::filter(confidence > 75) |>
+word <- dplyr::filter(ocr_data, confidence > 75) |>
   `$`(_, "word") |> # $wordの取り出し
   paste0(collapse = "") # 文字列の結合
 

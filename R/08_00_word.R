@@ -39,7 +39,7 @@ doc_1 |>
   dplyr::filter(content_type == "paragraph") |>
   dplyr::select(content_type, style_name, text) |>
   dplyr::filter(text != "") |>
-  print(n = 5)
+  print(n = 3)
 
   # 見出しを除く本文の取り出し
   # 08_07_word-docx-summary-filter-normal.R
@@ -49,7 +49,7 @@ doc_1 |>
   dplyr::filter(style_name == "Normal") |>
   dplyr::select(content_type, style_name, text) |>
   dplyr::filter(text != "") |>
-  print(n = 5)
+  print(n = 3)
 
   # ワードから文字列を抽出する関数
   # 08_08_word-docx-extract-text-fun.R
