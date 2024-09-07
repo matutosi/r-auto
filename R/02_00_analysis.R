@@ -186,16 +186,15 @@ answer |> # 複数回答・クロス集計
   tidyr::pivot_wider(names_from = area, values_from = n, values_fill = 0) |>
   print(n = 3)
 
-  # 列の順序変更と列名の変更(疑似コード)
+  # 列の順序変更と列名の変更
   # 02_29_analysis-dplyr-others.R
-dplyr::relocate(df, 列名)
-dplyr::rename(df, 新しい列名 = 既存の列名)
+dplyr::relocate(answer, ans) # 出力は省略
+dplyr::rename(df, ans_id = id) # 出力は省略
 
-  # 個数を数えるショートカット(疑似コード)
+  # 個数を数えるショートカット
   # 02_30_analysis-dplyr-tally.R
-dplyr::group_by(df, 列名) |> 
-  dplyr::tally()
-dplyr::count(df, 列名)
+dplyr::group_by(answer, area) |> dplyr::tally() # 出力は省略
+dplyr::count(answer, area) # 出力は省略
 
   # 基本的な描画(箱ひげ図)
   # 02_31_analysis-ggplot-ggplot.R
@@ -283,9 +282,10 @@ path <- fs::file_temp(ext = "pdf")
 ggplot2::ggsave(path, device = cairo_pdf)
   # shell.exec(path)
 
-  # テーマの変更(疑似コード)
+  # テーマの変更
   # 02_43_analysis-ggplot-theme.R
-df |>
+gg <- 
+  tibble::tibble(x = rnorm(100), y = runif(100)) |>
   ggplot2::ggplot(ggplot2::aes(x, y)) +
   ggplot2::geom_point() +  # 散布図
   ggplot2::theme_bw()      # 白黒のシンプルなテーマに変更

@@ -251,7 +251,7 @@ pdf_split(pdf_base)[1] |> pdf_ocr_text(language = "jpn") |>
 
   # 精度の高い結果のみを抽出
   # 07_25_pdf-ocr-filter.R
-word <- dplyr::filter(ocr_data, confidence > 75) |>
+dplyr::filter(ocr_data, confidence > 75) |>
   `$`(_, "word") |> # $wordの取り出し
   paste0(collapse = "") # 文字列の結合
 
@@ -267,7 +267,7 @@ library("RDCOMClient")
 
   # 各種ファイルからPDFに変換する関数
   # 07_27_pdf-convert-fun.R
-convert_app <- function(path, format){
+convert_app_format <- function(path, format){
   base_ext <- fs::path_ext(path)
   if (base_ext == format){  # 拡張子が入力と同じとき
     return(invisible(path)) # 終了
@@ -316,8 +316,8 @@ set_format_no <- function(base_ext, format){
                     xps = 19, html = 20, rtf = 23, txt = 25))
 }
 
-  # ワードと各種形式との相互変換(疑似コード)
+  # ワードと各種形式との相互変換
   # 07_28_word-convert.R
 library(RDCOMClient) # 無いと関数実行時にエラーが出る
-convert_app("dir/word.docx", "pdf")
+convert_app_format(pdf_base, "docx")
 
