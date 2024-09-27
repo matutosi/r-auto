@@ -27,7 +27,7 @@ image_scale_filesize <- function(image, filesize){
   }
   ratio <- 
     (filesize / fs) ^ 0.5 |>                            # 比率の平方根
-    `*`(e1 = _, e2 = seq(from = 0.1, to = 3, by = 0.1)) # 0.1-3.0で，0.1刻み
+    `*`(e1 = _, e2 = seq(from = 0.1, to = 3, by = 0.1)) # 0.1-3.0で、0.1刻み
   ratio <- ratio[ratio < 1]                             # 比率が1未満に限定
   tmp_path <-                                           # 複数の一時ファイル
     paste0(fs::path_ext_remove(tmp_path), "_", 
@@ -123,7 +123,7 @@ image_annotate_fnames <- function(dir,
     magick::image_append(stack = TRUE)
   return(appended)
 }
-  # 画像数と列数をもとに，行の画像の配列を設定
+  # 画像数と列数をもとに、行の画像の配列を設定
 row_index <- function(n, ncol){
   nrow <- ceiling(n %/% ncol)                    # 行数
   n_ends <- seq(nrow) * ncol                     # 各行の終了index

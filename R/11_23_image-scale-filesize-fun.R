@@ -13,7 +13,7 @@ image_scale_filesize <- function(image, filesize){
   }
   ratio <- 
     (filesize / fs) ^ 0.5 |>                            # 比率の平方根
-    `*`(e1 = _, e2 = seq(from = 0.1, to = 3, by = 0.1)) # 0.1-3.0で，0.1刻み
+    `*`(e1 = _, e2 = seq(from = 0.1, to = 3, by = 0.1)) # 0.1-3.0で、0.1刻み
   ratio <- ratio[ratio < 1]                             # 比率が1未満に限定
   tmp_path <-                                           # 複数の一時ファイル
     paste0(fs::path_ext_remove(tmp_path), "_", 

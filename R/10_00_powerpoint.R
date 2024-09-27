@@ -206,7 +206,7 @@ add_fig <- function(pp, title = "", path_img, fig_full_size = FALSE,
   }
   offy <- cont_ph$offy
   # 配置サイズ：全体 - offset
-  w_cont <- ss$width  - offx * 2 # 幅，* 2：左右分
+  w_cont <- ss$width  - offx * 2 # 幅、* 2：左右分
   h_cont <- ss$height - offy     # 高さ
   # 画像のサイズ
   img <- magick::image_read(path_img)
@@ -261,7 +261,7 @@ pp <-
   add_content(title = "iris(flextable)", content = ft) |>
   add_content(title = "ggplotの図", content = gg_iris) |>
   add_content(title = "編集可能な図", content = editable_gg) |>
-  add_fig(title = "png等の画像", path_img = r_img)
+  add_fig(title = "pngなどの画像", path_img = r_img)
 
 path <- fs::path_temp("slide.pptx")
 print(pp, target = path)

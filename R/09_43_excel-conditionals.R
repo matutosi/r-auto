@@ -1,4 +1,4 @@
-  # 色々な条件付き書式設定の例
+  # いろいろな条件付き書式設定の例
   # 09_43_excel-conditionals.R
 val <- 1:10
 str <- stringr::fruit[val]

@@ -46,7 +46,7 @@ source("https://matutosi.github.io/r-auto/R/02_00_analysis_funs.R")
   # 09_09_excel-read-googledrive.R
 install.packages("googledrive")
 library(googledrive)
-googledrive::drive_auth("YOURNAME@gmail.com") # 認証画面でパスワード等を入力
+googledrive::drive_auth("YOURNAME@gmail.com") # 認証画面でパスワードなどを入力
 sheet <- googledrive::drive_find(pattern = "検索文字列", type = "spreadsheet")
 path <- "DIRECORY/FILE_NAME.csv"
 googledrive::drive_download(
@@ -59,7 +59,7 @@ library(Microsoft365R)
 odb <- Microsoft365R::get_business_onedrive(tenant = "YOUR_COMPANY.OR.JP") # 認証
 odb$list_files()
 src <- "FILE_NAME"
-dest <- "DIRECORY/FILE_NAME" # 認証画面でパスワード等を入力
+dest <- "DIRECORY/FILE_NAME" # 認証画面でパスワードなどを入力
 odb$download_file(src = src, dest = dest, overwrite = TRUE) # 上書きするとき
 
   # csvなどの書き込み
@@ -67,7 +67,7 @@ odb$download_file(src = src, dest = dest, overwrite = TRUE) # 上書きすると
 readr::write_csv(mtcars, "fs::path_temp(mtcars.csv"))      # csv(カンマ区切り)
 readr::write_tsv(mtcars, "fs::path_temp(mtcars.tsv"))      # tsv(タブ区切り)
 readr::write_delim(iris, "fs::path_temp(iris.txt"), delim = ";") # ;区切り
-ls("package:readr") |>         # 他にも色々とある
+ls("package:readr") |>         # ほかにもいろいろとある
   stringr::str_subset("write") # 詳細はヘルプ参照
 
   # データフレームのエクセル形式での書き込み
@@ -97,7 +97,7 @@ library(pivotea)
 diamonds
 pt_diamonds <- 
   pivottabler::qpvt(diamonds,
-  rows = c("=", "color"),  # "="：結果(price，n)の表示場所・順序の指定に使う
+  rows = c("=", "color"),  # "="：結果(price、n)の表示場所・順序の指定に使う
   columns = "cut", 
   calculations = c("price" = "mean(price) |> round()", "n" = "n()"))
 pt_diamonds
@@ -172,11 +172,9 @@ saveWorkbook(wb, file_timetable, overwrite = TRUE)  # ワークブックの書�
 
   # 全シートに同じ関数を実行する関数
   # 09_24_excel-autofilter-map-fun.R
-map_wb <- function(wb, fun, ...){
-  res <- 
-    openxlsx::sheets(wb) |>       # シート名を取得
-    purrr::map(fun, wb = wb, ...) # fun(wb = wb, sheet = sheet)のように受け取る
-  return(invisible(res)) # 非表示で返す
+walk_wb <- function(wb, fun, ...){
+  openxlsx::sheets(wb) |>       # シート名を取得
+    purrr::walk(fun, wb = wb, ...) # fun(wb = wb, sheet = sheet)のように受け取る
 }
 
   # コードを簡潔にするための糖衣関数
@@ -200,8 +198,8 @@ cols_wb_sheet <- function(wb, sheet){
   # 全シートでのオートフィルタと列幅の設定
   # 09_26_excel-autofilter-fun.R
 wb <- loadWorkbook(file_timetable)
-map_wb(wb, add_filter)
-map_wb(wb, set_col_width)
+walk_wb(wb, add_filter)
+walk_wb(wb, set_col_width)
 saveWorkbook(wb, file_timetable, overwrite = TRUE)
 
   # 個別のシートでのウィンドウ枠の固定
@@ -215,10 +213,10 @@ freeze_pane <- function(wb, sheet){
   openxlsx::freezePane(wb, sheet, firstRow = TRUE, firstCol = TRUE)
 }
 
-  # 全てのシートでのウィンドウ枠の固定
+  # すべてのシートでのウィンドウ枠の固定
   # 09_29_excel-freezepanel-all.R
 wb <- loadWorkbook(file_timetable)
-map_wb(wb, freeze_pane)
+walk_wb(wb, freeze_pane)
 saveWorkbook(wb, file_timetable, overwrite = TRUE)
 
   # 設定可能な罫線の一覧作成
@@ -238,7 +236,7 @@ file_border <- fs::path_temp("border.xlsx")
 styles |>
   purrr::iwalk(\(.x, .y){
     addStyle(wb, 1,            # 罫線のスタイルを適用
-    style = .x,                # .x：style[[i]]，iは1からnまで
+    style = .x,                # .x：style[[i]]、iは1からnまで
     rows = .y, cols = 1)}      # .y：i
   )
 saveWorkbook(wb, file_border, overwrite = TRUE) # 書き込み
@@ -269,8 +267,8 @@ rows_wb_sheet <- function(wb, sheet){
 
   # データの範囲に罫線を引く
   # 09_33_excel-border-all.R
-map_wb(wb, set_border, border = c("bottom", "right"))
-map_wb(wb, set_col_width)
+walk_wb(wb, set_border, border = c("bottom", "right"))
+walk_wb(wb, set_col_width)
 saveWorkbook(wb, file_border, overwrite = TRUE)
 
   # セルの内容の区別で罫線を引く関数
@@ -309,7 +307,7 @@ set_border <- function(wb, sheet, rows = NULL, cols = NULL,
   # 学年の区別で太線を引く
   # 09_35_excel-border-condition-grade.R
 wb <- loadWorkbook(file_timetable)
-map_wb(wb, border_between_categ, categ = "grade")
+walk_wb(wb, border_between_categ, categ = "grade")
 saveWorkbook(wb, file_timetable, overwrite = TRUE)
 
   # 文字列に合致する列番号を取得する関数
@@ -331,7 +329,7 @@ border_between_contents <- function(wb, sheet, border = "right",
   # hour列の右に二重線を引く
   # 09_38_excel-border-condition-hour.R
 wb <- loadWorkbook(file_timetable)
-map_wb(wb, border_between_contents, str = "hour")
+walk_wb(wb, border_between_contents, str = "hour")
 saveWorkbook(wb, file_timetable, overwrite = TRUE)
 
   # データの外枠に罫線を引く関数
@@ -359,7 +357,7 @@ border_frame <- function(wb, sheet, borderStyle = "mediumDashDot"){
   # データの外枠に1点鎖線を引く
   # 09_40_excel-border-condition-frame.R
 wb <- loadWorkbook(file_timetable)
-map_wb(wb, border_frame)
+walk_wb(wb, border_frame)
 saveWorkbook(wb, file_timetable, overwrite = TRUE)
 
   # 条件付き書式設定による背景色を変更する関数
@@ -376,11 +374,11 @@ set_bg_color <- function(wb, sheet, color = "#FFFF00", strings){
 
   # 条件付き書式設定による背景色の変更
   # 09_42_excel-bg-color.R
-map_wb(wb, set_bg_color, color = "yellow", strings = c("衣", "食", "住"))
+walk_wb(wb, set_bg_color, color = "yellow", strings = c("衣", "食", "住"))
 saveWorkbook(wb, file_timetable, overwrite = TRUE)
   # shell.exec(file_timetable)
 
-  # 色々な条件付き書式設定の例
+  # いろいろな条件付き書式設定の例
   # 09_43_excel-conditionals.R
 val <- 1:10
 str <- stringr::fruit[val]

@@ -9,15 +9,15 @@ Sys.setenv(OPENAI_API_KEY = "xx-xxxxxxxxxxxxxxxxxxxxxxxx")
 
   # ChatGPTへの質問
   # 14_03_ai-chatgpt-ask-chatgpt.R
-  # (ChatGPTからの回答は読みやすく調整，以下同様)
-ask_chatgpt("Rの特徴を教えてください．")
+  # (ChatGPTからの回答は読みやすく調整、以下同様)
+ask_chatgpt("Rの特徴を教えてください。")
 
   # セッションのリセット
   # 14_04_ai-chatgpt-ask-reset-chat-session.R
-ask_chatgpt("あなたは優秀な英語の教師です．")
-ask_chatgpt("あなたは何の教師ですか．")
+ask_chatgpt("あなたは優秀な英語の教師です。")
+ask_chatgpt("あなたは何の教師ですか。")
 reset_chat_session() # セッションをリセット
-ask_chatgpt("あなたは何の教師ですか．")
+ask_chatgpt("あなたは何の教師ですか。")
 
   # コードの説明
   # 14_05_ai-chatgpt-explain-code.R
@@ -40,9 +40,9 @@ explain_code(code)
 
   # パラメータによる回答の制御
   # 14_07_ai-chatgpt-parameter-temperature.R
-  # 以前の内容を引き継がないように，毎回セッションをリセット
+  # 以前の内容を引き継がないように、毎回セッションをリセット
 library(chatgpt)
-prompt <- "「昔々あるところに」に続けて自由な物語を考えてください．"
+prompt <- "「昔々あるところに」に続けて自由な物語を考えてください。"
 Sys.setenv(OPENAI_TEMPERATURE = 0)
 reset_chat_session()
 ask_chatgpt(prompt)
@@ -58,7 +58,7 @@ ask_chatgpt(prompt)
   # 14_08_ai-chatgpt-create-image-jp.R
 install.packages("openai")
 library(openai)
-response <- openai::create_image("光り輝く「R」という文字を生成してください．")
+response <- openai::create_image("光り輝く「R」という文字を生成してください。")
 pngs <- fs::path(fs::path_home("Desktop/r.png"))          # ダウンロード先
 purrr::map2(response$data$url, pngs, curl::curl_download) # ダウンロード
 
@@ -86,18 +86,18 @@ stringr::str_sub(text, 1, 34)     # 1-34文字目の表示
 
   # Geminiへの質問
   # 14_12_ai-gemini-gemini.R
-  # (Geminiからの回答を読みやすく調整済み，以下同様)
-prompt <- paste0("次の文章を200文字程度に要約してください．\n",text)
+  # (Geminiからの回答を読みやすく調整済み、以下同様)
+prompt <- paste0("次の文章を200文字程度に要約してください。\n",text)
 gemini(prompt)
 
   # Geminiへの連続的な質問
   # 14_13_ai-gemini-gemini-chat.R
 chat <- gemini_chat(prompt)
 chat$outputs
-prompt <- "要約をさらに短くして，1文にまとめてください．"
+prompt <- "要約をさらに短くして、1文にまとめてください。"
 chat <- gemini_chat(prompt, chat$history)
 chat$outputs
-prompt <- "文章には，自由な研究には何が重要だと書かれていますか．"
+prompt <- "文章には、自由な研究には何が重要だと書かれていますか。"
 chat <- gemini_chat(prompt, chat$history)
 chat$outputs
 
@@ -110,12 +110,12 @@ ggsave(gg, width = 5, height = 5)
 
   # Geminiでのグラフの説明
   # 14_15_ai-gemini-gemini-image.R
-prompt <- "グラフの説明をしてください．"
+prompt <- "グラフの説明をしてください。"
 gemini_image(image = gg, prompt = prompt)
 
   # Geminiでの図の説明
   # 14_16_ai-gemini-gemini-images.R
-prompt <- "写真の全体の説明をしてください．また，生物がいる場合は，その生物の説明もお願いします．"
+prompt <- "写真の全体の説明をしてください。また、生物がいる場合は、その生物の説明もお願いします。"
 url <- "https://matutosi.github.io/r-auto/data/"
 jpgs <- paste0(url, "image_0", 1:3, ".jpg")
 comments <- list()
@@ -126,7 +126,7 @@ comments
 
   # パラメータによる回答の制御
   # 14_17_ai-gemini-parameter.R
-prompt <- "クイズを3つ出してください．"
+prompt <- "クイズを3つ出してください。"
 gemini(prompt, temperature = 0)
 gemini(prompt, temperature = 0)
 gemini(prompt, temperature = 1)

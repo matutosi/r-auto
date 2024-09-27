@@ -20,7 +20,7 @@ subset_pdf <- function(){
     len <- pdf_length(file)
     prompt <- 
       paste0("ファイル名：", file, "\n",
-             "ページ番号を指定してください．\n例：1,3,5-10\n",
+             "ページ番号を指定してください。\n例：1,3,5-10\n",
              "最大ページ数：", len, "\n")
     pages <- input_numbers(prompt)
     res[[file]] <- pdftools::pdf_subset(file, pages)

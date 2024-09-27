@@ -20,7 +20,7 @@ subset_pdf <- function(){
     len <- pdf_length(file)
     prompt <- 
       paste0("ファイル名：", file, "\n",
-             "ページ番号を指定してください．\n例：1,3,5-10\n",
+             "ページ番号を指定してください。\n例：1,3,5-10\n",
              "最大ページ数：", len, "\n")
     pages <- input_numbers(prompt)
     res[[file]] <- pdftools::pdf_subset(file, pages)
@@ -69,7 +69,7 @@ gen_choices <- function(files){
 combine_pdf <- function(){
   files <- fs::dir_ls(regexp = "\\.pdf$")
   choices <- gen_choices(files)
-  prompt <- "結合するファイル番号を指定してください．\n例：2,5,1\n"
+  prompt <- "結合するファイル番号を指定してください。\n例：2,5,1\n"
   file_no <- input_numbers(prompt, choices)
   files <- files[file_no]
   pdf_combine(files)
@@ -144,7 +144,7 @@ add_page_numbers <- function(path, y_pos = 5, size = 5,
   fs::file_delete(c(pdf_pages, pdf_paged))       # 不要なPDFの削除
   return(pdf_com)
 }
-  # 各種ファイルからPDFに変換する関数
+  # 各種ファイルからPDFに変換する関数(Windows用)
   # 07_27_pdf-convert-fun.R
 convert_app_format <- function(path, format){
   base_ext <- fs::path_ext(path)

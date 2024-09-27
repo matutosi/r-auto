@@ -88,7 +88,7 @@ make_shortcut(exe, shortcut = shortcut, size = size, wd = wd)
   # パスが異なるときは適宜変更
 exe <- fs::path(Sys.getenv("R_HOME"), "bin/x64/Rgui.exe")
 shortcut <- "r"
- # --no-restore：環境を復元しない，--no-save：終了時に保存しない
+ # --no-restore：環境を復元しない、--no-save：終了時に保存しない
 arg <- "--no-restore --no-save --sdi --silent"
 make_shortcut(exe, shortcut, arg = arg, size = size, wd = wd)
 
@@ -110,10 +110,10 @@ openxlsx::addFilter(wb, sheet = 1, rows = 1, cols = 1:5)
 openxlsx::saveWorkbook(wb, path, overwrite = TRUE)
 shell.exec(path)
 
-  # URLからブラウザを起動
+  # URLからブラウザを起動(Windows用)
   # 03_08_command-exec-url.R
 url <- "https://github.com/matutosi/r-auto"
-shell.exec(url) # Windowsのみ
+shell.exec(url) # Windows用
 
   # ホームディレクトリを開く
   # 03_09_command-exec-directory.R

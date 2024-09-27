@@ -13,11 +13,9 @@ set_col_width_auto <- function(wb_path){ # wb_path：ワークブックのパス
 }
   # 全シートに同じ関数を実行する関数
   # 09_24_excel-autofilter-map-fun.R
-map_wb <- function(wb, fun, ...){
-  res <- 
-    openxlsx::sheets(wb) |>       # シート名を取得
-    purrr::map(fun, wb = wb, ...) # fun(wb = wb, sheet = sheet)のように受け取る
-  return(invisible(res)) # 非表示で返す
+walk_wb <- function(wb, fun, ...){
+  openxlsx::sheets(wb) |>       # シート名を取得
+    purrr::walk(fun, wb = wb, ...) # fun(wb = wb, sheet = sheet)のように受け取る
 }
   # 09_25_excel-autofilter-wrapper-fun.R
   # addFilter()の糖衣関数

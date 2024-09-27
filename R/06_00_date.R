@@ -120,12 +120,12 @@ paste_year <- function(str, past = FALSE){
   yr <- this_year()
   date <- lubridate::ymd(paste0(yr, "-", str), quiet = TRUE)
   date <-
-    dplyr::if_else(past & is_future(date),   # 目的：過去，変換：未来
+    dplyr::if_else(past & is_future(date),   # 目的：過去、変換：未来
       date - lubridate::years(1),            # 1年前
       date                                   # そのまま
     )
   date <-
-    dplyr::if_else(!past & !is_future(date), # 目的：未来，変換：過去
+    dplyr::if_else(!past & !is_future(date), # 目的：未来、変換：過去
       date + lubridate::years(1),            # 1年後
       date                                   # そのまま
     )
@@ -139,7 +139,7 @@ date_ish2date <- function(str, past = FALSE){
   str <-
     dplyr::if_else(is_jp_date(str),        # 和暦or西暦
       zipangu::convert_jdate(str),         # 和暦を日付に変換
-      dplyr::if_else(has_yr(str),          # 西暦，年の有無
+      dplyr::if_else(has_yr(str),          # 西暦、年の有無
         lubridate::ymd(str, quiet = TRUE), # 日付に変換
         paste_year(str, past = past)       # 年を追加して日付に変換
       )
@@ -200,8 +200,8 @@ convert_yr(str, out_format = "west")
   # 06_21_date-convert-yr-replace.R
 yr_west <- paste0(as.character(1950:2024), "年")
 yr_jp <- convert_yr(yr_west, out_format = "jp")
-sentence <- "昭和48年生まれは，平成30年で45歳，令和5年で50歳です．
-             昭和50年生まれは，平成30年で43歳，令和5年で48歳です．" |>
+sentence <- "昭和48年生まれは、平成30年で45歳、令和5年で50歳です。
+             昭和50年生まれは、平成30年で43歳、令和5年で48歳です。" |>
   stringr::str_remove_all(" ") # 空白を削除
   # 置換するとき
 pattern <- yr_west
@@ -353,13 +353,13 @@ calendR::calendR(year(x) + 1, month(x),
 
   # 1年後の日付への更新
   # 06_35_date-same-pos-next-yr-example.R
-sentence <- "大学祭「よつば祭」は，2024年10月26日と10月27日に開催します．"
+sentence <- "大学祭「よつば祭」は、2024年10月26日と10月27日に開催します。"
 days_this_yr <- extract_date_ish(sentence)
 days_next_yr <-
   days_this_yr |>
   date_ish2date() |>
   same_pos_next_yr(out_format = "west") |>
-  rlang::set_names(days_this_yr) # 名前が置換前，値が置換後
+  rlang::set_names(days_this_yr) # 名前が置換前、値が置換後
 sentence |>
   stringr::str_replace_all(days_next_yr)
 

@@ -3,7 +3,7 @@
 str_neko <- 
   c("吾輩は猫である。", "名前はまだない。", 
     "I am a cat.", "I don't have any name yet.")
-str_c(str_neko, "◆") # 各文字列に"◆"を追加，paste0(str_neko, "◆")も同じ
+str_c(str_neko, "◆") # 各文字列に"◆"を追加、paste0(str_neko, "◆")も同じ
 
   # collapseで1つの文字列に結合する
 str_c(str_neko[1:3], collapse = "◆") # [1:3]：出力を短くするため

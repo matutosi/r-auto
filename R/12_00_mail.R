@@ -1,7 +1,7 @@
   # gmailrのインストールと呼び出し
   # 12_01_mail-package.R
 install.packages("gmailr")
-library(gmailr) # 呼び出すと説明等が表示されます
+library(gmailr) # 呼び出すと説明などが表示されます
 
   # 認証情報の読み込み
   # 12_02_mail-gm-auth-conf.R

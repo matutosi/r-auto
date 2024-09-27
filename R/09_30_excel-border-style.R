@@ -15,7 +15,7 @@ file_border <- fs::path_temp("border.xlsx")
 styles |>
   purrr::iwalk(\(.x, .y){
     addStyle(wb, 1,            # 罫線のスタイルを適用
-    style = .x,                # .x：style[[i]]，iは1からnまで
+    style = .x,                # .x：style[[i]]、iは1からnまで
     rows = .y, cols = 1)}      # .y：i
   )
 saveWorkbook(wb, file_border, overwrite = TRUE) # 書き込み

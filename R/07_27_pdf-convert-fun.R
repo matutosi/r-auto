@@ -1,4 +1,4 @@
-  # 各種ファイルからPDFに変換する関数
+  # 各種ファイルからPDFに変換する関数(Windows用)
   # 07_27_pdf-convert-fun.R
 convert_app_format <- function(path, format){
   base_ext <- fs::path_ext(path)

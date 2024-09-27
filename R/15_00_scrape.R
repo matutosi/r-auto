@@ -185,7 +185,7 @@ get_new_book_urls <- function(url){
   # 新刊紹介の個別ページの取得
   # 15_29_scrape-books-urls.R
 new_book_urls <- 
-  monthly_urls[1:2] |> # 全ての月のときは不要
+  monthly_urls[1:2] |> # すべての月のときは不要
   purrr::map(get_new_book_urls) |>
   unlist()
 new_book_urls
@@ -209,7 +209,7 @@ detail2df <- function(details){
     c(".book_titles_wrapper > .book_title", 
       ".book_subtitle", ".index", ".author", 
       ".price.js-bookPage-bookPrice", ".content", 
-         # 以下は，CSSセレクタをコピーしたもの
+         # 以下は、CSSセレクタをコピーしたもの
       ".book_data.js-bookDataHeight > div:nth-child(1) > span.data",
       ".book_data.js-bookDataHeight > div:nth-child(3) > span.data", 
       ".book_data.js-bookDataHeight > div:nth-child(4) > span.data")

@@ -13,7 +13,7 @@ make_shortcut(exe, shortcut = shortcut, size = size, wd = wd)
   # パスが異なるときは適宜変更
 exe <- fs::path(Sys.getenv("R_HOME"), "bin/x64/Rgui.exe")
 shortcut <- "r"
- # --no-restore：環境を復元しない，--no-save：終了時に保存しない
+ # --no-restore：環境を復元しない、--no-save：終了時に保存しない
 arg <- "--no-restore --no-save --sdi --silent"
 make_shortcut(exe, shortcut, arg = arg, size = size, wd = wd)
 

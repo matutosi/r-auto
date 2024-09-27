@@ -3,7 +3,7 @@
 str_neko <- 
   c("吾輩は猫である。", "名前はまだない。", 
     "I am a cat.", "I don't have any name yet.")
-str_c(str_neko, "◆") # 各文字列に"◆"を追加，paste0(str_neko, "◆")も同じ
+str_c(str_neko, "◆") # 各文字列に"◆"を追加、paste0(str_neko, "◆")も同じ
 
   # collapseで1つの文字列に結合する
 str_c(str_neko[1:3], collapse = "◆") # [1:3]：出力を短くするため
@@ -22,10 +22,10 @@ str_c(1:4, str_neko, "◆") # ベクトルで指定するときの出力に注�
 
   # マッチ箇所の明示
   # 05_03_string-str-view.R
-str <- c("今日はいい天気です．")
+str <- c("今日はいい天気です。")
 pattern <- "いい天気"
 str_view(str, pattern)
-c(str, "明日もいい天気かな．明後日はいい天気でしょう．") |>
+c(str, "明日もいい天気かな。明後日はいい天気でしょう。") |>
   str_view(pattern)
 
   # 大文字・小文字の区別の有無
@@ -41,13 +41,13 @@ str_view(str, pattern_ic) # 大・小の区別なし
 str <- c("abc a.c ABC A.C")
 pattern <- fixed("a.c")
 pattern_ic <- fixed("a.c", ignore_case = TRUE)
-str_view(str, pattern)    # 文字列そのもの，大・小の区別あり
-str_view(str, pattern_ic) # 文字列そのもの，大・小の区別なし
+str_view(str, pattern)    # 文字列そのもの、大・小の区別あり
+str_view(str, pattern_ic) # 文字列そのもの、大・小の区別なし
 
   # エスケープ文字とメタ文字の例
   # 05_06_string-regexp-meta.R
 str <- "Hello. "
-str_view(str, ".") # 全てにマッチ
+str_view(str, ".") # すべてにマッチ
 str_view(str, "\.") # エラー
 str_view(str, "\\.") # .(ドット)にマッチ
 
@@ -95,8 +95,8 @@ str_subset(str_stringr, "t$")     # 末尾がt
   # 文字列の抽出
   # 05_14_string-str-sub.R
 (str_123 <- c(paste0(1:9, collapse = ""), "abcdefg", "あいうえおかきくけこ"))
-str_sub(str_123, start = 2, end = 6) # 全て2-6を抽出
-str_sub(str_123, 1:3, 3:5)           # 前から順に1-3，2-4，3-5を抽出
+str_sub(str_123, start = 2, end = 6) # すべて2-6を抽出
+str_sub(str_123, 1:3, 3:5)           # 前から順に1-3、2-4、3-5を抽出
 
   # stringrのその他の関数
   # 05_15_string-others.R
@@ -111,7 +111,7 @@ str_view(str_neko, pattern)
 str_count(str_neko, pattern)
   # 1つ目のマッチ箇所の位置(start, end)
 str_locate(str_neko, pattern)
-  # 全てのマッチ箇所の位置(start, end)
+  # すべてのマッチ箇所の位置(start, end)
 str_locate_all(str_neko[[1]], pattern)
   # 字数合わせ
 str_pad(1:10, width = 2, side = "left", pad = "0")
@@ -128,7 +128,7 @@ str_flatten(splitted[[1]], collapse = "◆")
 str_which(str_neko, "猫|cat")
   # 文字列の長さ(個数)
 str_length(str_123)
-  # 文字列の表示幅(半角は1，全角は2)
+  # 文字列の表示幅(半角は1、全角は2)
 str_width(str_123)
   # 重複除去
 (str_number <- letters[c(1:5, 3:7)])
@@ -146,8 +146,8 @@ library(diffr)
   # 05_17_string-compare-diffr.R
 f1 <- fs::file_temp()
 f2 <- fs::file_temp()
-writeLines("日本語での比較実験\n今日は晴れです．\n同じ文章", con = f1)
-writeLines("英語での比較の実験\n今日は天気です．\n同じ文章", con = f2)
+writeLines("日本語での比較実験\n今日は晴れです。\n同じ文章", con = f1)
+writeLines("英語での比較の実験\n今日は天気です。\n同じ文章", con = f2)
 diffr::diffr(f1, f2, before = fs::path_file(f1), after = fs::path_file(f1))
 
   # 比較結果のHTMLの設定ファイル

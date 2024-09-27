@@ -133,7 +133,7 @@ openxlsx::saveWorkbook(wb, path, overwrite = TRUE)        # 書き込み
   # 13_14_translate-pimp2.R
 text <- "In former times I lived in Kobe"
 pimp2(text = text, source_lang = "EN", help_lang = "JA", auth_key = deepl_key)
-text <- "私の大きい兄弟は，仕事を教師です．" # 変な日本語
+text <- "私の大きい兄弟は、仕事を教師です。" # 変な日本語
 pimp2(text = text, source_lang = "JA", help_lang = "EN", auth_key = deepl_key)
 
   # 利用量の確認

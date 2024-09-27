@@ -26,7 +26,7 @@ image_annotate_fnames <- function(dir,
     magick::image_append(stack = TRUE)
   return(appended)
 }
-  # 画像数と列数をもとに，行の画像の配列を設定
+  # 画像数と列数をもとに、行の画像の配列を設定
 row_index <- function(n, ncol){
   nrow <- ceiling(n %/% ncol)                    # 行数
   n_ends <- seq(nrow) * ncol                     # 各行の終了index

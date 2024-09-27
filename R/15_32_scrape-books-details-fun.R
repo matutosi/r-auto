@@ -5,7 +5,7 @@ detail2df <- function(details){
     c(".book_titles_wrapper > .book_title", 
       ".book_subtitle", ".index", ".author", 
       ".price.js-bookPage-bookPrice", ".content", 
-         # 以下は，CSSセレクタをコピーしたもの
+         # 以下は、CSSセレクタをコピーしたもの
       ".book_data.js-bookDataHeight > div:nth-child(1) > span.data",
       ".book_data.js-bookDataHeight > div:nth-child(3) > span.data", 
       ".book_data.js-bookDataHeight > div:nth-child(4) > span.data")

@@ -19,7 +19,7 @@ add_fig <- function(pp, title = "", path_img, fig_full_size = FALSE,
   }
   offy <- cont_ph$offy
   # 配置サイズ：全体 - offset
-  w_cont <- ss$width  - offx * 2 # 幅，* 2：左右分
+  w_cont <- ss$width  - offx * 2 # 幅、* 2：左右分
   h_cont <- ss$height - offy     # 高さ
   # 画像のサイズ
   img <- magick::image_read(path_img)
