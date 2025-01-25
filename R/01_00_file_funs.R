@@ -1,5 +1,5 @@
   # 拡張子でファイルを整理する関数
-  # 01_33_file-sort-fun.R
+  # 01_32_file-sort-fun.R
 sort_files <- function(dir, show_tree = FALSE, ...){
   files <- fs::dir_ls(dir, type = "file", ...)         # ファイル一覧
   moves_to <- fs::path_ext(files)                      # 移動先

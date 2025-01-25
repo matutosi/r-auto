@@ -3,7 +3,7 @@
   # zipファイルでのインストール
 install.packages("RDCOMClient", 
                  repos = "http://www.omegahat.net/R", type = "win.binary")
-  # ソースファイルからビルドしてインストール(Rtoolsが必要)
+  # ソースファイルからビルドしてインストール(RToolsが必要)
   # install.packages("remotes") # remotesをインストールしていないとき
 remotes::install_github("omegahat/RDCOMClient")
 library("RDCOMClient")

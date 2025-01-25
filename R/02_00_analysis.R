@@ -95,7 +95,7 @@ dplyr::anti_join(answer, lost) |> print(n = 3) # lostで欠落したもの
 
   # 列の選択
   # 02_14_analysis-dplyr-select.R
-dplyr::select(answer, id, area, period) |> head(3)
+dplyr::select(answer, id, area, years) |> head(3)
 dplyr::select(sales, -c(period, item)) |> head(3)
 
   # 行を抽出
@@ -104,7 +104,7 @@ dplyr::filter(sales, 600 < price & price < 700) |> head(3)
 
   # 重複の除去
   # 02_16_analysis-dplyr-distinct.R
-dplyr::distinct(answer, area) |> print(3)
+dplyr::distinct(answer, area) |> head(3)
 
   # 並べ替え
   # 02_17_analysis-dplyr-arrange.R
@@ -112,16 +112,16 @@ dplyr::arrange(sales, desc(count)) |> head(3)
 
   # 列の追加
   # 02_18_analysis-dplyr-mutate.R
-dplyr::mutate(answer, id = as.numeric(id), period = as.numeric(period)) |> 
+dplyr::mutate(answer, id = as.numeric(id), years = as.numeric(years)) |> 
   print(n = 3)
 answer |>
-  dplyr::mutate(id = as.numeric(id), period = as.numeric(period)) |> 
+  dplyr::mutate(id = as.numeric(id), years = as.numeric(years)) |> 
   dplyr::mutate(ap = stringr::str_sub(apps, 1, 2), .before = 2) |> # 2列目の前
   print(n = 3)
 
   # 指定列の変換
   # 02_19_analysis-dplyr-mutate-all.R
-answer <- dplyr::mutate_at(answer, c("id", "period", "satisfy"), as.numeric) |> 
+answer <- dplyr::mutate_at(answer, c("id", "years", "satisfy"), as.numeric) |> 
   print(n = 3)
 
   # グループ化
@@ -131,11 +131,11 @@ dplyr::group_by(answer, area) |> print(n = 3)
   # 平均や最大値などの集計
   # 02_21_analysis-dplyr-summarise.R
 dplyr::group_by(answer, area) |> 
-  dplyr::summarise(m_period = mean(period), m_satisfy = mean(satisfy))
+  dplyr::summarise(m_years = mean(years), m_satisfy = mean(satisfy))
 
   # .byを使った平均や最大値などの集計
   # 02_22_analysis-dplyr-summarise-by.R
-dplyr::summarise(answer,m_period = mean(period), m_satisfy = mean(satisfy), 
+dplyr::summarise(answer,m_years = mean(years), m_satisfy = mean(satisfy), 
                  .by = area)
 
   # 数値の列の集計
@@ -294,8 +294,14 @@ gg <-
   # 02_44_analysis-purrr-split-area.R
 group_split(answer, area)
 
+  # 集計の繰り返し
+  # 02_45_analysis-purrr-answer.R
+group_split(answer, area) |>
+  purrr::map(count_multi, "apps", ";") |>
+  purrr::map(dplyr::arrange, desc(n))
+
   # 作図の繰り返し
-  # 02_45_analysis-purrr-split-imap.R
+  # 02_46_analysis-purrr-split-imap.R
 gg_sales_split <- 
   sales |>
   group_split(shop) |>
@@ -310,11 +316,11 @@ gg_sales_split <-
   )
 
   # リストになったグラフの表示
-  # 02_46_analysis-purrr-split-imap-gg.R
+  # 02_47_analysis-purrr-split-imap-gg.R
 gg_sales_split[[2]] # 2番目のグラフ
 
   # 複数の図の保存
-  # 02_47_analysis-purrr-split-map2.R
+  # 02_48_analysis-purrr-split-map2.R
 pdfs <- 
   paste0(names(gg_sales_split), ".pdf") |>
   fs::path_temp()
@@ -323,7 +329,7 @@ purrr::map2(pdfs, gg_sales_split, ggsave,
   # shell.exec(pdfs[1])
 
   # 2のときにエラーになる関数
-  # 02_48_analysis-purrr-safely-prep.R
+  # 02_49_analysis-purrr-possibly-prep.R
 error_if_two <- function(x){
   if(x == 2){
     stop("エラーです")
@@ -333,18 +339,18 @@ error_if_two <- function(x){
 }
 
   # 繰り返し処理のエラー対応
-  # 02_49_analysis-purrr-safely.R
+  # 02_50_analysis-purrr-possibly.R
 purrr::map(1:3, error_if_two)  # そのままのとき
 error_if_two_possibly <- possibly(error_if_two, otherwise = 0) # エラー時は0
 purrr::map_dbl(1:3, error_if_two_possibly)
 
   # 順次処理の関数の基本動作
-  # 02_50_analysis-purrr-reduce-add.R
+  # 02_51_analysis-purrr-reduce-add.R
 accumulate(1:4, `*`)
 reduce(1:4, `*`)
 
   # 新しいものを追加する関数
-  # 02_51_analysis-purrr-paste-if-new-fun.R
+  # 02_52_analysis-purrr-paste-if-new-fun.R
 paste_if_new <- function(x, y){
   pattern <- paste0("(^|;)+", y, "(;|$)+")
   if(stringr::str_detect(x, pattern)){
@@ -355,7 +361,7 @@ paste_if_new <- function(x, y){
 }
 
   # 順次処理の関数
-  # 02_52_analysis-purrr-reduce.R
+  # 02_53_analysis-purrr-reduce.R
 answer |> 
   dplyr::summarise(apps = reduce(apps, paste_if_new), 
                    .by = c(area, satisfy)) |>

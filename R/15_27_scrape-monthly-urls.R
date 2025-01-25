@@ -2,5 +2,5 @@
   # 15_27_scrape-monthly-urls.R
 monthly_urls <- get_monthly_urls()
 head(monthly_urls, 2)
-  # shell.exex(monthly_urls[2]) # 1つ目のページを開く
+  # shell.exec(monthly_urls[2]) # 1つ目のページを開く
 

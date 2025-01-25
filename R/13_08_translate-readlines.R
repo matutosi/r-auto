@@ -1,4 +1,4 @@
-  # 翻訳用の文書の読み込みと分割
+  # 翻訳用の文章の読み込みと分割
   # 13_08_translate-readlines.R
 en <- 
   path |>

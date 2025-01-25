@@ -74,8 +74,8 @@ detail2elm_txt <- function(details, css){
     rvest::html_text2() |>        # 文字列のみ
     paste0(collapse = ", ")       # 複数著者への対応
 }
-  # 雨雲の動きの動画の取得
-  # 15_43_scrape-jma-whole-game.R
+  # 雨雲の動きの動画を取得する関数
+  # 15_43_scrape-jma-whole-game-fun.R
 scrape_jma <- function(url){
   session <- selenider::selenider_session(session = "chromote", timeout = 10)
   selenider::open_url(url)
@@ -102,4 +102,5 @@ scrape_jma <- function(url){
     # shell.exec(rain_gif)
   return(rain_gif)
 }
+scrape_jma(url)
 

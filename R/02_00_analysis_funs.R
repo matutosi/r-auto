@@ -31,7 +31,7 @@ count_multi <- function(df, col, delim = "[^[:alnum:]]+", group_add = TRUE){
     dplyr::filter({{ col }} != "")                               # 空を除去
 }
   # 2のときにエラーになる関数
-  # 02_48_analysis-purrr-safely-prep.R
+  # 02_49_analysis-purrr-possibly-prep.R
 error_if_two <- function(x){
   if(x == 2){
     stop("エラーです")
@@ -40,7 +40,7 @@ error_if_two <- function(x){
   }
 }
   # 新しいものを追加する関数
-  # 02_51_analysis-purrr-paste-if-new-fun.R
+  # 02_52_analysis-purrr-paste-if-new-fun.R
 paste_if_new <- function(x, y){
   pattern <- paste0("(^|;)+", y, "(;|$)+")
   if(stringr::str_detect(x, pattern)){

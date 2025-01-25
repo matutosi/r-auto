@@ -4,7 +4,7 @@ mouse_record <- function(n = 3, interval = -1){
   pos <- list()
   for(i in seq(n)){
     if(interval < 0){
-      readline("Press Enter on R console") # クリックごと
+      readline("Press Enter on R console") # Rの画面でEnterを押す
     }else{
       Sys.sleep(interval)                  # 一定時間ごと
     }

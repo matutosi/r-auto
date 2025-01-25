@@ -43,7 +43,7 @@ translate2(text = text, target_lang = "JA",
   source_lang = "EN", auth_key = deepl_key)
  ## 私は猫だ。名前はない。今日も元気だ。
 
-  # 翻訳用の文書の保存
+  # 翻訳用の文章の保存
   # 13_07_translate-writelines.R
 path <- fs::path_temp("sample.txt")
 head(sentences) # stringrのデータ
@@ -51,7 +51,7 @@ paste0(sentences[1:30], collapse = " ") |>
   writeLines(path) # テキストファイルで保存
   # shell.exec(path)
 
-  # 翻訳用の文書の読み込みと分割
+  # 翻訳用の文章の読み込みと分割
   # 13_08_translate-readlines.R
 en <- 
   path |>

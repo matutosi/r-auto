@@ -170,7 +170,7 @@ get_monthly_urls <- function(){
   # 15_27_scrape-monthly-urls.R
 monthly_urls <- get_monthly_urls()
 head(monthly_urls, 2)
-  # shell.exex(monthly_urls[2]) # 1つ目のページを開く
+  # shell.exec(monthly_urls[2]) # 1つ目のページを開く
 
   # 新刊紹介の個別ページを取得する関数
   # 15_28_scrape-books-urls-fun.R
@@ -229,8 +229,7 @@ detail2elm_txt <- function(details, css){
 
   # 新刊の詳細情報の取得
   # 15_33_scrape-books-details.R
-bk_details[[1]] |>
-  detail2df()
+bk_details[[1]] |> detail2df()
 
   # 新刊情報の取得(まとめ)
   # 15_34_scrape-books-all.R
@@ -310,8 +309,8 @@ take_screenshot(png)
 s(xpath = "/html/body/div[2]/div[1]/div[3]/div[1]/button[2]") |>
   elem_click()
 
-  # 雨雲の動きの動画の取得
-  # 15_43_scrape-jma-whole-game.R
+  # 雨雲の動きの動画を取得する関数
+  # 15_43_scrape-jma-whole-game-fun.R
 scrape_jma <- function(url){
   session <- selenider::selenider_session(session = "chromote", timeout = 10)
   selenider::open_url(url)
@@ -338,4 +337,8 @@ scrape_jma <- function(url){
     # shell.exec(rain_gif)
   return(rain_gif)
 }
+
+  # 雨雲の動きの動画の取得
+  # 15_44_scrape-jma-whole-game.R
+scrape_jma(url)
 

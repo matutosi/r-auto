@@ -1,4 +1,4 @@
-  # 翻訳用の文書の保存
+  # 翻訳用の文章の保存
   # 13_07_translate-writelines.R
 path <- fs::path_temp("sample.txt")
 head(sentences) # stringrのデータ

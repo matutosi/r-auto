@@ -32,7 +32,7 @@ image_info(imgs)$height
 
   # 画像の変換
   # 11_07_image-convert.R
-image_convert(imgs, format = "jepg")
+image_convert(imgs, format = "jpeg")
 
   # 画像の書き込み
   # 11_08_image-write.R
@@ -69,7 +69,7 @@ images_write(imgs, imgs_path)
 
   # 枠(余白)の追加
   # 11_12_image-border.R
-bordered_01 <- image_border(imgs[1], color = "gold", geometry = "40x40")
+bordered_01 <- image_border(imgs[01], color = "#00FFFF", geometry = "40x40")
 bordered_25 <- image_border(imgs[25], color = gray(0.1), geometry = "x300")
 par(mfrow = c(1,2)) # 描画パネルの分割
 par(mar = rep(0, 4))
@@ -233,37 +233,17 @@ for(path in files[1:3]){ # for版
   click_crop_image(path)
 }
 
-  # PDFファイルの背景を透明化する関数
-  # 11_29_image-etc-transparent-fun.R
-gg_point <- function(path, size, color, fill){ # 散布図の描画・保存
-  tibble(x = runif(1000), y = runif(1000)) |>
-    ggplot(aes(x, y)) + 
-    geom_point(shape = 21, size = size, color = color, fill = fill) + 
-    theme_bw()
-  ggsave(path, width = 5, height = 5)
-}
-pdf_transparent <- function(path){ # PDF背景の透明化
-  path |>
-    image_read_pdf() |>
-    image_transparent("white") |> # 白を透明化
-    image_write(path, format = "pdf")
-}
+  # 背景の塗りつぶしと重ね合わせ
+  # 11_29_image-etc-fill.R
+img_filled <- image_fill(imgs[22], color = "#00FFFF", fuzz = 10)
+image_flattened <- image_flatten(c(img_filled, imgs[1]))
+plot(image_flattened)
 
-  # PDFファイルの背景の透明化
+  # 透明化後に重ね合わせ
   # 11_30_image-etc-transparent.R
-path <- fs::path_temp(c("gg_1.pdf", "gg_2.pdf"))      # 個別の散布図のPDF
-path_out <- fs::path_temp(c("fill.pdf", "trans.pdf")) # 重ね合わせしたPDF
-tibble(path = path, 
-       color = c("black", "red"),
-       size = c(1, 5),
-       fill = c("black", "white")) |>
-  purrr::pwalk(gg_point)
-  # 透明化・重ね合わせ
-qpdf::pdf_overlay_stamp(path[1], path[2], out = path_out[1]) # 透明化前
-purrr::walk(path, pdf_transparent)                           # 透明化
-qpdf::pdf_overlay_stamp(path[1], path[2], out = path_out[2]) # 透明化後
-out <- pdftools::pdf_combine(c(path, path_out))              # 全PDFを結合
-  # shell.exec(out)
+image_transparent <- image_transparent(imgs[1], "white", fuzz = 10)
+image_flattened_tr <- image_flatten(c(img_filled, image_transparent))
+plot(image_flattened_tr)
 
   # ディレクトリ内の画像にファイル名を書き込んで結合する関数
   # 11_31_image-annotate-fnames-fun.R
@@ -334,7 +314,7 @@ magick::image_read(ss)
 
   # スクリーンショットの保存
   # 11_34_image-screenshot.R
-clipboard_img <- save_clipboard_image()
+clipboard_img <- screenshot::save_clipboard_image()
   # shell.exec(clipboard_img)
 
   # クリップボード画像の自動保存

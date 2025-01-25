@@ -55,7 +55,7 @@ subset_pdf <- function(){
   res <- list()
   for(file in selected_files){
     shell.exec(file)
-    len <- pdf_length(file)
+    len <- pdftools::pdf_length(file)
     prompt <- 
       paste0("ファイル名：", file, "\n",
              "ページ番号を指定してください。\n例：1,3,5-10\n",
@@ -104,6 +104,12 @@ gen_choices <- function(files){
   no <- seq(files)
   stringr::str_c("  ", no, ": ", files, "\n", collapse = "")
 }
+
+  # 複数のPDFファイルからファイルを選択して分割
+  # 07_09_pdf-subset-exec.R
+subset_pdf() # 対象PDFのディレクトリを作業ディレクトリとする
+1 # 入力箇所
+1,3,4 # 入力箇所
 
   # PDFの結合
   # 07_10_pdf-combine.R
@@ -231,7 +237,8 @@ add_page_numbers <- function(path, y_pos = 5, size = 5,
 
   # ページ番号の重ね合わせ
   # 07_21_pdf-add-page-numbers.R
-pdf_paged <- add_page_numbers(pdf_base, size = 200, y_pos = 150, colour = "yellow")
+pdf_paged <- pdf_base |>
+  add_page_numbers(size = 200, y_pos = 90, colour = "#00FFFF", backside = TRUE)
 
   # PDFの圧縮と最適化
   # 07_22_pdf-compress.R
@@ -260,7 +267,7 @@ dplyr::filter(ocr_data, confidence > 75) |>
   # zipファイルでのインストール
 install.packages("RDCOMClient", 
                  repos = "http://www.omegahat.net/R", type = "win.binary")
-  # ソースファイルからビルドしてインストール(Rtoolsが必要)
+  # ソースファイルからビルドしてインストール(RToolsが必要)
   # install.packages("remotes") # remotesをインストールしていないとき
 remotes::install_github("omegahat/RDCOMClient")
 library("RDCOMClient")

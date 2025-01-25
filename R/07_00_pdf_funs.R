@@ -17,7 +17,7 @@ subset_pdf <- function(){
   res <- list()
   for(file in selected_files){
     shell.exec(file)
-    len <- pdf_length(file)
+    len <- pdftools::pdf_length(file)
     prompt <- 
       paste0("ファイル名：", file, "\n",
              "ページ番号を指定してください。\n例：1,3,5-10\n",
