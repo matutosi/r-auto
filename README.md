@@ -17,11 +17,13 @@ https://github.com/matutosi/r-auto/tree/main/data/
 
 ## リンク集
 
-| 関連章   | 内容 | URL | 
-| -------- | ---- | ---- |
+| 関連章   | 内容                                | URL | 
+| -------- | ----                                | ---- |
 | 全体     |   サポートページ                    |     https://github.com/matutosi/r-auto/                                              |
 | 全体     |   コード                            |     https://github.com/matutosi/r-auto/tree/main/R/                                  |
 | 全体     |   使用データ                        |     https://github.com/matutosi/r-auto/tree/main/data/                               |
+| 全体     |   使用データ                        |     https://github.com/matutosi/r-auto/tree/main/data/                               |
+| 全体     |   R for Data science                |     https://r4ds.hadley.nz/                                                          |
 | 1        |   ファイル関連のコマンド比較        |     https://cran.r-project.org/web/packages/fs/vignettes/function-comparisons.html   |
 | 2        |   ggplot2                           |     https://ggplot2-book.org/                                                        |
 | 7,14     |   RTools                            |     https://cran.r-project.org/bin/windows/Rtools/                                   |
@@ -35,6 +37,8 @@ https://github.com/matutosi/r-auto/tree/main/data/
 | 15       |   森北出版                          |     https://www.morikita.co.jp/                                                      |
 | 15       |   気象庁の今後の雨                  |     https://www.jma.go.jp/bosai/kaikotan/                                            |
 | 15       |   気象庁の雨雲の動き                |     https://www.jma.go.jp/bosai/nowc/                                                |
+```
+
 
 ## 質問
 
