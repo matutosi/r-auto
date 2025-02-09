@@ -47,15 +47,15 @@ imgs |>
   as.list() |> # walk()を使うためリストに変換
   purrr::walk2(path_alpha, image_write, format = "png")
 
-  # 複数画像を拡張子の形式で書き込む関数
+  # 複数画像を指定したファイルの拡張子の形式で書き込む関数
   # 11_10_image-write-images-fun.R
 images_write <- function(images, paths){
-  formats <- fs::path_ext(paths) # 拡張子の形式
+  formats <- fs::path_ext(paths) # 拡張子
   tibble::tibble(image = as.list(images), path = paths, format = formats) |>
       purrr::pwalk(magick::image_write)
 }
 
-  # 複数画像を拡張子の形式で書き込む
+  # 複数画像を指定したファイルの拡張子の形式で書き込む
   # 11_11_image-write-images.R
 exts <- rep(c("png", "jpg", "gif"), 9)
 imgs_path <- 
@@ -80,8 +80,7 @@ plot(bordered_01); plot(bordered_25)
   # 11_13_image-font.R
 fonts <- 
   magick_fonts()$family |>
-  stringr::str_subset("Meiryo|Yu") |>
-  unique() |>
+  stringr::str_subset("Meiryo|Yu") |> # MeiryoかYuを含むフォント
   print()
 
   # 文字の追加
@@ -101,15 +100,13 @@ plot(annotated_25)
 
   # 横方向への結合
   # 11_16_image-append-horizontal.R
-image_append(imgs[1:24]) |>
-  plot() # 横方向
+image_append(imgs[1:24]) |> plot() # 横方向
 
   # 縦方向への結合
   # 11_17_image-append-vertical.R
-image_append(imgs[25:27], stack = TRUE) |> # 縦方向
-  plot()
+image_append(imgs[25:27], stack = TRUE) |> plot() # 縦方向
 
-  # 間隔を開けた結合
+  # 間隔を空けた結合
   # 11_18_image-append-border.R
 imgs[1:3] |>
   image_border(color = gray(0.8), geometry = "30") |>
@@ -121,8 +118,7 @@ imgs[1:3] |>
 trimed <- image_trim(imgs[7])
 c(imgs[7], trimed) |>
   image_border(gray(0.7), "10x10") |> 
-  image_append() |> 
-  plot()
+  image_append() |> plot()
 
   # サイズの変更
   # 11_20_image-scale.R
@@ -139,15 +135,8 @@ image_scale_ratio <- function(image, ratio){
     magick::image_join() # リストを結合して元の画像オブジェクトに戻す
 }
 
-  # 比率指定でのサイズの変更
-  # 11_22_image-scale-ratio.R
-r_21_050 <- image_scale_ratio(imgs[21], 0.5)
-r_21_025 <- image_scale_ratio(imgs[21], 0.25)
-scaled_21 <- image_append(c(imgs[21], r_21_050, r_21_025))
-plot(scaled_21)
-
   # ファイルサイズを指定してサイズを変更する関数
-  # 11_23_image-scale-filesize-fun.R
+  # 11_22_image-scale-filesize-fun.R
 image_scale_filesize <- function(image, filesize){
   info <- magick::image_info(image)
   fm <- info$format
@@ -177,15 +166,8 @@ image_scale_filesize <- function(image, filesize){
   return(image[index])
 }
 
-  # ファイルサイズを指定してたサイズの変更
-  # 11_24_image-scale-filesize.R
-img_25_fs <- image_scale_filesize(imgs[25], 100000)
-image_info(img_25_fs)$filesize # ファイルサイズ
-scaled_25 <- image_append(c(imgs[25], img_25_fs))
-plot(scaled_25)
-
   # 画像をクリックして位置を取得する関数
-  # 11_25_image-click-locate-image-fun.R
+  # 11_23_image-click-locate-image-fun.R
 click_locate_image <- function(img, n = 2){
   par(mar = rep(0.1, 4))        # 余白を狭く
   par(oma = rep(0.1, 4))
@@ -202,7 +184,7 @@ click_locate_image <- function(img, n = 2){
 }
 
   # 左上・右下の位置をgeometryに変換する関数
-  # 11_26_image-ltrb2geo-fun.R
+  # 11_24_image-ltrb2geo-fun.R
 ltrb2geo <- function(left_top, right_bottom){
     left <- left_top[1]
     top <- left_top[2]
@@ -213,7 +195,7 @@ ltrb2geo <- function(left_top, right_bottom){
 }
 
   # 指定範囲を切り取る関数
-  # 11_27_image-click-crop-image-fun.R
+  # 11_25_image-click-crop-image-fun.R
 click_crop_image <- function(path){
   img <- magick::image_read(path)                  # 読み取り
   pos <- click_locate_image(img)                   # 切り取り位置
@@ -226,7 +208,7 @@ click_crop_image <- function(path){
 }
 
   # 指定範囲の連続切り取り
-  # 11_28_image-click-crop-image.R
+  # 11_26_image-click-crop-image.R
 files[1:3] |> # map版
   purrr::map(click_crop_image)
 for(path in files[1:3]){ # for版
@@ -234,19 +216,19 @@ for(path in files[1:3]){ # for版
 }
 
   # 背景の塗りつぶしと重ね合わせ
-  # 11_29_image-etc-fill.R
+  # 11_27_image-etc-fill.R
 img_filled <- image_fill(imgs[22], color = "#00FFFF", fuzz = 10)
 image_flattened <- image_flatten(c(img_filled, imgs[1]))
 plot(image_flattened)
 
   # 透明化後に重ね合わせ
-  # 11_30_image-etc-transparent.R
+  # 11_28_image-etc-transparent.R
 image_transparent <- image_transparent(imgs[1], "white", fuzz = 10)
 image_flattened_tr <- image_flatten(c(img_filled, image_transparent))
 plot(image_flattened_tr)
 
   # ディレクトリ内の画像にファイル名を書き込んで結合する関数
-  # 11_31_image-annotate-fnames-fun.R
+  # 11_29_image-annotate-fnames-fun.R
 image_annotate_fnames <- function(dir, 
   regexp = "\\.(png|jpg)$", ncol = NULL, 
   scale = "200", border = "x30", size = 25, color = "white"){
@@ -298,27 +280,27 @@ same_height <- function(imgs){
 }
 
   # ファイル名を書き込んで結合する
-  # 11_32_image-annotate-fnames.R
+  # 11_30_image-annotate-fnames.R
 dir <- fs::path_temp()
-regexp <- "r_\\d+\\.(png|jpg)$"
+regexp <- "/r_\\d+\\.(png|jpg)$"
 img_all <- image_annotate_fnames(dir = dir, regexp = regexp, ncol = 8)
 plot(img_all)
 
   # スクリーンショットの保存
-  # 11_33_image-screenshot-screenshot.R
+  # 11_31_image-screenshot-screenshot.R
 ss <- screenshot::screenshot()
 fs::path_file(ss) # ファイル名のみ
  ## [1] "sc_158839211323.png"
 magick::image_read(ss)
   # shell.exec(ss) # 関連付けアプリで起動
 
-  # スクリーンショットの保存
-  # 11_34_image-screenshot.R
+  # クリップボード画像の保存
+  # 11_32_image-screenshot.R
 clipboard_img <- screenshot::save_clipboard_image()
   # shell.exec(clipboard_img)
 
   # クリップボード画像の自動保存
-  # 11_35_image-save-screenshot-code.R
+  # 11_33_image-save-screenshot-code.R
 wd <- fs::path(fs::path_home(), "desktop")  # 保存先ディレクトリ
 setwd(wd)                                   # 保存ファイルの指定
 no <- stringr::str_pad(1:99, width = 2, "left", "0") # 2桁の連番

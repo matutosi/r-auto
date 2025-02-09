@@ -1,4 +1,4 @@
-  # ユーザからの入力関連の関数
+  # ユーザからの入力関連の関数(`user_input()`，`eval_strings()`，`input_numbers()`，`gen_choices()`)
   # 07_08_pdf-user-input.R
   # 文字列を数値として返す関数
 user_input <- function(prompt = "", choices = ""){

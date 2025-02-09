@@ -8,5 +8,5 @@ gg_sales_cairo <-
 path <- fs::file_temp(ext = "pdf")
 ggplot2::ggsave(path, gg_sales_cairo, 
   device = cairo_pdf, width = 7, height = 7)
-  # shell.exec(path)
+  # shell.exec(path) # 関連付けアプリでファイルを開く
 

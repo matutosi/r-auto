@@ -18,8 +18,7 @@ pdf_length(pdf_base)
 
   # PDFの分割
   # 07_04_pdf-split.R
-pdf_spl <- 
-  pdf_split(pdf_base)
+pdf_spl <- pdf_split(pdf_base)
 fs::path_file(pdf_spl) # ファイル名のみ
 
   # PDFのページ抽出
@@ -36,7 +35,7 @@ pdf_odd <- pdf_subset(pdf_base, pages = odd_pages)
 odd_rev <- sort(odd_pages, decreasing = TRUE)      # 奇数ページの逆順
 pdf_odd_rev <- pdf_subset(pdf_base, pages = odd_rev)
 
-  # 複数のPDFファイルからファイルを選択して分割する関数
+  # 複数のPDFファイルからファイルを選択して分割する関数(`subset_pdf()`)
   # 07_07_pdf-subset-fun.R
 subset_pdf <- function(){
   # ファイルの選択
@@ -66,7 +65,7 @@ subset_pdf <- function(){
   return(res)
 }
 
-  # ユーザからの入力関連の関数
+  # ユーザからの入力関連の関数(`user_input()`，`eval_strings()`，`input_numbers()`，`gen_choices()`)
   # 07_08_pdf-user-input.R
   # 文字列を数値として返す関数
 user_input <- function(prompt = "", choices = ""){
@@ -146,11 +145,11 @@ text |>
 
   # PDFを画像ファイルに変換
   # 07_14_pdf-convert.R
-  # pdf_convert(pdf_base, pages = 1:2) # かなり時間がかかる
+  # pdf_convert(pdf_base, pages = 1:2) # ページ数が多いとかなり時間がかかる
 pdf_combine(pdf_spl[1:2]) |>
   pdf_convert(filenames = paste0("072_", 1:2, ".png")) # 既定値の72dpi
 pngs <- pdf_combine(pdf_spl[1:2]) |>
-        pdf_convert(filenames = paste0("300_", 1:2, ".png"), dpi = 300)
+        pdf_convert(filenames = paste0("300_", 1:2, ".png"), dpi = 300) # 300dpi
 
   # PDFに含まれる画像を抽出する関数
   # 07_15_pdf-extract-images-fun.R
@@ -177,7 +176,7 @@ extract_images <- function(pdf, out = fs::path_temp(), bin_dir = ""){
 image_dir <- extract_images(pdf_base)
   # shell.exec(image_dir) # ディレクトリを表示
 
-  # ページ番号だけのページを作成する関数
+  # ページ番号だけのページを作成する関数(`plot_page_number()`)
   # 07_17_pdf-plot-page-number.R
 plot_page_number <- function(label, x_pos = width / 2, y_pos = 5,
                              size = 5, colour = "black", 
@@ -191,7 +190,7 @@ plot_page_number <- function(label, x_pos = width / 2, y_pos = 5,
     ggplot2::theme_void()
 }
 
-  # 複数ページ分のページ番号のPDFを生成する関数
+  # 複数ページ分のページ番号のPDFを生成する関数(`gen_page_numbers()`)
   # 07_18_pdf-gen-page-numbers-fun.R
 gen_page_numbers <- function(n, x_pos = width / 2, y_pos = 5, 
                              size = 5, colour = "black", 
@@ -323,7 +322,7 @@ set_format_no <- function(base_ext, format){
                     xps = 19, html = 20, rtf = 23, txt = 25))
 }
 
-  # ワードと各種形式との相互変換
+  # Wordと各種形式との相互変換
   # 07_28_word-convert.R
 library(RDCOMClient) # ないと関数実行時にエラーが出る
 convert_app_format(pdf_base, "docx")

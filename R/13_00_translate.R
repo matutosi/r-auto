@@ -9,7 +9,7 @@ deepl_key <- "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx:xx"
 
   # ユーザのドキュメントのディレクトリを開く
   # 13_03_translate-api-key-dir.R
-fs::path(Sys.getenv("HOME")) |> # c:\Users\USERNAME\Documents
+fs::path(Sys.getenv("HOME")) |> # C:\Users\USERNAME\Documents
   shell.exec() # ディレクトリを開く
 
   # 環境変数の読み込み
@@ -34,14 +34,10 @@ available_languages2(deepl_key)
 
   # 翻訳の例
   # 13_06_translate-translate.R
-text <- "This is an example of a translation by DeepL."
+text <- "This is an example of a translation by DeepL." # もとの文
 translate2(text = text, target_lang = "JA", 
   source_lang = "EN", auth_key = deepl_key)
  ## [1] "これはDeepLによる翻訳の例である。"
-text <- "I am a cat. I have no name. It is fine today." # 夏目漱石の「吾輩は猫である」
-translate2(text = text, target_lang = "JA", 
-  source_lang = "EN", auth_key = deepl_key)
- ## 私は猫だ。名前はない。今日も元気だ。
 
   # 翻訳用の文章の保存
   # 13_07_translate-writelines.R
@@ -120,10 +116,10 @@ result <-
  ##  5 "Rice is often served in round bo..."  "ご飯は丸い茶碗に盛られること..."
  ##  (省略)
 
-  # 翻訳結果をエクセルに書き込み
+  # 翻訳結果をExcelに書き込み
   # 13_13_translate-write-xlsx.R
 path <- fs::path_temp("sample.xlsx")
-openxlsx::write.xlsx(result, path)                        # エクセルに書き込み
+openxlsx::write.xlsx(result, path)                        # Excelに書き込み
 wb <- openxlsx::loadWorkbook(path)                        # 読み込み
 openxlsx::setColWidths(wb, 1, cols = 1:2, width = "auto") # 列幅の変更
 openxlsx::saveWorkbook(wb, path, overwrite = TRUE)        # 書き込み
@@ -131,7 +127,7 @@ openxlsx::saveWorkbook(wb, path, overwrite = TRUE)        # 書き込み
 
   # 中間言語を使った文章の改善
   # 13_14_translate-pimp2.R
-text <- "In former times I lived in Kobe"
+text <- "In former times I lived in Kobe" # 変な英語
 pimp2(text = text, source_lang = "EN", help_lang = "JA", auth_key = deepl_key)
 text <- "私の大きい兄弟は、仕事を教師です。" # 変な日本語
 pimp2(text = text, source_lang = "JA", help_lang = "EN", auth_key = deepl_key)

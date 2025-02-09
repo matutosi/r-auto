@@ -1,7 +1,7 @@
-  # 複数画像を拡張子の形式で書き込む関数
+  # 複数画像を指定したファイルの拡張子の形式で書き込む関数
   # 11_10_image-write-images-fun.R
 images_write <- function(images, paths){
-  formats <- fs::path_ext(paths) # 拡張子の形式
+  formats <- fs::path_ext(paths) # 拡張子
   tibble::tibble(image = as.list(images), path = paths, format = formats) |>
       purrr::pwalk(magick::image_write)
 }
@@ -13,7 +13,7 @@ image_scale_ratio <- function(image, ratio){
     magick::image_join() # リストを結合して元の画像オブジェクトに戻す
 }
   # ファイルサイズを指定してサイズを変更する関数
-  # 11_23_image-scale-filesize-fun.R
+  # 11_22_image-scale-filesize-fun.R
 image_scale_filesize <- function(image, filesize){
   info <- magick::image_info(image)
   fm <- info$format
@@ -43,7 +43,7 @@ image_scale_filesize <- function(image, filesize){
   return(image[index])
 }
   # 画像をクリックして位置を取得する関数
-  # 11_25_image-click-locate-image-fun.R
+  # 11_23_image-click-locate-image-fun.R
 click_locate_image <- function(img, n = 2){
   par(mar = rep(0.1, 4))        # 余白を狭く
   par(oma = rep(0.1, 4))
@@ -59,7 +59,7 @@ click_locate_image <- function(img, n = 2){
   return(pos)
 }
   # 左上・右下の位置をgeometryに変換する関数
-  # 11_26_image-ltrb2geo-fun.R
+  # 11_24_image-ltrb2geo-fun.R
 ltrb2geo <- function(left_top, right_bottom){
     left <- left_top[1]
     top <- left_top[2]
@@ -69,7 +69,7 @@ ltrb2geo <- function(left_top, right_bottom){
     return(geometry)
 }
   # 指定範囲を切り取る関数
-  # 11_27_image-click-crop-image-fun.R
+  # 11_25_image-click-crop-image-fun.R
 click_crop_image <- function(path){
   img <- magick::image_read(path)                  # 読み取り
   pos <- click_locate_image(img)                   # 切り取り位置
@@ -81,7 +81,7 @@ click_crop_image <- function(path){
   return(list(path_croped, geometry))
 }
   # ディレクトリ内の画像にファイル名を書き込んで結合する関数
-  # 11_31_image-annotate-fnames-fun.R
+  # 11_29_image-annotate-fnames-fun.R
 image_annotate_fnames <- function(dir, 
   regexp = "\\.(png|jpg)$", ncol = NULL, 
   scale = "200", border = "x30", size = 25, color = "white"){

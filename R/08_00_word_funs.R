@@ -1,4 +1,4 @@
-  # ワードから文字列を抽出する関数
+  # Wordから文字列を抽出する関数
   # 08_08_word-docx-extract-text-fun.R
 extract_docx_text <- function(docx, normal = TRUE, heading = TRUE, flatten = TRUE){
   if(sum(normal, heading) == 0){ # 両方ともFALSEのとき
@@ -25,10 +25,10 @@ cumulative_paste <- function(x, y){
     paste0(x, y) #   xとyを貼り付け
   }
 }
-  # ディクトリ内のワードから画像を抽出する関数
+  # ディクトリ内のWordファイルから画像を抽出する関数
   # 08_18_word-extract-docx-img-fun.R
 extract_docx_imgs <- function(path) {
-  docxs <- fs::dir_ls(path, regexp = "\\.docx$") # ワードの一覧
+  docxs <- fs::dir_ls(path, regexp = "\\.docx$") # Wordファイルの一覧
   zips <-
     docxs |>
     fs::path_file() |>         # ファイル名のみ

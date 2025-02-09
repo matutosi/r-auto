@@ -1,4 +1,4 @@
-  # ワードの文書内の日付の修正
+  # Wordファイル内の日付の修正
   # 08_22_word-update-dates.R
 text <- extract_docx_text(doc_1) # 文字列の抽出
 dates_before <- # 日付の抽出

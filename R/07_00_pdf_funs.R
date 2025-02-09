@@ -1,4 +1,4 @@
-  # 複数のPDFファイルからファイルを選択して分割する関数
+  # 複数のPDFファイルからファイルを選択して分割する関数(`subset_pdf()`)
   # 07_07_pdf-subset-fun.R
 subset_pdf <- function(){
   # ファイルの選択
@@ -93,7 +93,7 @@ extract_images <- function(pdf, out = fs::path_temp(), bin_dir = ""){
     message()
   return(out_dir)
 }
-  # ページ番号だけのページを作成する関数
+  # ページ番号だけのページを作成する関数(`plot_page_number()`)
   # 07_17_pdf-plot-page-number.R
 plot_page_number <- function(label, x_pos = width / 2, y_pos = 5,
                              size = 5, colour = "black", 
@@ -106,7 +106,7 @@ plot_page_number <- function(label, x_pos = width / 2, y_pos = 5,
     ggplot2::scale_y_continuous(limits = c(0, height), expand = c(0, 0)) + 
     ggplot2::theme_void()
 }
-  # 複数ページ分のページ番号のPDFを生成する関数
+  # 複数ページ分のページ番号のPDFを生成する関数(`gen_page_numbers()`)
   # 07_18_pdf-gen-page-numbers-fun.R
 gen_page_numbers <- function(n, x_pos = width / 2, y_pos = 5, 
                              size = 5, colour = "black", 

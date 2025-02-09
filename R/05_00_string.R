@@ -3,14 +3,13 @@
 str_neko <- 
   c("吾輩は猫である。", "名前はまだない。", 
     "I am a cat.", "I don't have any name yet.")
-str_c(str_neko, "◆") # 各文字列に"◆"を追加、paste0(str_neko, "◆")も同じ
+str_c(str_neko, "◆") # 各文字列に"◆"を追加、paste0()も同じ
 
   # collapseで1つの文字列に結合する
 str_c(str_neko[1:3], collapse = "◆") # [1:3]：出力を短くするため
-  # paste0(str_neko[1:3], collapse = "◆")も同じ
 
-  # 複数の文字列を引数
-str_c("吾輩は", "猫である。")  # paste0("吾輩は", "猫である。")も同じ
+  # 複数の文字列を引数にとる場合
+str_c("吾輩は", "猫である。")
 
 str_c("吾輩は", "猫である。", sep = "◆")  # 注意：動作が異なる
 paste0("吾輩は", "猫である。", sep = "◆")
@@ -69,37 +68,33 @@ str_remove_all(str_neko, "[a-z]")
 str_remove(str_neko, "[あ-ん]")   # [あ-ん]：ひらがな全部
 str_remove_all(str_neko, "[あ-ん]")
 
-  # str_remove()の中身
-  # 05_10_string-str-remove-fun.R
-str_remove # 関数の中身
-
   # 文字列の検索
-  # 05_11_string-str-brothers.R
+  # 05_10_string-str-brothers.R
 str_detect(str_neko, "猫")
 str_starts(str_neko, "名前")
 str_ends(str_neko, "t.")
 
   # 文字列の検索
-  # 05_12_string-filter-detect.R
+  # 05_11_string-filter-detect.R
 mpg <- mpg[,1:5]   # 自動車の燃費データ(dplyrに含まれる)のうち5列だけ
 dplyr::filter(mpg, str_detect(model, "pickup")) |> print(n = 3)
 dplyr::filter(mpg, str_detect(model, "pickup", negate = TRUE)) |> print(n = 3)
 
   # 文字列の抽出
-  # 05_13_string-str-subset.R
+  # 05_12_string-str-subset.R
 str_stringr <- ls("package:stringr") # パッケージのオブジェクト一覧
 length(str_stringr)   # 要素数
 str_subset(str_stringr, "^str_s") # 最初がstr_s
 str_subset(str_stringr, "t$")     # 末尾がt
 
   # 文字列の抽出
-  # 05_14_string-str-sub.R
+  # 05_13_string-str-sub.R
 (str_123 <- c(paste0(1:9, collapse = ""), "abcdefg", "あいうえおかきくけこ"))
 str_sub(str_123, start = 2, end = 6) # すべて2-6を抽出
 str_sub(str_123, 1:3, 3:5)           # 前から順に1-3、2-4、3-5を抽出
 
   # stringrのその他の関数
-  # 05_15_string-others.R
+  # 05_14_string-others.R
   # 文字列
 str_123
 str_neko
@@ -107,50 +102,50 @@ str_neko
 pattern <- "[a-z]+|[あ-ん]+"
   # マッチ箇所の確認
 str_view(str_neko, pattern)
-  # マッチ箇所の数
+  # マッチ箇所の数を出力
 str_count(str_neko, pattern)
-  # 1つ目のマッチ箇所の位置(start, end)
+  # 1つ目のマッチ箇所の位置(start, end)を出力
 str_locate(str_neko, pattern)
-  # すべてのマッチ箇所の位置(start, end)
+  # すべてのマッチ箇所の位置(start, end)を出力
 str_locate_all(str_neko[[1]], pattern)
-  # 字数合わせ
+  # 文字を追加して字数合わせ
 str_pad(1:10, width = 2, side = "left", pad = "0")
-  # 切り捨てて省略
+  # 指定文字数になるように切り捨て(...が切り捨て部分)
 str_trunc(str_neko, 7, "right")  # 右を切り捨て
 str_trunc(str_neko, 7, "center") # 中央を切り捨て
 str_trunc(str_neko, 7, "left")   # 左を切り捨て
   # 分割
-(splitted <- str_split(str_neko, "は| "))      # 「は」か半角スペース
-str_flatten(str_neko) |> str_split_1("。|\\.") # 「。」か「.」
+(splitted <- str_split(str_neko, "は| "))      # 「は」か半角スペースのところで分割
+str_flatten(str_neko) |> str_split_1("。|\\.") # 結合(後述)後に「。」か「.」で分割
   # 文字列ベクトルの結合
 str_flatten(splitted[[1]], collapse = "◆")
-  # マッチ要素のインデックス
+  # マッチ要素のインデックスを出力
 str_which(str_neko, "猫|cat")
-  # 文字列の長さ(個数)
+  # 文字列の長さ(個数)を出力
 str_length(str_123)
-  # 文字列の表示幅(半角は1、全角は2)
+  # 文字列の表示幅(半角は1、全角は2)を出力
 str_width(str_123)
   # 重複除去
 (str_number <- letters[c(1:5, 3:7)])
 str_unique(str_number)
   # 空白文字の除去
-str_trim("    a   b  c  ") # 端のみ除去
-str_squish("  a   b  c  ") # 重複も除去
+str_trim("    a   b  c  ") # 端の空白のみ除去
+str_squish("  a   b  c  ") # 端に加えて重複している空白も除去
 
   # diffrのインストールと呼び出し
-  # 05_16_string-diffr-install.R
+  # 05_15_string-diffr-install.R
 install.packages("diffr")
 library(diffr)
 
   # 文章の比較
-  # 05_17_string-compare-diffr.R
+  # 05_16_string-compare-diffr.R
 f1 <- fs::file_temp()
 f2 <- fs::file_temp()
 writeLines("日本語での比較実験\n今日は晴れです。\n同じ文章", con = f1)
 writeLines("英語での比較の実験\n今日は天気です。\n同じ文章", con = f2)
-diffr::diffr(f1, f2, before = fs::path_file(f1), after = fs::path_file(f1))
+diffr::diffr(f1, f2, before = fs::path_file(f1), after = fs::path_file(f2))
 
   # 比較結果のHTMLの設定ファイル
-  # 05_18_string-css-path.R
+  # 05_17_string-css-path.R
 fs::path(fs::path_package("diffr"), "htmlwidgets/lib/codediff/codediff.css")
 

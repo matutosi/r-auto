@@ -1,4 +1,4 @@
-  # 年の追加関数
+  # 年の追加関数(`paste_year()`)
   # 06_14_date-paste-year-fun.R
 paste_year <- function(str, past = FALSE){
   str <- stringi::stri_trans_general(str, "fullwidth-halfwidth")

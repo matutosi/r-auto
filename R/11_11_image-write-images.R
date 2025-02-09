@@ -1,4 +1,4 @@
-  # 複数画像を拡張子の形式で書き込む
+  # 複数画像を指定したファイルの拡張子の形式で書き込む
   # 11_11_image-write-images.R
 exts <- rep(c("png", "jpg", "gif"), 9)
 imgs_path <- 

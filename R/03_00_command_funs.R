@@ -70,10 +70,10 @@ shell.exec <- function(file){
   # 秀丸エディタでファイルを開く関数
   # 03_12_command-hidemaru-fun.R
 open_with_hidemaru <- function(file){
-  bin <- '"c:/Program Files/hidemaru/hidemaru.exe"'
+  bin <- '"C:/Program Files/hidemaru/hidemaru.exe"'
   cmd <- paste0(c(bin, file), collapse = " ")
   res <- system(cmd, wait = FALSE)
-  return(ures)
+  return(res)
 }
   # zipファイルを解凍する関数
   # 03_14_command-unzip-fun.R

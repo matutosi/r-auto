@@ -15,9 +15,9 @@ readr::read_csv(file_csv, show_col_types = FALSE) # csv(カンマ区切り)
   # read_excel()によるデータフレームとしての読み込み
   # 09_03_excel-readxl-read.R
 path <- readxl::readxl_example("datasets.xlsx")
-iris <- readxl::read_excel(path, sheet = "iris") # シート名
+iris <- readxl::read_excel(path, sheet = "iris") # シート名を指定
 iris |> head(3)
-mtcars <- readxl::read_excel(path, sheet = 2)    # 番号
+mtcars <- readxl::read_excel(path, sheet = 2)    # シート番号を指定
 
   # readWorkbook()によるデータフレームとしての読み込み
   # 09_04_excel-read.R
@@ -33,12 +33,12 @@ wb
 install.packages("excel.link")
 library(readxl)
 
-  # パスワード付きのエクセルファイルを開く疑似コード
+  # パスワード付きのExcelファイルを開く疑似コード
   # 09_07_excel-read-with-password.R
 library(RDCOMClient) # ないとエラーになる
 excel.link::xl.read.file("ファイル名.xlsx",  password = "パスワード")
 
-  # エクセルの全シートを読み込む関数の読み込み
+  # Excelの全シートを読み込む関数の読み込み
   # 09_08_excel-read-all-sheets-source.R
 source("https://matutosi.github.io/r-auto/R/02_00_analysis_funs.R")
 
@@ -46,17 +46,16 @@ source("https://matutosi.github.io/r-auto/R/02_00_analysis_funs.R")
   # 09_09_excel-read-googledrive.R
 install.packages("googledrive")
 library(googledrive)
-googledrive::drive_auth("YOURNAME@gmail.com") # 認証画面でパスワードなどを入力
-sheet <- googledrive::drive_find(pattern = "検索文字列", type = "spreadsheet")
+drive_auth("YOURNAME@gmail.com") # 認証画面でパスワードなどを入力
+sheet <- drive_find(pattern = "検索文字列", type = "spreadsheet")
 path <- "DIRECORY/FILE_NAME.csv"
-googledrive::drive_download(
-  sheet$name, path = path, type = "csv", overwrite = TRUE) # 上書きするとき
+drive_download(sheet$name, path = path, type = "csv", overwrite = TRUE) # 上書きするとき
 
   # OneDriveからのファイルのダウンロード(疑似コード)
   # 09_10_excel-read-onedrive.R
 install.packages("Microsoft365R")
 library(Microsoft365R)
-odb <- Microsoft365R::get_business_onedrive(tenant = "YOUR_COMPANY.OR.JP") # 認証
+odb <- get_business_onedrive(tenant = "YOUR_COMPANY.OR.JP") # 認証
 odb$list_files()
 src <- "FILE_NAME"
 dest <- "DIRECORY/FILE_NAME" # 認証画面でパスワードなどを入力
@@ -64,18 +63,18 @@ odb$download_file(src = src, dest = dest, overwrite = TRUE) # 上書きすると
 
   # csvなどの書き込み
   # 09_11_excel-write-txt.R
-readr::write_csv(mtcars, "fs::path_temp(mtcars.csv"))      # csv(カンマ区切り)
-readr::write_tsv(mtcars, "fs::path_temp(mtcars.tsv"))      # tsv(タブ区切り)
-readr::write_delim(iris, "fs::path_temp(iris.txt"), delim = ";") # ;区切り
+readr::write_csv(mtcars, fs::path_temp("mtcars.csv"))      # csv(カンマ区切り)
+readr::write_tsv(mtcars, fs::path_temp("mtcars.tsv"))      # tsv(タブ区切り)
+readr::write_delim(iris, fs::path_temp("iris.txt"), delim = ";") # ;区切り
 ls("package:readr") |>         # ほかにもいろいろとある
-  stringr::str_subset("write") # 詳細はヘルプ参照
+  stringr::str_subset("write") # 関数名が表示される(詳細はヘルプ参照)
 
-  # データフレームのエクセル形式での書き込み
+  # データフレームのExcel形式での書き込み
   # 09_12_excel-write-df.R
 file_wb <- fs::path_temp("workbook.xlsx")
 write.xlsx(iris, file_wb)
 
-  # 分割したデータフレームのエクセルのシートごとへの書き込み
+  # 分割したデータフレームのExcelのシートごとへの書き込み
   # 09_13_excel-write-df-split.R
 iris |>
   split(iris$Species) |>
@@ -146,15 +145,14 @@ wb <- loadWorkbook(file_timetable) # ワークブック読み込み
 setColWidths(wb, 1, cols = 1:10, width = "auto")  # 列幅の変更
 saveWorkbook(wb, file_timetable, overwrite = TRUE)  # ワークブックの書き込み
 
-  # 列幅を変更する関数
+  # 全シートで列幅を変更する関数
   # 09_21_excel-width-fun.R
 set_col_width_auto <- function(wb_path){ # wb_path：ワークブックのパス(文字列)
   wb <- openxlsx::loadWorkbook(wb_path) # 読込
   for(sheet in sheets(wb)){             # シートごと
     cols <-                             # 列番号
       openxlsx::readWorkbook(wb, sheet) |>
-      ncol() |> 
-      seq() # seq(5)で1:5と同じ
+      ncol() |> seq() # seq(5)で1:5と同じ
     openxlsx::setColWidths(wb, sheet, cols, width = "auto") # 列幅の設定
   }
   openxlsx::saveWorkbook(wb, wb_path, overwrite = TRUE) # 書き込み
@@ -173,7 +171,7 @@ saveWorkbook(wb, file_timetable, overwrite = TRUE)  # ワークブックの書�
   # 全シートに同じ関数を実行する関数
   # 09_24_excel-autofilter-map-fun.R
 walk_wb <- function(wb, fun, ...){
-  openxlsx::sheets(wb) |>       # シート名を取得
+  openxlsx::sheets(wb) |>          # シート名を取得
     purrr::walk(fun, wb = wb, ...) # fun(wb = wb, sheet = sheet)のように受け取る
 }
 
@@ -221,12 +219,12 @@ saveWorkbook(wb, file_timetable, overwrite = TRUE)
 
   # 設定可能な罫線の一覧作成
   # 09_30_excel-border-style.R
-border <- "bottom"
-style <- 
+border <- "bottom" # 罫線の位置をセルの下に
+style <-           # 罫線の種類
   c("thin", "medium", "dashed", "dotted", "thick", "double", 
     "hair", "mediumDashed", "dashDot", "mediumDashDot", 
     "dashDotDot", "mediumDashDotDot", "slantDashDot")
-styles <- 
+styles <-          # 罫線の位置と種類を設定
   style |>
   purrr::map(\(x){ createStyle(border = border, borderStyle = x) })
 wb <- createWorkbook()          # ワークブックを作成
@@ -234,7 +232,7 @@ addWorksheet(wb, 1, zoom = 200) # シートを追加
 writeData(wb, sheet = 1, style) # データ書き込み
 file_border <- fs::path_temp("border.xlsx")
 styles |>
-  purrr::iwalk(\(.x, .y){
+  purrr::iwalk(\(.x, .y){      # 繰り返しをする関数
     addStyle(wb, 1,            # 罫線のスタイルを適用
     style = .x,                # .x：style[[i]]、iは1からnまで
     rows = .y, cols = 1)}      # .y：i
@@ -360,7 +358,7 @@ wb <- loadWorkbook(file_timetable)
 walk_wb(wb, border_frame)
 saveWorkbook(wb, file_timetable, overwrite = TRUE)
 
-  # 条件付き書式設定による背景色を変更する関数
+  # 条件付き書式設定で背景色を変更する関数
   # 09_41_excel-bg-color-fun.R
 set_bg_color <- function(wb, sheet, color = "#FFFF00", strings){
   bg_color <- openxlsx::createStyle(bgFill = color)
@@ -383,8 +381,8 @@ saveWorkbook(wb, file_timetable, overwrite = TRUE)
 val <- 1:10
 str <- stringr::fruit[val]
 df <- tibble::tibble(
-  equal_3 = val, colourScale = val, databar = val, top5 = val, bottom3 = val, 
-  duplicates = letters[sample(1:9, 10, replace = TRUE)],
+  equal_3 = val, colourScale = val, databar = val, 
+  top5 = val, bottom3 = val, duplicates = letters[sample(1:9, 10, replace = TRUE)],
   beginsWith_a = str, endsWith_e = str, contains_p = str, notContains_c = str)
 file_cond <- fs::path_temp("conditional.xlsx")
 write.xlsx(df, file_cond)

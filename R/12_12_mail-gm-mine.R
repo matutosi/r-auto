@@ -1,4 +1,4 @@
-  # メールの作成の別の方法
+  # メール作成の別の方法
   # 12_12_mail-gm-mine.R
 gmail <-
   gm_mime(to = "hogehoge@gmail.com",

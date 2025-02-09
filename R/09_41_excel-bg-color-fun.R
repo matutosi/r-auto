@@ -1,4 +1,4 @@
-  # 条件付き書式設定による背景色を変更する関数
+  # 条件付き書式設定で背景色を変更する関数
   # 09_41_excel-bg-color-fun.R
 set_bg_color <- function(wb, sheet, color = "#FFFF00", strings){
   bg_color <- openxlsx::createStyle(bgFill = color)

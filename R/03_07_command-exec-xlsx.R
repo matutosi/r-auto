@@ -1,4 +1,4 @@
-  # ワークブックをエクセルで開く
+  # ワークブックをExcelで開く
   # 03_07_command-exec-xlsx.R
 path <- fs::path_temp("iris.xlsx")
 wb <- openxlsx::write.xlsx(iris, path)

@@ -1,4 +1,4 @@
-  # ワードから文字列を抽出する関数
+  # Wordから文字列を抽出する関数
   # 08_08_word-docx-extract-text-fun.R
 extract_docx_text <- function(docx, normal = TRUE, heading = TRUE, flatten = TRUE){
   if(sum(normal, heading) == 0){ # 両方ともFALSEのとき

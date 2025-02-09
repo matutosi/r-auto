@@ -6,7 +6,7 @@ install.packages("tidyverse")
   # 02_02_analysis-library.R
 library(tidyverse)
 
-  # エクセルの全シートを読み込む関数
+  # Excelの全シートを読み込む関数
   # 02_03_analysis-read-all-sheets-fun.R
 read_all_sheets <- function(path, add_sheet_name = TRUE){
   sheets <- openxlsx::getSheetNames(path)  # シート名の一覧
@@ -76,7 +76,7 @@ head(sales, 3)
   # 02_11_analysis-tidyr-separate-longer-delim.R
 answer <- answer |>
   tidyr::separate_longer_delim(apps, delim = ";") |> # ";"で区切り
-  tidyr::replace_na(list(apps = "-", comment = ""))  # 
+  tidyr::replace_na(list(apps = "-", comment = ""))  # NAを置換
 head(answer, 3)
 
   # データフレームの結合
@@ -89,14 +89,14 @@ head(sales, 3)
   # 漏れ(欠落データ)の抽出
   # 02_13_analysis-dplyr-anti-join.R
 lost <- dplyr::filter(answer, apps != "-") # apps == "-" を欠落させる
-print(answer, n = 3)
-print(lost, n = 3)
-dplyr::anti_join(answer, lost) |> print(n = 3) # lostで欠落したもの
+print(answer, n = 3) # もとのデータ
+print(lost, n = 3)   # 欠落データ
+dplyr::anti_join(answer, lost) |> print(n = 3) # lostで欠落したものを抽出
 
   # 列の選択
   # 02_14_analysis-dplyr-select.R
-dplyr::select(answer, id, area, years) |> head(3)
-dplyr::select(sales, -c(period, item)) |> head(3)
+dplyr::select(answer, id, area, years) |> head(3) # 列を選択
+dplyr::select(sales, -c(period, item)) |> head(3) # 列を除外
 
   # 行を抽出
   # 02_15_analysis-dplyr-filter.R
@@ -112,11 +112,13 @@ dplyr::arrange(sales, desc(count)) |> head(3)
 
   # 列の追加
   # 02_18_analysis-dplyr-mutate.R
+  # idとperiodのデータ型を変換
 dplyr::mutate(answer, id = as.numeric(id), years = as.numeric(years)) |> 
   print(n = 3)
+  # 2列めの前にapという列を追加
 answer |>
   dplyr::mutate(id = as.numeric(id), years = as.numeric(years)) |> 
-  dplyr::mutate(ap = stringr::str_sub(apps, 1, 2), .before = 2) |> # 2列目の前
+  dplyr::mutate(ap = stringr::str_sub(apps, 1, 2), .before = 2) |> 
   print(n = 3)
 
   # 指定列の変換
@@ -188,8 +190,8 @@ answer |> # 複数回答・クロス集計
 
   # 列の順序変更と列名の変更
   # 02_29_analysis-dplyr-others.R
-dplyr::relocate(answer, ans)   # 出力は省略
-dplyr::rename(df, ans_id = id) # 出力は省略
+dplyr::relocate(answer, apps)      # 出力は省略
+dplyr::rename(answer, ans_id = id) # 出力は省略
 
   # 個数を数えるショートカット
   # 02_30_analysis-dplyr-tally.R
@@ -228,7 +230,7 @@ for(s in unique(sales$shop)){
   plot(factor(sales_sub$item), sales_sub$count)
 }
 
-  # facetによる分割して作図
+  # facetによる散布図の分割
   # 02_35_analysis-ggplot-facet-wrap.R
 sales |>
   ggplot2::ggplot(ggplot2::aes(item, count)) + 
@@ -271,7 +273,7 @@ gg_sales_cairo <-
 path <- fs::file_temp(ext = "pdf")
 ggplot2::ggsave(path, gg_sales_cairo, 
   device = cairo_pdf, width = 7, height = 7)
-  # shell.exec(path)
+  # shell.exec(path) # 関連付けアプリでファイルを開く
 
   # プロット内に日本語を入れる
   # 02_42_analysis-geom-text.R
@@ -308,10 +310,10 @@ gg_sales_split <-
   purrr::imap(
     \(.x, .y){
       ggplot2::ggplot(.x, ggplot2::aes(period, count, group = item)) +
-      ggplot2::geom_line(aes(color = item)) +
-      ggplot2::theme_bw() + 
-      ggplot2::theme(text = ggplot2::element_text(family = "Yu Mincho")) + 
-      ggplot2::labs(title = .y)
+      ggplot2::geom_line(aes(color = item)) + # 線の色をitemに対応させる
+      ggplot2::theme_bw() +                   # 白黒のテーマ
+      ggplot2::theme(text = ggplot2::element_text(family = "Yu Mincho")) +
+      ggplot2::labs(title = .y)               # フォントとタイトルを設定
     }
   )
 

@@ -25,13 +25,13 @@ extract_date_ish <- function(str, simplify = FALSE){
   }
   return(res)
 }
-  # 和暦判別の関数
+  # 和暦判別の関数(`is_jp_date()`)
   # 06_11_date-is-jp-date-fun.R
 is_jp_date <- function(str){
   era <- "^([MTSHRＭＴＳＨＲ]|明治|大正|昭和|平成|令和)[\\d元]"
   stringr::str_detect(str, era)
 }
-  # 年の有無の判別関数
+  # 年の有無の判別関数(`has_yr()`)
   # 06_12_date-has-yr-fun.R
 has_yr <- function(str){
   dw <- "\\([月火水木金土日祝]+\\)$"
@@ -51,7 +51,7 @@ has_yr <- function(str){
     )
   return(res)
 }
-  # 年追加の助関数
+  # 年追加の助関数(`this_year()`と`is_future()`)
   # 06_13_date-paste-year-helper-fun.R
 this_year <- function(){
   lubridate::today() |>
@@ -60,7 +60,7 @@ this_year <- function(){
 is_future <- function(date){
   lubridate::today() < date
 }
-  # 年の追加関数
+  # 年の追加関数(`paste_year()`)
   # 06_14_date-paste-year-fun.R
 paste_year <- function(str, past = FALSE){
   str <- stringi::stri_trans_general(str, "fullwidth-halfwidth")
@@ -84,10 +84,10 @@ date_ish2date <- function(str, past = FALSE){
   str <- stringi::stri_trans_general(str, "fullwidth-halfwidth")
   str <-
     dplyr::if_else(is_jp_date(str),        # 和暦or西暦
-      zipangu::convert_jdate(str),         # 和暦を日付に変換
+      zipangu::convert_jdate(str),         # 和暦を日付クラスに変換
       dplyr::if_else(has_yr(str),          # 西暦、年の有無
-        lubridate::ymd(str, quiet = TRUE), # 日付に変換
-        paste_year(str, past = past)       # 年を追加して日付に変換
+        lubridate::ymd(str, quiet = TRUE), # 日付クラスに変換
+        paste_year(str, past = past)       # 年を追加して日付クラスに変換
       )
     )
   return(str)
@@ -113,7 +113,7 @@ format_year <- function(x, out_format = "west"){
   x <- stringi::stri_datetime_format(x, format = format, locale = locale)
   return(x)
 }
-  # 曜日を取り出す関数
+  # 曜日を取り出す関数(`extract_wday()`)
   # 06_23_date-extract-wday-fun.R
 extract_wday <- function(str){
   str <- stringi::stri_trans_general(str, "fullwidth-halfwidth")
@@ -128,8 +128,8 @@ extract_wday <- function(str){
     stringr::str_extract(dw)               # 曜日の抽出
   return(wd)
 }
-  # 日付と曜日との整合性を確認する関数
-  # 06_25_date-is-correct-wday-fun.R
+  # 日付と曜日との整合性を確認する関数(`replace_wday()`)
+  # 06_24_date-is-correct-wday-fun.R
 is_correct_wday <- function(str){
   wday_orig <- extract_wday(str) # 元の曜日
   date <- date_ish2date(str)     # 日付
@@ -142,16 +142,16 @@ is_correct_wday <- function(str){
               wday_orig = wday_orig, date = date, wday = wday)
   return(res)
 }
-  # 元の書式のまま曜日のみ置換する関数
-  # 06_27_date-replace-wday-fun.R
+  # 元の書式のまま曜日のみ置換する関数(`replace_wday()`)
+  # 06_26_date-replace-wday-fun.R
 replace_wday <- function(str, wday_orig, wday){
   pattern <- paste0("([\\(（])", wday_orig, "([\\)）])") # 置換前
   replacement <- paste0("\\1", wday, "\\2")              # 置換後
   date <- stringr::str_replace(str, pattern, replacement)
   return(date)
 }
-  # 日付を指定の書式にする関数
-  # 06_28_date-format-date-fun.R
+  # 日付を指定の書式にする関数(`replace_wday()`)
+  # 06_27_date-format-date-fun.R
 format_date <- function(x, out_format = "west"){
   if(out_format == "west"){ format <- "uuuu年M月d日(E)" } # 西暦
   if(out_format == "jp")  { format <- "Gy年M月d日(E)" }   # 和暦
@@ -160,7 +160,7 @@ format_date <- function(x, out_format = "west"){
   return(x)
 }
   # 曜日を修正する関数
-  # 06_29_date-update-wday-fun.R
+  # 06_28_date-update-wday-fun.R
 update_wday <- function(str, out_format = "west"){
   res <- is_correct_wday(str)   # 曜日が正しいか判定
   if(out_format == "original"){ # 元の書式
@@ -171,12 +171,12 @@ update_wday <- function(str, out_format = "west"){
   return(date)
 }
   # 各曜日での序数を得る関数
-  # 06_31_date-mweek-fun.R
+  # 06_30_date-mweek-fun.R
 mweek <- function(x){
   (lubridate::mday(x) + 6) %/% 7
 }
   # 1年後の同一位置の年月日を取得する関数
-  # 06_32_date-same-pos-next-yr-fun.R
+  # 06_31_date-same-pos-next-yr-fun.R
 same_pos_next_yr <- function(x, out_format = "west"){
   yr <- lubridate::year(x)  # 年
   mn <- lubridate::month(x) # 月

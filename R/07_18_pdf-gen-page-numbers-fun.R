@@ -1,4 +1,4 @@
-  # 複数ページ分のページ番号のPDFを生成する関数
+  # 複数ページ分のページ番号のPDFを生成する関数(`gen_page_numbers()`)
   # 07_18_pdf-gen-page-numbers-fun.R
 gen_page_numbers <- function(n, x_pos = width / 2, y_pos = 5, 
                              size = 5, colour = "black", 

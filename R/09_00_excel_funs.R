@@ -1,12 +1,11 @@
-  # 列幅を変更する関数
+  # 全シートで列幅を変更する関数
   # 09_21_excel-width-fun.R
 set_col_width_auto <- function(wb_path){ # wb_path：ワークブックのパス(文字列)
   wb <- openxlsx::loadWorkbook(wb_path) # 読込
   for(sheet in sheets(wb)){             # シートごと
     cols <-                             # 列番号
       openxlsx::readWorkbook(wb, sheet) |>
-      ncol() |> 
-      seq() # seq(5)で1:5と同じ
+      ncol() |> seq() # seq(5)で1:5と同じ
     openxlsx::setColWidths(wb, sheet, cols, width = "auto") # 列幅の設定
   }
   openxlsx::saveWorkbook(wb, wb_path, overwrite = TRUE) # 書き込み
@@ -14,7 +13,7 @@ set_col_width_auto <- function(wb_path){ # wb_path：ワークブックのパス
   # 全シートに同じ関数を実行する関数
   # 09_24_excel-autofilter-map-fun.R
 walk_wb <- function(wb, fun, ...){
-  openxlsx::sheets(wb) |>       # シート名を取得
+  openxlsx::sheets(wb) |>          # シート名を取得
     purrr::walk(fun, wb = wb, ...) # fun(wb = wb, sheet = sheet)のように受け取る
 }
   # 09_25_excel-autofilter-wrapper-fun.R
@@ -125,7 +124,7 @@ border_frame <- function(wb, sheet, borderStyle = "mediumDashDot"){
   set_border(wb, sheet, rows = rows  , cols = cols_l, style = style_l) # 左
   set_border(wb, sheet, rows = rows  , cols = cols_r, style = style_r) # 右
 }
-  # 条件付き書式設定による背景色を変更する関数
+  # 条件付き書式設定で背景色を変更する関数
   # 09_41_excel-bg-color-fun.R
 set_bg_color <- function(wb, sheet, color = "#FFFF00", strings){
   bg_color <- openxlsx::createStyle(bgFill = color)

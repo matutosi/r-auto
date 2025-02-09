@@ -3,8 +3,8 @@
 val <- 1:10
 str <- stringr::fruit[val]
 df <- tibble::tibble(
-  equal_3 = val, colourScale = val, databar = val, top5 = val, bottom3 = val, 
-  duplicates = letters[sample(1:9, 10, replace = TRUE)],
+  equal_3 = val, colourScale = val, databar = val, 
+  top5 = val, bottom3 = val, duplicates = letters[sample(1:9, 10, replace = TRUE)],
   beginsWith_a = str, endsWith_e = str, contains_p = str, notContains_c = str)
 file_cond <- fs::path_temp("conditional.xlsx")
 write.xlsx(df, file_cond)

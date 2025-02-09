@@ -2,6 +2,6 @@
   # 02_11_analysis-tidyr-separate-longer-delim.R
 answer <- answer |>
   tidyr::separate_longer_delim(apps, delim = ";") |> # ";"で区切り
-  tidyr::replace_na(list(apps = "-", comment = ""))  # 
+  tidyr::replace_na(list(apps = "-", comment = ""))  # NAを置換
 head(answer, 3)
 

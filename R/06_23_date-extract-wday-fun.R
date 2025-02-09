@@ -1,4 +1,4 @@
-  # 曜日を取り出す関数
+  # 曜日を取り出す関数(`extract_wday()`)
   # 06_23_date-extract-wday-fun.R
 extract_wday <- function(str){
   str <- stringi::stri_trans_general(str, "fullwidth-halfwidth")

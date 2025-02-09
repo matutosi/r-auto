@@ -1,4 +1,4 @@
-  # ページ番号だけのページを作成する関数
+  # ページ番号だけのページを作成する関数(`plot_page_number()`)
   # 07_17_pdf-plot-page-number.R
 plot_page_number <- function(label, x_pos = width / 2, y_pos = 5,
                              size = 5, colour = "black", 

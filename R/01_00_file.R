@@ -5,16 +5,16 @@ library(fs)
 
   # fsパッケージの関数一覧
   # 01_02_file-list.R
-ls("package:fs") |> stringr::str_subset("^dir")
-ls("package:fs") |> stringr::str_subset("^file") |> head()
-ls("package:fs") |> stringr::str_subset("^path") |> head()
+ls("package:fs") |> stringr::str_subset("^dir")            # ディレクトリ操作
+ls("package:fs") |> stringr::str_subset("^file") |> head() # ファイル操作
+ls("package:fs") |> stringr::str_subset("^path") |> head() # パス操作
 
   # 作業ディレクトリの取得
   # 01_03_file-getwd.R
   # OSや使用状況などで表示は異なる
   # Windowsの場合は，USERNAMEにユーザ名が表示される
 path_wd()
-getwd() # 文字列としては同じ
+getwd() # 文字列としては同じものを取得できる
 
   # fsパッケージのディレクトリを作業ディレクトリに設定
   # 01_04_file-setwd-pkg.R
@@ -32,17 +32,17 @@ path_temp("hoge.txt")
 file_temp()
 file_temp(pattern = "example_", ext = "txt")
 
-  # 作業用のディレクトリとファイルの生成
+  # 作業用のファイルとディレクトリの生成
   # 01_07_file-create.R
-dir_create("abc")
 file_create(c("hoge.txt", "fuga.txt", "piyo.txt"))
+dir_create("abc")
 
-  # ディレクトリ一覧の取得
+  # ファイルとディレクトリ一覧の取得
   # 01_08_file-ls.R
 dir_ls()
 dir_ls(recurse = TRUE) # recurse = TRUEで下位ディレクトリも表示
 
-  # `type`を指定したディレクトリ一覧の取得
+  # `type`を指定した一覧の取得
   # 01_09_file-ls-type.R
 dir_ls(type = "file") # ファイルのみ
 dir_ls(type = "directory") # ディレクトリのみ
@@ -77,7 +77,7 @@ file_exists("DESCRIPTIONS")
 dir_exists("doc")
 dir_exists("docs")
 
-  # ディレクトリとファイルの詳細な情報の取得
+  # ファイルとディレクトリの詳細な情報の取得
   # 01_16_file-info.R
 dir_info()
 
@@ -132,7 +132,7 @@ file_copy(files, "abc") # 上書きできずエラー
   # ファイルの削除
   # 01_25_file-delete.R
 (file_delete(copy_files))
-(file_delete(result))
+(file_delete(result)) # resultはコード1.21で指定したもの
 
   # ファイル名の変更
   # 01_26_file-rename.R

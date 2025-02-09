@@ -1,4 +1,4 @@
-  # facetによる分割して作図
+  # facetによる散布図の分割
   # 02_35_analysis-ggplot-facet-wrap.R
 sales |>
   ggplot2::ggplot(ggplot2::aes(item, count)) + 

@@ -12,7 +12,6 @@ tibble::tibble(
                       "images", c("man.gif", "building.jpg")), 
                       collapse = ",")) |>
   openxlsx::write.xlsx(path)
-
 wb <- openxlsx::loadWorkbook(path)
 openxlsx::setColWidths(wb, 1, cols = 1:7, widths = "auto") # 列幅
 openxlsx::addFilter(wb, 1, cols = 1:7, rows = 1) # オートフィルタ

@@ -1,4 +1,4 @@
-  # 年の有無の判別関数
+  # 年の有無の判別関数(`has_yr()`)
   # 06_12_date-has-yr-fun.R
 has_yr <- function(str){
   dw <- "\\([月火水木金土日祝]+\\)$"

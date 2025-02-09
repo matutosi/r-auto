@@ -1,9 +1,9 @@
   # 和暦・西暦の一括変換
   # 06_21_date-convert-yr-replace.R
-yr_west <- paste0(as.character(1950:2024), "年")
+yr_west <- paste0(as.character(1950:2025), "年")
 yr_jp <- convert_yr(yr_west, out_format = "jp")
-sentence <- "昭和48年生まれは、平成30年で45歳、令和5年で50歳です。
-             昭和50年生まれは、平成30年で43歳、令和5年で48歳です。" |>
+sentence <- "昭和48年生まれは、平成30年で45歳、令和7年で52歳です。
+             昭和50年生まれは、平成30年で43歳、令和7年で50歳です。" |>
   stringr::str_remove_all(" ") # 空白を削除
   # 置換するとき
 pattern <- yr_west

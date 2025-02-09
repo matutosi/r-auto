@@ -1,4 +1,4 @@
-  # 複数のPDFファイルからファイルを選択して分割する関数
+  # 複数のPDFファイルからファイルを選択して分割する関数(`subset_pdf()`)
   # 07_07_pdf-subset-fun.R
 subset_pdf <- function(){
   # ファイルの選択

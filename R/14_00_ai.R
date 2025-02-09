@@ -22,20 +22,15 @@ ask_chatgpt("あなたは何の教師ですか。")
   # コードの説明
   # 14_05_ai-chatgpt-explain-code.R
 code <- '
-df <- readr::read_csv("sample.csv") |>
-  filter(df, yr == 2024) |>
-  arrange(name)
+  df <- readr::read_csv("sample.csv") |>
+    filter(df, yr == 2024) |>
+    arrange(name)
 '
 explain_code(code)
 
   # 日本語でのコードの説明
   # 14_06_ai-chatgpt-explain-code-jp.R
 Sys.setenv(OPENAI_RETURN_LANGUAGE = "Japanese")
-code <- '
-df <- readr::read_csv("sample.csv") |>
-  filter(df, yr == 2024) |>
-  arrange(name)
-'
 explain_code(code)
 
   # パラメータによる回答の制御
@@ -115,7 +110,7 @@ gemini_image(image = gg, prompt = prompt)
 
   # Geminiでの図の説明
   # 14_16_ai-gemini-gemini-images.R
-prompt <- "写真の全体の説明をしてください。また、生物がいる場合は、その生物の説明もお願いします。"
+prompt <- "写真全体の説明をしてください。生物がいる場合は、その説明もお願いします。"
 url <- "https://matutosi.github.io/r-auto/data/"
 jpgs <- paste0(url, "image_0", 1:3, ".jpg")
 comments <- list()

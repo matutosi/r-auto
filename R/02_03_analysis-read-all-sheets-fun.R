@@ -1,4 +1,4 @@
-  # エクセルの全シートを読み込む関数
+  # Excelの全シートを読み込む関数
   # 02_03_analysis-read-all-sheets-fun.R
 read_all_sheets <- function(path, add_sheet_name = TRUE){
   sheets <- openxlsx::getSheetNames(path)  # シート名の一覧

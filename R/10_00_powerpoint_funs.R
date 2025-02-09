@@ -1,4 +1,4 @@
-  # パワーポイントから文字列を取り出す関数
+  # PowerPointから文字列を取り出す関数
   # 10_05_powerpoint-extract-pp-text-fun.R
 extract_pp_text <- function(path){
   paragraph <- 
@@ -6,19 +6,19 @@ extract_pp_text <- function(path){
     read_pptx() |>
     pptx_summary() |>
     dplyr::filter(content_type  == "paragraph") |> # 文字列のみ
-    dplyr::filter(text != "") |> # 空を除去
-    dplyr::select(slide_id, text) # 
+    dplyr::filter(text != "") |>                   # 白空を除去
+    dplyr::select(slide_id, text)                  # slide_idとtext列を選択
   text <- 
     paragraph |>
-    dplyr::mutate(dammy = "text") |> # pivot_wider()で使うダミー列
-    tidyr::pivot_wider(id_cols = slide_id, # スライドごとに
-                       names_from = dammy, 
-                       values_from = text, # 文字列を
+    dplyr::mutate(dammy = "text") |>        # pivot_wider()で使うダミー列
+    tidyr::pivot_wider(id_cols = slide_id,  # スライドごとに
+                       names_from = dammy,  
+                       values_from = text,  # 文字列を
                        values_fn = list) |> # リストに
     `$`(_, "text") # 文字列を取り出し
   return(text)
 }
-  # パワーポイントから表のデータを取り出す関数
+  # PowerPointから表のデータを取り出す関数
   # 10_08_powerpoint-extract-pp-table-fun.R
 extract_pp_table <- function(path){
   table <- 
@@ -30,7 +30,7 @@ extract_pp_table <- function(path){
                    value = "text", split = c("id", "slide_id"))
   return(table)
 }
-  # パワーポイントから画像データを取り出す関数
+  # PowerPointから画像を取り出す関数
   # 10_12_powerpoint-extract-pp-image-fun.R
 extract_pp_image <- function(path, out_dir = NULL, overwrite = TRUE){
   pp <- officer::read_pptx(path)                           # 読み込み

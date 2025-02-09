@@ -1,4 +1,4 @@
-  # パワーポイントから表のデータを取り出す関数
+  # PowerPointから表のデータを取り出す関数
   # 10_08_powerpoint-extract-pp-table-fun.R
 extract_pp_table <- function(path){
   table <- 

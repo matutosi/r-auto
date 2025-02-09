@@ -3,6 +3,5 @@
 trimed <- image_trim(imgs[7])
 c(imgs[7], trimed) |>
   image_border(gray(0.7), "10x10") |> 
-  image_append() |> 
-  plot()
+  image_append() |> plot()
 

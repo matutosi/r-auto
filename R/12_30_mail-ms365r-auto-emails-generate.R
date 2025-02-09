@@ -3,4 +3,3 @@
 outlook <- get_business_outlook()     # 職場または学校アカウント
 emails <- auto_emails(path = fs::path_temp("email.xlsx"), outlook)
 
-

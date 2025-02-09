@@ -40,14 +40,14 @@ gm_profile()
   #   * num_messages: 123456
   #   * num_threads: 78901
 
-  # メールの表示
+  # メール一覧の表示
   # 12_07_mail-gm-threads.R
 gm_threads(search = "検索文字列", num_results = 3)
+messages <- gm_messages(search = "検索文字列", num_results = 3)
+messages
 
   # Gmailの内容表示
   # 12_08_mail-gm-messages.R
-messages <- gm_messages(search = "検索文字列", num_results = 3)
-messages
 gm_id(messages)[[1]]  |>
   gm_message()
 threads <- gm_messages(search = "検索文字列", num_results = 3)
@@ -77,7 +77,7 @@ gmail <-
   gm_text_body("テストメールの本文．") |>
   gm_attach_file("photo.jpg") # 作業ディレクトリにphoto.jpgがある場合
 
-  # メールの作成の別の方法
+  # メール作成の別の方法
   # 12_12_mail-gm-mine.R
 gmail <-
   gm_mime(to = "hogehoge@gmail.com",
@@ -163,7 +163,6 @@ tibble::tibble(
                       "images", c("man.gif", "building.jpg")), 
                       collapse = ",")) |>
   openxlsx::write.xlsx(path)
-
 wb <- openxlsx::loadWorkbook(path)
 openxlsx::setColWidths(wb, 1, cols = 1:7, widths = "auto") # 列幅
 openxlsx::addFilter(wb, 1, cols = 1:7, rows = 1) # オートフィルタ
@@ -250,7 +249,6 @@ attach_files <- function(email, files){
   # 12_30_mail-ms365r-auto-emails-generate.R
 outlook <- get_business_outlook()     # 職場または学校アカウント
 emails <- auto_emails(path = fs::path_temp("email.xlsx"), outlook)
-
 
   # 下書きメールの一斉送信
   # 12_31_mail-ms365r-auto-drafts-send.R

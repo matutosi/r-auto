@@ -1,4 +1,4 @@
-  # パッケージの検索例
+  # パッケージのURLを開く
   # 15_24_scrape-search-cran.R
 pkgs <- scrape_cran_pkgs()
 pattern = stringr::regex("GPT|OpenAI", ignore_case = TRUE)

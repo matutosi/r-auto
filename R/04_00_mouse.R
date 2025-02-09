@@ -10,7 +10,6 @@ keybd.press("win+left") # アプリを左側に
   # キーボードからの文字入力
   # 04_03_kybd-keybd-type.R
 keybd.type_string("abc") # abcを入力
- # keybd.press("a+b+c")  # 上と同じ
 
   # キーボードの値一覧
   # 04_04_kybd-keyboard-value.R
@@ -19,7 +18,7 @@ dplyr::slice(keyboard_value, 85:90)
   # コマンドプロンプトの起動
   # 04_05_kybd-shell-instant.R
 KeyboardSimulator::keybd.press("win+r")
-Sys.sleep(0.5) # エラーの場合は長くする
+Sys.sleep(0.5) # エラーが出る場合は長くする
 KeyboardSimulator::keybd.type_string("cmd")
 KeyboardSimulator::keybd.press("enter")
 
@@ -141,7 +140,7 @@ for(p in pos){
   # USBの取り出しコードの例
   # 04_21_kybd-remove-usb.R
 pos_original <- KeyboardSimulator::mouse.get_cursor()
- # スクリプトで使用時は、mouse_move_click()の定義が必要
+ # スクリプトで使用するときは、mouse_move_click()の定義が必要
 mouse_move_click(1055, 652) # 位置は適宜変更の必要あり
 mouse_move_click(1179, 695)
 mouse_move_click(1021, 677)

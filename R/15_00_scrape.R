@@ -47,7 +47,7 @@ html |> html_elements(xpath = "/html/body/div[5]/h1")
   # 15_09_scrape-html-text.R
 html_text(h1)
 
-  # 文字列の取り出し(ブラウザ的な表示)
+  # 文字列の取り出し(`html_text()とhtml_text2()の比較)`
   # 15_10_scrape-html-text2.R
 html |> html_elements("p") |> html_text()
 html |> html_elements("p") |> html_text2()
@@ -145,7 +145,7 @@ search_cran_pkgs <- function(pkgs, pattern){
   return(list(pkg = pkgs, url = urls))
 }
 
-  # パッケージの検索例
+  # パッケージのURLを開く
   # 15_24_scrape-search-cran.R
 pkgs <- scrape_cran_pkgs()
 pattern = stringr::regex("GPT|OpenAI", ignore_case = TRUE)
@@ -185,7 +185,7 @@ get_new_book_urls <- function(url){
   # 新刊紹介の個別ページの取得
   # 15_29_scrape-books-urls.R
 new_book_urls <- 
-  monthly_urls[1:2] |> # すべての月のときは不要
+  monthly_urls[1:2] |> # すべての月のときは[1:2]は不要
   purrr::map(get_new_book_urls) |>
   unlist()
 new_book_urls
@@ -273,22 +273,21 @@ html_elements(html, "h3")
   # 15_38_scrape-books-form-selenider.R
 session <- selenider::selenider_session(session = "chromote", timeout = 10)
 selenider::open_url(url)
-  # session$driver$view()                         # ブラウザを表示するとき
+  # session$driver$view()                         # ブラウザで表示するとき
 selenider::s(".searchWindow-input") |>            # フォームの入力位置の要素
   selenider::elem_set_value("テキストマイニング") # フォームへの入力
 selenider::s(".btn") |>                           # 検索ボタンの要素
   elem_click()                                    # 検索ボタンをクリック
 selenider::ss("h3")
 
-  # 雨雲の動きを開く
+  # 雨雲の動きのページを開く
   # 15_39_scrape-jma-open-url.R
 latitude <- "34.72"
 longitude <- "135.30"
 zoom <- "12"
-url <- 
-  paste0("https://www.jma.go.jp/bosai/nowc/#",
-         "lat:", latitude, "/lon:", longitude, "/zoom:", zoom, 
-         "/colordepth:normal/elements:hrpns&slmcs&slmcs_fcst")
+url <- paste0("https://www.jma.go.jp/bosai/nowc/#",
+              "lat:", latitude, "/lon:", longitude, "/zoom:", zoom, 
+              "/colordepth:normal/elements:hrpns&slmcs&slmcs_fcst")
 session <- selenider_session(session = "chromote", timeout = 10)
 open_url(url)
 session$driver$view()

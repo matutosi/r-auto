@@ -1,4 +1,4 @@
-  # officerとRDCOMClientのインストールと呼び出し
+  # officerのインストールと呼び出し
   # 08_01_word-install.R
 install.packages("officer")
 library("officer")
@@ -13,7 +13,7 @@ path_doc_1 <-
 curl::curl_download(url, path_doc_1) # urlからダウンロード
   # shell.exec(path_doc_1)
 
-  # ワードファイルの読み込み
+  # Wordファイルの読み込み
   # 08_03_word-read-docx.R
 doc_1 <- read_docx(path_doc_1)
 doc_1
@@ -51,7 +51,7 @@ doc_1 |>
   dplyr::filter(text != "") |>
   print(n = 3)
 
-  # ワードから文字列を抽出する関数
+  # Wordから文字列を抽出する関数
   # 08_08_word-docx-extract-text-fun.R
 extract_docx_text <- function(docx, normal = TRUE, heading = TRUE, flatten = TRUE){
   if(sum(normal, heading) == 0){ # 両方ともFALSEのとき
@@ -70,12 +70,12 @@ extract_docx_text <- function(docx, normal = TRUE, heading = TRUE, flatten = TRU
   return(text)
 }
 
-  # ワードから文字列の抽出
+  # Wordから文字列の抽出
   # 08_09_word-docx-extract-text.R
 extract_docx_text(doc_1, heading = FALSE)
 extract_docx_text(doc_1, normal = FALSE, flatten = FALSE)
 
-  # ワードの内容をテキストとして保存
+  # Wordの内容をテキストとして保存
   # 08_10_word-save-text.R
 path_txt <- fs::path_temp("doc.txt")
 doc_1 |>
@@ -157,10 +157,10 @@ openxlsx::setColWidths(wb, 1, cols = 1:7, width = "auto")  # 列幅の変更
 openxlsx::saveWorkbook(wb, comment_path, overwrite = TRUE) # 保存
   # shell.exec(comment_path)
 
-  # ディクトリ内のワードから画像を抽出する関数
+  # ディクトリ内のWordファイルから画像を抽出する関数
   # 08_18_word-extract-docx-img-fun.R
 extract_docx_imgs <- function(path) {
-  docxs <- fs::dir_ls(path, regexp = "\\.docx$") # ワードの一覧
+  docxs <- fs::dir_ls(path, regexp = "\\.docx$") # Wordファイルの一覧
   zips <-
     docxs |>
     fs::path_file() |>         # ファイル名のみ
@@ -193,11 +193,11 @@ extract_imgs <- function(zip_dir) {
   }
 }
 
-  # ディクトリ内のワードから画像を抽出
+  # ディクトリ内のWordから画像を抽出
   # 08_20_word-extract-docx-img.R
 dir <- fs::dir_create(fs::path_temp(), "images") # ディレクトリの作成
 fs::file_copy(c(path_doc_1, path_doc_2), dir)    # ファイルを複写
-imgs <- extract_docx_imgs(dir)                   # ワードから画像を抽出
+imgs <- extract_docx_imgs(dir)                   # Wordから画像を抽出
 fs::path_file(imgs)                              # 抽出した画像のファイル名
  # shell.exec(dir)
 
@@ -205,7 +205,7 @@ fs::path_file(imgs)                              # 抽出した画像のファ�
   # 08_21_word-date-fun.R
 source("https://matutosi.github.io/r-auto/R/06_00_date_funs.R")
 
-  # ワードの文書内の日付の修正
+  # Wordファイル内の日付の修正
   # 08_22_word-update-dates.R
 text <- extract_docx_text(doc_1) # 文字列の抽出
 dates_before <- # 日付の抽出

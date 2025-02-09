@@ -3,27 +3,24 @@
 install.packages("officer")
 library("officer")
 
-  # パワーポイントの読み込み
+  # PowerPointの読み込み
   # 10_02_powerpoint-read.R
 url <- "https://matutosi.github.io/r-auto/data/slide.pptx"
 path <- fs::path_temp("slide.pptx")
 curl::curl_download(url, path) # urlからPDFをダウンロード
 pp <- read_pptx(path)
 
-  # パワーポイントの概要表示
+  # PowerPointの概要表示
   # 10_03_powerpoint-summary.R
-pptx_summary(pp) |> 
-  tibble::tibble() |>
-  print(n = 5)
+pptx_summary(pp) |> tibble::tibble() |> print(n = 5)
 
   # 文字列のデータ
   # 10_04_powerpoint-summary-text.R
 pptx_summary(pp) |>
   dplyr::filter(content_type == "paragraph") |>
-  tibble::tibble() |> 
-  print(n = 5)
+  tibble::tibble() |>  print(n = 5)
 
-  # パワーポイントから文字列を取り出す関数
+  # PowerPointから文字列を取り出す関数
   # 10_05_powerpoint-extract-pp-text-fun.R
 extract_pp_text <- function(path){
   paragraph <- 
@@ -31,20 +28,20 @@ extract_pp_text <- function(path){
     read_pptx() |>
     pptx_summary() |>
     dplyr::filter(content_type  == "paragraph") |> # 文字列のみ
-    dplyr::filter(text != "") |> # 空を除去
-    dplyr::select(slide_id, text) # 
+    dplyr::filter(text != "") |>                   # 白空を除去
+    dplyr::select(slide_id, text)                  # slide_idとtext列を選択
   text <- 
     paragraph |>
-    dplyr::mutate(dammy = "text") |> # pivot_wider()で使うダミー列
-    tidyr::pivot_wider(id_cols = slide_id, # スライドごとに
-                       names_from = dammy, 
-                       values_from = text, # 文字列を
+    dplyr::mutate(dammy = "text") |>        # pivot_wider()で使うダミー列
+    tidyr::pivot_wider(id_cols = slide_id,  # スライドごとに
+                       names_from = dammy,  
+                       values_from = text,  # 文字列を
                        values_fn = list) |> # リストに
     `$`(_, "text") # 文字列を取り出し
   return(text)
 }
 
-  # パワーポイントからの文字列の取り出し
+  # PowerPointからの文字列の取り出し
   # 10_06_powerpoint-extract-pp-text.R
 extract_pp_text(path) |> head(3)
 
@@ -54,10 +51,9 @@ pptx_summary(pp) |>
   dplyr::filter(content_type == "table cell") |>
   dplyr::transmute(id, row_id, cell_id, 
                    text = stringr::str_squish(text)) |> # 余分な空白文字を除去
-  tibble::tibble() |>
-  print(n = 5)
+  tibble::tibble() |> print(n = 5)
 
-  # パワーポイントから表のデータを取り出す関数
+  # PowerPointから表のデータを取り出す関数
   # 10_08_powerpoint-extract-pp-table-fun.R
 extract_pp_table <- function(path){
   table <- 
@@ -70,23 +66,23 @@ extract_pp_table <- function(path){
   return(table)
 }
 
-  # パワーポイントからの表のデータの取り出し
+  # PowerPointからの表のデータの取り出し
   # 10_09_powerpoint-extract-pp-table.R
 extract_pp_table(path) |> 
   head(1) # 3つの表の内容は同じなので2つ目以降は省略
 
-  # 画像データの一覧の取り出し
+  # 画像の一覧の取り出し
   # 10_10_powerpoint-summary-image.R
 pptx_summary(pp) |>
   dplyr::filter(content_type == "image") |>
   `$`(_, "media_file") |> 
   head()
 
-  # パワーポイントのファイルのディレクトリ
+  # PowerPointのファイルのディレクトリ
   # 10_11_powerpoint-package-dir.R
 fs::path(pp$package_dir)
 
-  # パワーポイントから画像データを取り出す関数
+  # PowerPointから画像を取り出す関数
   # 10_12_powerpoint-extract-pp-image-fun.R
 extract_pp_image <- function(path, out_dir = NULL, overwrite = TRUE){
   pp <- officer::read_pptx(path)                           # 読み込み
@@ -118,7 +114,7 @@ extract_pp_image <- function(path, out_dir = NULL, overwrite = TRUE){
   return(out_files)
 }
 
-  # パワーポイントからの画像データの取り出し
+  # PowerPointからの画像の取り出し
   # 10_13_powerpoint-extract-pp-image.R
 out_dir <- fs::path_home("desktop")
 path_images <- extract_pp_image(path, out_dir, overwrite = TRUE)
@@ -242,7 +238,7 @@ add_fig <- function(pp, title = "", path_img, fig_full_size = FALSE,
   return(pp)
 }
 
-  # パワーポイントの作成
+  # PowerPointの作成
   # 10_18_powerpoint-generate.R
 str <- c("-大項目;--中項目;-大項目;--中項目;--中項目;---小項目;---小項目")
 ft <- flextable::flextable(head(iris)) |> flextable::autofit()
@@ -262,8 +258,7 @@ pp <-
   add_content(title = "ggplotの図", content = gg_iris) |>
   add_content(title = "編集可能な図", content = editable_gg) |>
   add_fig(title = "pngなどの画像", path_img = r_img)
-
-path <- fs::path_temp("slide.pptx")
+path <- fs::path_temp("slide.pptx") # 保存
 print(pp, target = path)
   # shell.exec(path)
 

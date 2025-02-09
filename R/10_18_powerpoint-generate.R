@@ -1,4 +1,4 @@
-  # パワーポイントの作成
+  # PowerPointの作成
   # 10_18_powerpoint-generate.R
 str <- c("-大項目;--中項目;-大項目;--中項目;--中項目;---小項目;---小項目")
 ft <- flextable::flextable(head(iris)) |> flextable::autofit()
@@ -18,8 +18,7 @@ pp <-
   add_content(title = "ggplotの図", content = gg_iris) |>
   add_content(title = "編集可能な図", content = editable_gg) |>
   add_fig(title = "pngなどの画像", path_img = r_img)
-
-path <- fs::path_temp("slide.pptx")
+path <- fs::path_temp("slide.pptx") # 保存
 print(pp, target = path)
   # shell.exec(path)
 
