@@ -1,4 +1,4 @@
-  # PowerPointから文字列を取り出す関数
+  # PowerPointファイルから文字列を取り出す関数
   # 10_05_powerpoint-extract-pp-text-fun.R
 extract_pp_text <- function(path){
   paragraph <- 

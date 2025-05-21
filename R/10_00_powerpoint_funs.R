@@ -1,4 +1,4 @@
-  # PowerPointから文字列を取り出す関数
+  # PowerPointファイルから文字列を取り出す関数
   # 10_05_powerpoint-extract-pp-text-fun.R
 extract_pp_text <- function(path){
   paragraph <- 
@@ -18,7 +18,7 @@ extract_pp_text <- function(path){
     `$`(_, "text") # 文字列を取り出し
   return(text)
 }
-  # PowerPointから表のデータを取り出す関数
+  # PowerPointファイルから表のデータを取り出す関数
   # 10_08_powerpoint-extract-pp-table-fun.R
 extract_pp_table <- function(path){
   table <- 
@@ -30,7 +30,7 @@ extract_pp_table <- function(path){
                    value = "text", split = c("id", "slide_id"))
   return(table)
 }
-  # PowerPointから画像を取り出す関数
+  # PowerPointファイルから画像を取り出す関数
   # 10_12_powerpoint-extract-pp-image-fun.R
 extract_pp_image <- function(path, out_dir = NULL, overwrite = TRUE){
   pp <- officer::read_pptx(path)                           # 読み込み

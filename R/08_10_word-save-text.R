@@ -1,4 +1,4 @@
-  # Wordの内容をテキストとして保存
+  # Wordの内容をテキストファイルとして保存
   # 08_10_word-save-text.R
 path_txt <- fs::path_temp("doc.txt")
 doc_1 |>

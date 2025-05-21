@@ -17,7 +17,7 @@ border_between_categ <- function(wb, sheet, categ){
   rows <- new_categ_rows(wb, sheet, categ)                    # 範囲
   set_border(wb, sheet, rows = rows, style = style)           # 設定
 }
-  # set_border()の拡張版
+  # set_border()の拡張版(再定義)
 set_border <- function(wb, sheet, rows = NULL, cols = NULL, 
                        border, borderStyle, style = NULL, 
                        gridExpand = TRUE){

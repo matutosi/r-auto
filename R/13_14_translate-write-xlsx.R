@@ -1,5 +1,5 @@
   # 翻訳結果をExcelに書き込み
-  # 13_13_translate-write-xlsx.R
+  # 13_14_translate-write-xlsx.R
 path <- fs::path_temp("sample.xlsx")
 openxlsx::write.xlsx(result, path)                        # Excelに書き込み
 wb <- openxlsx::loadWorkbook(path)                        # 読み込み

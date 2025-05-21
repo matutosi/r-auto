@@ -32,15 +32,19 @@ available_languages2(deepl_key)
  ##  (省略)
  ## 14 JA       Japanese  
 
+  # 利用量の確認
+  # 13_06_translate-usage.R
+usage2(deepl_key)
+
   # 翻訳の例
-  # 13_06_translate-translate.R
+  # 13_07_translate-translate.R
 text <- "This is an example of a translation by DeepL." # もとの文
 translate2(text = text, target_lang = "JA", 
   source_lang = "EN", auth_key = deepl_key)
  ## [1] "これはDeepLによる翻訳の例である。"
 
   # 翻訳用の文章の保存
-  # 13_07_translate-writelines.R
+  # 13_08_translate-writelines.R
 path <- fs::path_temp("sample.txt")
 head(sentences) # stringrのデータ
 paste0(sentences[1:30], collapse = " ") |>
@@ -48,7 +52,7 @@ paste0(sentences[1:30], collapse = " ") |>
   # shell.exec(path)
 
   # 翻訳用の文章の読み込みと分割
-  # 13_08_translate-readlines.R
+  # 13_09_translate-readlines.R
 en <- 
   path |>
   readLines() |>
@@ -62,7 +66,7 @@ en
  ## 3       1          3 Two blue fish swam in the tank. Her purse …
 
   # deeplrによる翻訳(for版)
-  # 13_09_translate-translated.R
+  # 13_10_translate-translated.R
 text <- en$segment_text
 translated <- list()
 len <- length(text)
@@ -77,7 +81,7 @@ translated
  ## [3] "水槽には2匹の青い魚が泳いでいた。彼女の財布は無駄なゴミで..."
 
   # deeplrによる翻訳(map版)
-  # 13_10_translate-translated-safely.R
+  # 13_11_translate-translated-safely.R
 text <- en$segment_text
 translate2_possibly <- purrr::possibly(translate2, otherwise = "!翻訳エラー")
 translated <- 
@@ -90,7 +94,7 @@ translated
  ## [3] "水槽には2匹の青い魚が泳いでいた。彼女の財布は無駄なゴミで..."
 
   # 文に分割する関数
-  # 13_11_translate-split-sentence-fun.R
+  # 13_12_translate-split-sentence-fun.R
 split_sentence <- function(x){
   x <- 
     x |>
@@ -101,7 +105,7 @@ split_sentence <- function(x){
 }
 
   # 文への分割
-  # 13_12_translate-split-text.R
+  # 13_13_translate-split-text.R
 result <- 
   tibble::tibble(en = split_sentence(text), 
                  jp = split_sentence(translated)) |>
@@ -117,7 +121,7 @@ result <-
  ##  (省略)
 
   # 翻訳結果をExcelに書き込み
-  # 13_13_translate-write-xlsx.R
+  # 13_14_translate-write-xlsx.R
 path <- fs::path_temp("sample.xlsx")
 openxlsx::write.xlsx(result, path)                        # Excelに書き込み
 wb <- openxlsx::loadWorkbook(path)                        # 読み込み
@@ -126,15 +130,11 @@ openxlsx::saveWorkbook(wb, path, overwrite = TRUE)        # 書き込み
   # shell.exec(path)
 
   # 中間言語を使った文章の改善
-  # 13_14_translate-pimp2.R
+  # 13_15_translate-pimp2.R
 text <- "In former times I lived in Kobe" # 変な英語
 pimp2(text = text, source_lang = "EN", help_lang = "JA", auth_key = deepl_key)
 text <- "私の大きい兄弟は、仕事を教師です。" # 変な日本語
 pimp2(text = text, source_lang = "JA", help_lang = "EN", auth_key = deepl_key)
-
-  # 利用量の確認
-  # 13_15_translate-usage.R
-usage2(deepl_key)
 
   # textrarのインストールと呼び出し
   # 13_16_translate-textrar-install.R

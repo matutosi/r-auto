@@ -4,7 +4,7 @@ extract_docx_imgs <- function(path) {
   docxs <- fs::dir_ls(path, regexp = "\\.docx$") # Wordファイルの一覧
   zips <-
     docxs |>
-    fs::path_file() |>         # ファイル名のみ
+    fs::path_file() |>         # ファイル名のみ抽出
     fs::path_ext_set("zip") |> # 拡張子をzipに変更
     fs::path_temp()            # 一時ファイル
   fs::file_copy(docxs, zips, overwrite = TRUE) # docxをzipとして複製

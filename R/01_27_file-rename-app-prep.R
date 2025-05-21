@@ -1,4 +1,4 @@
-  # 作業用のダミーファイルの生成
+  # アルファベットのダミーファイルの生成
   # 01_27_file-rename-app-prep.R
 paste0(letters[1:10], ".pdf") |>
   file_create()

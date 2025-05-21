@@ -1,4 +1,4 @@
-  # 関連付けアプリで開く関数
+  # 関連付けアプリで開く関数(MacやUbuntu用)
   # 03_06_command-exec-mac-fun.R
 shell.exec <- function(file){
   cmd <- paste0("open ", file)

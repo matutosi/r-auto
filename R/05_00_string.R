@@ -6,12 +6,14 @@ str_neko <-
 str_c(str_neko, "◆") # 各文字列に"◆"を追加、paste0()も同じ
 
   # collapseで1つの文字列に結合する
-str_c(str_neko[1:3], collapse = "◆") # [1:3]：出力を短くするため
+str_c(str_neko, collapse = "◆")
 
   # 複数の文字列を引数にとる場合
 str_c("吾輩は", "猫である。")
 
-str_c("吾輩は", "猫である。", sep = "◆")  # 注意：動作が異なる
+  # sepで結合時に文字を挿入する
+  # paste0()と動作が異なるので注意
+str_c("吾輩は", "猫である。", sep = "◆")
 paste0("吾輩は", "猫である。", sep = "◆")
 
   # 文字列の結合での注意点
@@ -43,7 +45,7 @@ pattern_ic <- fixed("a.c", ignore_case = TRUE)
 str_view(str, pattern)    # 文字列そのもの、大・小の区別あり
 str_view(str, pattern_ic) # 文字列そのもの、大・小の区別なし
 
-  # エスケープ文字とメタ文字の例
+  # エスケープ文字の例
   # 05_06_string-regexp-meta.R
 str <- "Hello. "
 str_view(str, ".") # すべてにマッチ
@@ -74,20 +76,20 @@ str_detect(str_neko, "猫")
 str_starts(str_neko, "名前")
 str_ends(str_neko, "t.")
 
-  # 文字列の検索
+  # データフレームからの要素の抽出
   # 05_11_string-filter-detect.R
 mpg <- mpg[,1:5]   # 自動車の燃費データ(dplyrに含まれる)のうち5列だけ
 dplyr::filter(mpg, str_detect(model, "pickup")) |> print(n = 3)
 dplyr::filter(mpg, str_detect(model, "pickup", negate = TRUE)) |> print(n = 3)
 
-  # 文字列の抽出
+  # ベクトルからの要素の抽出
   # 05_12_string-str-subset.R
 str_stringr <- ls("package:stringr") # パッケージのオブジェクト一覧
 length(str_stringr)   # 要素数
 str_subset(str_stringr, "^str_s") # 最初がstr_s
 str_subset(str_stringr, "t$")     # 末尾がt
 
-  # 文字列の抽出
+  # 位置指定による文字列の抽出
   # 05_13_string-str-sub.R
 (str_123 <- c(paste0(1:9, collapse = ""), "abcdefg", "あいうえおかきくけこ"))
 str_sub(str_123, start = 2, end = 6) # すべて2-6を抽出
@@ -95,7 +97,7 @@ str_sub(str_123, 1:3, 3:5)           # 前から順に1-3、2-4、3-5を抽出
 
   # stringrのその他の関数
   # 05_14_string-others.R
-  # 文字列
+  # テスト用の文字列
 str_123
 str_neko
   # アルファベットの小文字かひらがなが1つ以上
@@ -108,6 +110,10 @@ str_count(str_neko, pattern)
 str_locate(str_neko, pattern)
   # すべてのマッチ箇所の位置(start, end)を出力
 str_locate_all(str_neko[[1]], pattern)
+  # 1つ目のマッチ箇所の抽出
+str_extract(str_neko, pattern)
+  # すべてのマッチ箇所の抽出
+str_extract_all(str_neko, pattern)
   # 文字を追加して字数合わせ
 str_pad(1:10, width = 2, side = "left", pad = "0")
   # 指定文字数になるように切り捨て(...が切り捨て部分)
@@ -145,7 +151,7 @@ writeLines("日本語での比較実験\n今日は晴れです。\n同じ文章"
 writeLines("英語での比較の実験\n今日は天気です。\n同じ文章", con = f2)
 diffr::diffr(f1, f2, before = fs::path_file(f1), after = fs::path_file(f2))
 
-  # 比較結果のHTMLの設定ファイル
+  # 比較結果のHTMLの設定ファイルのパス
   # 05_17_string-css-path.R
 fs::path(fs::path_package("diffr"), "htmlwidgets/lib/codediff/codediff.css")
 

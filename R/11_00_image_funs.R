@@ -72,7 +72,7 @@ ltrb2geo <- function(left_top, right_bottom){
   # 11_25_image-click-crop-image-fun.R
 click_crop_image <- function(path){
   img <- magick::image_read(path)                  # 読み取り
-  pos <- click_locate_image(img)                   # 切り取り位置
+  pos <- click_locate_image(img)                   # 切り取り位置をマウスで指定
   geometry <- ltrb2geo(pos[[1]], pos[[2]])         # 位置の変換
   img_croped <- magick::image_crop(img, geometry)  # 切り取り
   path_croped <-                                   # 保存ファイル

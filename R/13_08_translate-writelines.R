@@ -1,5 +1,5 @@
   # 翻訳用の文章の保存
-  # 13_07_translate-writelines.R
+  # 13_08_translate-writelines.R
 path <- fs::path_temp("sample.txt")
 head(sentences) # stringrのデータ
 paste0(sentences[1:30], collapse = " ") |>

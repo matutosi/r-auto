@@ -20,6 +20,6 @@ detail2elm_txt <- function(details, css){
   details |>
     rvest::html_elements(css) |>  # CSSセレクタ
     rvest::html_text2() |>        # 文字列のみ
-    paste0(collapse = ", ")       # 複数著者への対応
+    paste0(collapse = ", ")       # 複数筆者への対応
 }
 

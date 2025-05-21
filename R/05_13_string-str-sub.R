@@ -1,4 +1,4 @@
-  # 文字列の抽出
+  # 位置指定による文字列の抽出
   # 05_13_string-str-sub.R
 (str_123 <- c(paste0(1:9, collapse = ""), "abcdefg", "あいうえおかきくけこ"))
 str_sub(str_123, start = 2, end = 6) # すべて2-6を抽出

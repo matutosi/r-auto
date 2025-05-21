@@ -80,7 +80,7 @@ mouse_move_click(50,50)
   # 左上のファイルをドラッグして移動
   # 04_13_kybd-mouse-move-click-hold.R
 mouse_move_click(50,50, hold = TRUE, sleep_sec = 0.1)
-mouse_move_click(150,50)
+mouse_move_click(150,150)
 mouse.release()
 
   # screenshotのインストールと呼び出し
@@ -106,7 +106,7 @@ plot(needle_image)
 path_needle <- fs::file_temp(ext = "png")
 magick::image_write(needle_image, path_needle)
 
-  # 画像の位置特定によるマウスの移動・クリック
+  # ```{r kybd-screenshot-locate-image, eval = FALSE, subject = 'locate_image()', caption = '画像の位置特定
   # 04_18_kybd-screenshot-locate-image.R
 screenshot::locate_image(needle_image = path_needle)
 screenshot::locate_image(path_needle, center = FALSE)

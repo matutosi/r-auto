@@ -1,5 +1,5 @@
   # 翻訳用の文章の読み込みと分割
-  # 13_08_translate-readlines.R
+  # 13_09_translate-readlines.R
 en <- 
   path |>
   readLines() |>

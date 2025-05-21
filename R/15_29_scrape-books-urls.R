@@ -1,4 +1,4 @@
-  # 新刊紹介の個別ページの取得
+  # 新刊紹介の個別ページのURLの取得
   # 15_29_scrape-books-urls.R
 new_book_urls <- 
   monthly_urls[1:2] |> # すべての月のときは[1:2]は不要

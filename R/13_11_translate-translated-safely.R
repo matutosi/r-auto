@@ -1,5 +1,5 @@
   # deeplrによる翻訳(map版)
-  # 13_10_translate-translated-safely.R
+  # 13_11_translate-translated-safely.R
 text <- en$segment_text
 translate2_possibly <- purrr::possibly(translate2, otherwise = "!翻訳エラー")
 translated <- 

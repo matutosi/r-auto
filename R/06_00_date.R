@@ -16,8 +16,8 @@ today() # 実行日によって結果は異なる
   # 日付を操作する関数
   # 06_04_date-months-years.R
 day_base <- ymd("2024-03-31")
-day_base + months(1:4) # months()はbaseの関数，1-4か月後まで
-day_base + years(1:4) # 1-4年後まで
+day_base + months(1:4) # months()はbaseの関数，1-4か月後を表示
+day_base + years(1:4) # 1-4年後を表示
 
   # 曜日を求める
   # 06_05_date-wday.R
@@ -51,7 +51,7 @@ dates_full <- stringi::stri_trans_general(dates_half, "halfwidth-fullwidth")
 dates <- c(dates_half, dates_full)
 dates[c(1:10, 11, 21, 25, 27, 35)] # 代表的なもののみ表示
 
-  # 日付っぽい文字列の動作確認
+  # date_ish()の動作確認
   # 06_08_date-str-detect.R
 length(dates) # 全体の数
 stringr::str_subset(dates, date_ish()) |> length()    # マッチした数
@@ -156,7 +156,7 @@ converted_dates <-
   date_ish2date()                     # 変換
 tibble::tibble(dates_half, converted_dates)
 
-  # 和暦から西暦への変換
+  # 和暦年から西暦年への変換
   # 06_17_date-zipangu.R
 zipangu::convert_jdate(c("Ｈ29,1,1", "R6/10/30"))
 zipangu::convert_jyear(c("S63", "平成４年５月１日"))

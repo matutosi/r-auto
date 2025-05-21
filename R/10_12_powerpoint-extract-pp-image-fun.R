@@ -1,4 +1,4 @@
-  # PowerPointから画像を取り出す関数
+  # PowerPointファイルから画像を取り出す関数
   # 10_12_powerpoint-extract-pp-image-fun.R
 extract_pp_image <- function(path, out_dir = NULL, overwrite = TRUE){
   pp <- officer::read_pptx(path)                           # 読み込み

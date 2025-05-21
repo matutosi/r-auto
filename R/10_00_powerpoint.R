@@ -10,17 +10,17 @@ path <- fs::path_temp("slide.pptx")
 curl::curl_download(url, path) # urlからPDFをダウンロード
 pp <- read_pptx(path)
 
-  # PowerPointの概要表示
+  # PowerPointファイルの概要表示
   # 10_03_powerpoint-summary.R
 pptx_summary(pp) |> tibble::tibble() |> print(n = 5)
 
-  # 文字列のデータ
+  # 文字列のデータのみ抽出
   # 10_04_powerpoint-summary-text.R
 pptx_summary(pp) |>
   dplyr::filter(content_type == "paragraph") |>
   tibble::tibble() |>  print(n = 5)
 
-  # PowerPointから文字列を取り出す関数
+  # PowerPointファイルから文字列を取り出す関数
   # 10_05_powerpoint-extract-pp-text-fun.R
 extract_pp_text <- function(path){
   paragraph <- 
@@ -41,11 +41,11 @@ extract_pp_text <- function(path){
   return(text)
 }
 
-  # PowerPointからの文字列の取り出し
+  # PowerPointファイルからの文字列の取り出し
   # 10_06_powerpoint-extract-pp-text.R
 extract_pp_text(path) |> head(3)
 
-  # 表のデータ
+  # 表のデータのみ抽出
   # 10_07_powerpoint-summary-table.R
 pptx_summary(pp) |>
   dplyr::filter(content_type == "table cell") |>
@@ -53,7 +53,7 @@ pptx_summary(pp) |>
                    text = stringr::str_squish(text)) |> # 余分な空白文字を除去
   tibble::tibble() |> print(n = 5)
 
-  # PowerPointから表のデータを取り出す関数
+  # PowerPointファイルから表のデータを取り出す関数
   # 10_08_powerpoint-extract-pp-table-fun.R
 extract_pp_table <- function(path){
   table <- 
@@ -66,7 +66,7 @@ extract_pp_table <- function(path){
   return(table)
 }
 
-  # PowerPointからの表のデータの取り出し
+  # PowerPointファイルからの表のデータの取り出し
   # 10_09_powerpoint-extract-pp-table.R
 extract_pp_table(path) |> 
   head(1) # 3つの表の内容は同じなので2つ目以降は省略
@@ -78,11 +78,11 @@ pptx_summary(pp) |>
   `$`(_, "media_file") |> 
   head()
 
-  # PowerPointのファイルのディレクトリ
+  # PowerPointファイルのディレクトリ
   # 10_11_powerpoint-package-dir.R
 fs::path(pp$package_dir)
 
-  # PowerPointから画像を取り出す関数
+  # PowerPointファイルから画像を取り出す関数
   # 10_12_powerpoint-extract-pp-image-fun.R
 extract_pp_image <- function(path, out_dir = NULL, overwrite = TRUE){
   pp <- officer::read_pptx(path)                           # 読み込み
@@ -249,7 +249,6 @@ gg_iris <- ggplot2::ggplot(iris,
 editable_gg <- rvg::dml(ggobj = gg_iris)
 r_img <- fs::path_temp("r.png")
 curl::curl_download("https://matutosi.github.io/r-auto/data/r_gg.png", r_img)
-
 pp <- 
   read_pptx() |>
   add_content(title = "箇条書き", content = str2ul(str)) |>

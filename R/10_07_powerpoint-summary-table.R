@@ -1,4 +1,4 @@
-  # 表のデータ
+  # 表のデータのみ抽出
   # 10_07_powerpoint-summary-table.R
 pptx_summary(pp) |>
   dplyr::filter(content_type == "table cell") |>

@@ -1,4 +1,4 @@
-  # 日付っぽい文字列の動作確認
+  # date_ish()の動作確認
   # 06_08_date-str-detect.R
 length(dates) # 全体の数
 stringr::str_subset(dates, date_ish()) |> length()    # マッチした数

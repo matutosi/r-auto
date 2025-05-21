@@ -1,5 +1,5 @@
   # deeplrによる翻訳(for版)
-  # 13_09_translate-translated.R
+  # 13_10_translate-translated.R
 text <- en$segment_text
 translated <- list()
 len <- length(text)

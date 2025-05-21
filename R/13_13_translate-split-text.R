@@ -1,5 +1,5 @@
   # 文への分割
-  # 13_12_translate-split-text.R
+  # 13_13_translate-split-text.R
 result <- 
   tibble::tibble(en = split_sentence(text), 
                  jp = split_sentence(translated)) |>

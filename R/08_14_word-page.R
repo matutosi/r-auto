@@ -1,7 +1,7 @@
   # ページ設定
   # 08_14_word-page.R
 size <- page_size(orient = "landscape") # 横向き
-mar <- 0.4                              # 1インチ：約1cm
+mar <- 0.4                              # 0.4インチ：約1cm
 margins <- page_mar(mar, mar, mar, mar, # 順に下上右左の余白
                     mar/2, mar/2,       # ヘッダーとフッターの位置
                     0)                  # 綴じ代

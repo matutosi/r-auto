@@ -1,4 +1,4 @@
-  # zipファイルの解凍
+  # デスクトップにあるzipファイルの解凍
   # 03_15_command-unzip.R
 dsk <- fs::path_home("Desktop")        # デスクトップのディレクトリ
 zips <- fs::dir_ls(dsk, regexp = "\\.zip") # zipファイル一覧

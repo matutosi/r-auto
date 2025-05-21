@@ -1,7 +1,7 @@
   # パスの通った場所の確認
   # 03_01_command-get-path.R
 Sys.getenv("PATH") |>
-  stringr::str_split_1(";") |>
+  stringr::str_split_1(";") |> # 「;」の位置で文字列を分割
   head(3)
 
   # パスを通す関数(Windows用)
@@ -93,7 +93,7 @@ make_shortcut(exe, shortcut, arg = arg, size = size, wd = wd)
   # C:/Users/USERNAME/shortcut にパスを通す
 new_path <- add_path(wd)
 
-  # 関連付けアプリで開く関数
+  # 関連付けアプリで開く関数(MacやUbuntu用)
   # 03_06_command-exec-mac-fun.R
 shell.exec <- function(file){
   cmd <- paste0("open ", file)
@@ -167,7 +167,7 @@ unzip_with_dir <- function(zip){
   return(unzip_dir)
 }
 
-  # zipファイルの解凍
+  # デスクトップにあるzipファイルの解凍
   # 03_15_command-unzip.R
 dsk <- fs::path_home("Desktop")        # デスクトップのディレクトリ
 zips <- fs::dir_ls(dsk, regexp = "\\.zip") # zipファイル一覧
@@ -192,7 +192,7 @@ unzip_with_password <- function(zip, passwd = "", bin_path = ""){
   return(unzip_dir)
 }
 
-  # パスワード付きのzipファイルの解凍(疑似コード)
+  # デスクトップにあるパスワード付きのzipファイルの解凍(疑似コード)
   # 03_17_command-unzip-pass.R
 zips <- fs::path_home("Desktop") |>
         fs::dir_ls(regexp = "\\.zip")

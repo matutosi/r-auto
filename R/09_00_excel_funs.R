@@ -1,9 +1,9 @@
   # 全シートで列幅を変更する関数
   # 09_21_excel-width-fun.R
 set_col_width_auto <- function(wb_path){ # wb_path：ワークブックのパス(文字列)
-  wb <- openxlsx::loadWorkbook(wb_path) # 読込
-  for(sheet in sheets(wb)){             # シートごと
-    cols <-                             # 列番号
+  wb <- openxlsx::loadWorkbook(wb_path) # ワークブックの読込
+  for(sheet in sheets(wb)){             # シートごとに以下を行う
+    cols <-                             # データのある列番号の取得
       openxlsx::readWorkbook(wb, sheet) |>
       ncol() |> seq() # seq(5)で1:5と同じ
     openxlsx::setColWidths(wb, sheet, cols, width = "auto") # 列幅の設定
@@ -76,7 +76,7 @@ border_between_categ <- function(wb, sheet, categ){
   rows <- new_categ_rows(wb, sheet, categ)                    # 範囲
   set_border(wb, sheet, rows = rows, style = style)           # 設定
 }
-  # set_border()の拡張版
+  # set_border()の拡張版(再定義)
 set_border <- function(wb, sheet, rows = NULL, cols = NULL, 
                        border, borderStyle, style = NULL, 
                        gridExpand = TRUE){

@@ -3,7 +3,7 @@
   # library(extrafont) # 再起動時には必要
 library(Cairo)
 gg_sales_cairo <- 
-  gg_sales + 
+  gg_sales + # コード2.33で保存した作図オブジェクト
   ggplot2::theme(text = ggplot2::element_text(family = "Yu Mincho"))
 path <- fs::file_temp(ext = "pdf")
 ggplot2::ggsave(path, gg_sales_cairo, 

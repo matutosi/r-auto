@@ -1,4 +1,4 @@
-  # 文書の書き出し
+  # 文書の書き込み
   # 08_04_word-print.R
 path_doc_2 <- fs::path_temp("doc_2.docx")
 print(x = doc_1, target = path_doc_2)

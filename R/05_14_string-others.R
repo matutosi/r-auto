@@ -1,6 +1,6 @@
   # stringrのその他の関数
   # 05_14_string-others.R
-  # 文字列
+  # テスト用の文字列
 str_123
 str_neko
   # アルファベットの小文字かひらがなが1つ以上
@@ -13,6 +13,10 @@ str_count(str_neko, pattern)
 str_locate(str_neko, pattern)
   # すべてのマッチ箇所の位置(start, end)を出力
 str_locate_all(str_neko[[1]], pattern)
+  # 1つ目のマッチ箇所の抽出
+str_extract(str_neko, pattern)
+  # すべてのマッチ箇所の抽出
+str_extract_all(str_neko, pattern)
   # 文字を追加して字数合わせ
 str_pad(1:10, width = 2, side = "left", pad = "0")
   # 指定文字数になるように切り捨て(...が切り捨て部分)

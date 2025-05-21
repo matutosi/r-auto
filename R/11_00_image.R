@@ -26,11 +26,11 @@ plot(imgs[1])
   # 11_05_image-info.R
 image_info(imgs)
 
-  # 画像の高さ
+  # 画像の高さのみを表示
   # 11_06_image-info-details.R
 image_info(imgs)$height
 
-  # 画像の変換
+  # 画像形式の変換
   # 11_07_image-convert.R
 image_convert(imgs, format = "jpeg")
 
@@ -104,11 +104,11 @@ image_append(imgs[1:24]) |> plot() # 横方向
 
   # 縦方向への結合
   # 11_17_image-append-vertical.R
-image_append(imgs[25:27], stack = TRUE) |> plot() # 縦方向
+image_append(imgs[c(25,27)], stack = TRUE) |> plot() # 縦方向
 
   # 間隔を空けた結合
   # 11_18_image-append-border.R
-imgs[1:3] |>
+imgs[1:2] |>
   image_border(color = gray(0.8), geometry = "30") |>
   image_append() |>
   plot()
@@ -198,7 +198,7 @@ ltrb2geo <- function(left_top, right_bottom){
   # 11_25_image-click-crop-image-fun.R
 click_crop_image <- function(path){
   img <- magick::image_read(path)                  # 読み取り
-  pos <- click_locate_image(img)                   # 切り取り位置
+  pos <- click_locate_image(img)                   # 切り取り位置をマウスで指定
   geometry <- ltrb2geo(pos[[1]], pos[[2]])         # 位置の変換
   img_croped <- magick::image_crop(img, geometry)  # 切り取り
   path_croped <-                                   # 保存ファイル
@@ -279,11 +279,11 @@ same_height <- function(imgs){
   return(same_sized)
 }
 
-  # ファイル名を書き込んで結合する
+  # 条件を満たすファイルにファイル名を書き込んで結合する
   # 11_30_image-annotate-fnames.R
 dir <- fs::path_temp()
 regexp <- "/r_\\d+\\.(png|jpg)$"
-img_all <- image_annotate_fnames(dir = dir, regexp = regexp, ncol = 8)
+img_all <- image_annotate_fnames(dir = dir, regexp = regexp, ncol = 8) # ファイル名の絞り込み
 plot(img_all)
 
   # スクリーンショットの保存

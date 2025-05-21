@@ -57,7 +57,7 @@ html |> html_elements("p") |> html_text2()
 html |> html_elements("a") |> html_attr("href")
 html |> html_elements("img") |> html_attr("src")
 
-  # htmlの読み込み
+  # 表の取り出し
   # 15_12_scrape-html-table.R
 tables <- html |> html_table()
 tables[[1]]
@@ -182,7 +182,7 @@ get_new_book_urls <- function(url){
     rvest::html_attr("href") 
 }
 
-  # 新刊紹介の個別ページの取得
+  # 新刊紹介の個別ページのURLの取得
   # 15_29_scrape-books-urls.R
 new_book_urls <- 
   monthly_urls[1:2] |> # すべての月のときは[1:2]は不要
@@ -190,7 +190,7 @@ new_book_urls <-
   unlist()
 new_book_urls
 
-  # 個別ページの内容を取得する関数
+  # 個別ページのHTMLを取得する関数
   # 15_30_scrape-books-detail-urls-fun.R
 get_book_html <- function(url){
   Sys.sleep(5)
@@ -224,7 +224,7 @@ detail2elm_txt <- function(details, css){
   details |>
     rvest::html_elements(css) |>  # CSSセレクタ
     rvest::html_text2() |>        # 文字列のみ
-    paste0(collapse = ", ")       # 複数著者への対応
+    paste0(collapse = ", ")       # 複数筆者への対応
 }
 
   # 新刊の詳細情報の取得
@@ -259,8 +259,9 @@ url <- "https://www.morikita.co.jp/news/category/newbook"
 form <- 
   url |>
   rvest::read_html() |>
-  rvest::html_form() |>
-  `[[`(_, 1)
+  rvest::html_form() |> # フォームを2つ含む
+  `[[`(_, 1) |>         # 1つ目のフォーム
+  print()               # フォームの内容を確認
 search <- rvest::html_form_set(form, keywords = "テキストマイニング")
 response <- rvest::html_form_submit(search)
 

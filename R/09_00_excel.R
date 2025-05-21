@@ -8,8 +8,8 @@ library(openxlsx)
   # csvなどの読み込み
   # 09_02_excel-readr-read.R
 file_csv <- readr::readr_example("mtcars.csv")
-readr::read_csv(file_csv, show_col_types = FALSE) # csv(カンマ区切り)
-  # readr::read_tsv(ファイル名)                   # tsv(タブ区切り)
+readr::read_csv(file_csv, show_col_types = FALSE) # CSV(カンマ区切り)
+  # readr::read_tsv(ファイル名)                   # TSV(タブ区切り)
   # readr::read_delim(ファイル名, delim = ",")    # delim：区切り文字
 
   # read_excel()によるデータフレームとしての読み込み
@@ -61,10 +61,10 @@ src <- "FILE_NAME"
 dest <- "DIRECORY/FILE_NAME" # 認証画面でパスワードなどを入力
 odb$download_file(src = src, dest = dest, overwrite = TRUE) # 上書きするとき
 
-  # csvなどの書き込み
+  # CSVなどの書き込み
   # 09_11_excel-write-txt.R
-readr::write_csv(mtcars, fs::path_temp("mtcars.csv"))      # csv(カンマ区切り)
-readr::write_tsv(mtcars, fs::path_temp("mtcars.tsv"))      # tsv(タブ区切り)
+readr::write_csv(mtcars, fs::path_temp("mtcars.csv"))      # CSV(カンマ区切り)
+readr::write_tsv(mtcars, fs::path_temp("mtcars.tsv"))      # TSV(タブ区切り)
 readr::write_delim(iris, fs::path_temp("iris.txt"), delim = ";") # ;区切り
 ls("package:readr") |>         # ほかにもいろいろとある
   stringr::str_subset("write") # 関数名が表示される(詳細はヘルプ参照)
@@ -93,12 +93,12 @@ library(pivotea)
 
   # ピボットテーブルの作成
   # 09_16_excel-pivot-qpvt.R
-diamonds
+diamonds # ggplot2に含まれているデータ
 pt_diamonds <- 
   pivottabler::qpvt(diamonds,
-  rows = c("=", "color"),  # "="：結果(price、n)の表示場所・順序の指定に使う
-  columns = "cut", 
-  calculations = c("price" = "mean(price) |> round()", "n" = "n()"))
+    rows = c("=", "color"),  # "="：結果(price、n)の表示場所・順序の指定に使う
+    columns = "cut", 
+    calculations = c("price" = "mean(price) |> round()", "n" = "n()"))
 pt_diamonds
 
   # ピボットテーブルの書き込み
@@ -110,7 +110,7 @@ df_diamonds <-
     delim = " ", names = c("calc", "color"))
 file_diamonds <- fs::path_temp("df_diamonds.tsv")
 readr::write_tsv(df_diamonds, file_diamonds)
-  # shell.exec(file_diamonds) # 関連付けアプリで開く
+  # shell.exec(file_diamonds) # 関連付けアプリで開く(Windowsのみ)
 
   # ピボットテーブルの表示
   # 09_18_excel-pivot-show.R
@@ -141,16 +141,16 @@ write.xlsx(timetable, file_timetable) # シート別に書き込み
 
   # 列幅の設定
   # 09_20_excel-width-sheet1.R
-wb <- loadWorkbook(file_timetable) # ワークブック読み込み
+wb <- loadWorkbook(file_timetable) # ワークブックの読み込み
 setColWidths(wb, 1, cols = 1:10, width = "auto")  # 列幅の変更
 saveWorkbook(wb, file_timetable, overwrite = TRUE)  # ワークブックの書き込み
 
   # 全シートで列幅を変更する関数
   # 09_21_excel-width-fun.R
 set_col_width_auto <- function(wb_path){ # wb_path：ワークブックのパス(文字列)
-  wb <- openxlsx::loadWorkbook(wb_path) # 読込
-  for(sheet in sheets(wb)){             # シートごと
-    cols <-                             # 列番号
+  wb <- openxlsx::loadWorkbook(wb_path) # ワークブックの読込
+  for(sheet in sheets(wb)){             # シートごとに以下を行う
+    cols <-                             # データのある列番号の取得
       openxlsx::readWorkbook(wb, sheet) |>
       ncol() |> seq() # seq(5)で1:5と同じ
     openxlsx::setColWidths(wb, sheet, cols, width = "auto") # 列幅の設定
@@ -265,8 +265,8 @@ rows_wb_sheet <- function(wb, sheet){
 
   # データの範囲に罫線を引く
   # 09_33_excel-border-all.R
-walk_wb(wb, set_border, border = c("bottom", "right"))
-walk_wb(wb, set_col_width)
+walk_wb(wb, set_border, border = c("bottom", "right")) # 罫線を設定
+walk_wb(wb, set_col_width)                             # 列幅を設定
 saveWorkbook(wb, file_border, overwrite = TRUE)
 
   # セルの内容の区別で罫線を引く関数
@@ -288,7 +288,7 @@ border_between_categ <- function(wb, sheet, categ){
   rows <- new_categ_rows(wb, sheet, categ)                    # 範囲
   set_border(wb, sheet, rows = rows, style = style)           # 設定
 }
-  # set_border()の拡張版
+  # set_border()の拡張版(再定義)
 set_border <- function(wb, sheet, rows = NULL, cols = NULL, 
                        border, borderStyle, style = NULL, 
                        gridExpand = TRUE){
@@ -372,7 +372,7 @@ set_bg_color <- function(wb, sheet, color = "#FFFF00", strings){
 
   # 条件付き書式設定による背景色の変更
   # 09_42_excel-bg-color.R
-walk_wb(wb, set_bg_color, color = "yellow", strings = c("衣", "食", "住"))
+walk_wb(wb, set_bg_color, color = "green", strings = c("衣", "食", "住"))
 saveWorkbook(wb, file_timetable, overwrite = TRUE)
   # shell.exec(file_timetable)
 
@@ -382,32 +382,35 @@ val <- 1:10
 str <- stringr::fruit[val]
 df <- tibble::tibble(
   equal_3 = val, colourScale = val, databar = val, 
-  top5 = val, bottom3 = val, duplicates = letters[sample(1:9, 10, replace = TRUE)],
-  beginsWith_a = str, endsWith_e = str, contains_p = str, notContains_c = str)
+  top5 = val, bottom3 = val, 
+  duplicates = letters[sample(1:9, 10, replace = TRUE)],
+  beginsWith_a = str, endsWith_e = str, 
+  contains_p = str, notContains_c = str)
 file_cond <- fs::path_temp("conditional.xlsx")
 write.xlsx(df, file_cond)
 wb_cond <- loadWorkbook(file_cond)
 rows <- 2:11
+bg_style <- createStyle(bgFill = "green")
 conditionalFormatting(wb_cond, 1, cols = 1, rows = rows,
-  type = "expression", rule = "==3")                # 3と同じ
+  type = "expression", rule = "==3", style = bg_style)   # 3と同じ
 conditionalFormatting(wb_cond, 1, cols = 2, rows = rows,
-  type = "colourScale", style = c("blue", "white"), # カラースケール
+  type = "colourScale", style = c("white", "green"),     # カラースケール
   rule = c(0, 10))
-conditionalFormatting(wb_cond, 1, cols = 3, rows = rows,
-  type = "databar", style = c("yellow"))            # データバー
+conditionalFormatting(wb_cond, 1, cols = 3, rows = rows, 
+  type = "databar", style = c("green"))                  # データバー
 conditionalFormatting(wb_cond, 1, cols = 4, rows = rows,
-  type = "topN", rank = 5)                          # 上位5つ
+  type = "topN", rank = 5, style = bg_style)             # 上位5つ
 conditionalFormatting(wb_cond, 1, cols = 5, rows = rows,
-  type = "bottomN", rank = 3)                       # 下位3つ
+  type = "bottomN", rank = 3, style = bg_style)          # 下位3つ
 conditionalFormatting(wb_cond, 1, cols = 6, rows = rows,
-  type = "duplicates")                              # 重複
+  type = "duplicates", style = bg_style)                 # 重複
 conditionalFormatting(wb_cond, 1, cols = 7, rows = rows,
-  type = "beginsWith",  rule = "a")                 # aで始まる
+  type = "beginsWith",  rule = "a", style = bg_style)    # aで始まる
 conditionalFormatting(wb_cond, 1, cols = 8, rows = rows,
-  type = "endsWith",    rule = "e")                 # eで終わる
+  type = "endsWith",    rule = "e", style = bg_style)    # eで終わる
 conditionalFormatting(wb_cond, 1, cols = 9, rows = rows,
-  type = "contains",    rule = "p")                 # pを含む
+  type = "contains",    rule = "p", style = bg_style)    # pを含む
 conditionalFormatting(wb_cond, 1, cols = 10, rows = rows,
-  type = "notContains", rule = "c")                 # cを含まない
+  type = "notContains", rule = "c", style = bg_style)    # cを含まない
 saveWorkbook(wb_cond, file_cond, overwrite = TRUE)
 

@@ -1,4 +1,4 @@
-  # 文字列の検索
+  # データフレームからの要素の抽出
   # 05_11_string-filter-detect.R
 mpg <- mpg[,1:5]   # 自動車の燃費データ(dplyrに含まれる)のうち5列だけ
 dplyr::filter(mpg, str_detect(model, "pickup")) |> print(n = 3)

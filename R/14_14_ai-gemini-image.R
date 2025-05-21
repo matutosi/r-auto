@@ -2,6 +2,7 @@
   # 14_14_ai-gemini-image.R
 library(ggplot2)
 gg <- fs::path_temp("gg.png")
-ggplot(mpg, aes(cty, hwy)) + geom_point() + theme_bw()
-ggsave(gg, width = 5, height = 5)
+ggplot(mpg, aes(cty, hwy)) + geom_point() + theme_bw() + 
+  theme(text = element_text(size = 20)) # フォントを大きく
+ggsave(gg)
 

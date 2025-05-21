@@ -7,5 +7,5 @@ df_diamonds <-
     delim = " ", names = c("calc", "color"))
 file_diamonds <- fs::path_temp("df_diamonds.tsv")
 readr::write_tsv(df_diamonds, file_diamonds)
-  # shell.exec(file_diamonds) # 関連付けアプリで開く
+  # shell.exec(file_diamonds) # 関連付けアプリで開く(Windowsのみ)
 

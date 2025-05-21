@@ -9,7 +9,6 @@ gg_iris <- ggplot2::ggplot(iris,
 editable_gg <- rvg::dml(ggobj = gg_iris)
 r_img <- fs::path_temp("r.png")
 curl::curl_download("https://matutosi.github.io/r-auto/data/r_gg.png", r_img)
-
 pp <- 
   read_pptx() |>
   add_content(title = "箇条書き", content = str2ul(str)) |>

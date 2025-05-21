@@ -1,4 +1,4 @@
-  # 文字列の抽出
+  # ベクトルからの要素の抽出
   # 05_12_string-str-subset.R
 str_stringr <- ls("package:stringr") # パッケージのオブジェクト一覧
 length(str_stringr)   # 要素数

@@ -1,4 +1,4 @@
-  # 作業用のダミーファイルの生成
+  # 更新時間の異なるダミーファイルの生成
   # 01_29_file-rename-info-prep.R
 olds <- paste0(letters[1:10], ".xlsx")
 for(old in sample(olds)){

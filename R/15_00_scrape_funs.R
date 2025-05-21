@@ -44,7 +44,7 @@ get_new_book_urls <- function(url){
     rvest::html_elements("a.book_title.show_pc") |>
     rvest::html_attr("href") 
 }
-  # 個別ページの内容を取得する関数
+  # 個別ページのHTMLを取得する関数
   # 15_30_scrape-books-detail-urls-fun.R
 get_book_html <- function(url){
   Sys.sleep(5)
@@ -72,7 +72,7 @@ detail2elm_txt <- function(details, css){
   details |>
     rvest::html_elements(css) |>  # CSSセレクタ
     rvest::html_text2() |>        # 文字列のみ
-    paste0(collapse = ", ")       # 複数著者への対応
+    paste0(collapse = ", ")       # 複数筆者への対応
 }
   # 雨雲の動きの動画を取得する関数
   # 15_43_scrape-jma-whole-game-fun.R

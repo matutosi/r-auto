@@ -134,7 +134,7 @@ combine_pdf <- function(){
 pdf_rtt <- pdf_rotate_pages(pdf_com, pages = c(1,3))
 fs::path_file(pdf_rtt) # ファイル名のみ
 
-  # PDFから文字列の抽出
+  # PDFから文字列を抽出
   # 07_13_pdf-text.R
 text <- 
   pdf_spl[1:3] |>  # 1-3ページ
@@ -174,7 +174,7 @@ extract_images <- function(pdf, out = fs::path_temp(), bin_dir = ""){
   # PDFに含まれる画像の抽出
   # 07_16_pdf-extract-images.R
 image_dir <- extract_images(pdf_base)
-  # shell.exec(image_dir) # ディレクトリを表示
+  # shell.exec(image_dir) # ディレクトリを表示(Windowsのみ)
 
   # ページ番号だけのページを作成する関数(`plot_page_number()`)
   # 07_17_pdf-plot-page-number.R
@@ -237,7 +237,8 @@ add_page_numbers <- function(path, y_pos = 5, size = 5,
   # ページ番号の重ね合わせ
   # 07_21_pdf-add-page-numbers.R
 pdf_paged <- pdf_base |>
-  add_page_numbers(size = 200, y_pos = 90, colour = "#00FFFF", backside = TRUE)
+  add_page_numbers(size = 200, y_pos = 90, colour = "#00FFFF", 
+                   backside = TRUE)
 
   # PDFの圧縮と最適化
   # 07_22_pdf-compress.R
@@ -248,7 +249,7 @@ pdf_compressed <- pdf_compress(pdf_base, linearize = TRUE)
 install.packages("tesseract")
 tesseract::tesseract_download(lang = "jpn")
 
-  # PDF内の画像の文字認識
+  # PDFファイルの文字認識
   # 07_24_pdf-ocr.R
 ocr_data <- pdf_split(pdf_base)[1] |> pdf_ocr_data(language = "jpn") |> `[[`(_, 1) 
 head(ocr_data, 3)

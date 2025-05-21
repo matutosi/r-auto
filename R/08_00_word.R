@@ -18,7 +18,7 @@ curl::curl_download(url, path_doc_1) # urlからダウンロード
 doc_1 <- read_docx(path_doc_1)
 doc_1
 
-  # 文書の書き出し
+  # 文書の書き込み
   # 08_04_word-print.R
 path_doc_2 <- fs::path_temp("doc_2.docx")
 print(x = doc_1, target = path_doc_2)
@@ -75,7 +75,7 @@ extract_docx_text <- function(docx, normal = TRUE, heading = TRUE, flatten = TRU
 extract_docx_text(doc_1, heading = FALSE)
 extract_docx_text(doc_1, normal = FALSE, flatten = FALSE)
 
-  # Wordの内容をテキストとして保存
+  # Wordの内容をテキストファイルとして保存
   # 08_10_word-save-text.R
 path_txt <- fs::path_temp("doc.txt")
 doc_1 |>
@@ -117,7 +117,7 @@ print(x = doc_1, target = path_doc_1)
   # ページ設定
   # 08_14_word-page.R
 size <- page_size(orient = "landscape") # 横向き
-mar <- 0.4                              # 1インチ：約1cm
+mar <- 0.4                              # 0.4インチ：約1cm
 margins <- page_mar(mar, mar, mar, mar, # 順に下上右左の余白
                     mar/2, mar/2,       # ヘッダーとフッターの位置
                     0)                  # 綴じ代
@@ -163,7 +163,7 @@ extract_docx_imgs <- function(path) {
   docxs <- fs::dir_ls(path, regexp = "\\.docx$") # Wordファイルの一覧
   zips <-
     docxs |>
-    fs::path_file() |>         # ファイル名のみ
+    fs::path_file() |>         # ファイル名のみ抽出
     fs::path_ext_set("zip") |> # 拡張子をzipに変更
     fs::path_temp()            # 一時ファイル
   fs::file_copy(docxs, zips, overwrite = TRUE) # docxをzipとして複製
@@ -193,11 +193,11 @@ extract_imgs <- function(zip_dir) {
   }
 }
 
-  # ディクトリ内のWordから画像を抽出
+  # ディクトリ内のWordファイルから画像を抽出
   # 08_20_word-extract-docx-img.R
 dir <- fs::dir_create(fs::path_temp(), "images") # ディレクトリの作成
 fs::file_copy(c(path_doc_1, path_doc_2), dir)    # ファイルを複写
-imgs <- extract_docx_imgs(dir)                   # Wordから画像を抽出
+imgs <- extract_docx_imgs(dir)                   # Wordァイルから画像を抽出
 fs::path_file(imgs)                              # 抽出した画像のファイル名
  # shell.exec(dir)
 

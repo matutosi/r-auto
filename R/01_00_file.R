@@ -22,12 +22,12 @@ wd <- path_package("fs")
 wd
 setwd(wd)
 
-  # 一時パスの取得
+  # 一時ディテクト里のパスの取得
   # 01_05_file-path-temp.R
 path_temp()
 path_temp("hoge.txt")
 
-  # ファイル名と拡張子を指定した一時パス
+  # 一時ファイルにつける名前の取得
   # 01_06_file-file-temp.R
 file_temp()
 file_temp(pattern = "example_", ext = "txt")
@@ -51,7 +51,7 @@ dir_ls(type = "directory") # ディレクトリのみ
   # 01_10_file-ls-stringr.R
 dir_ls(path = path_package("stringr"))
 
-  # 作業ディレクトリでの一覧の取得
+  # 作業ディレクトリでのファイル(フルパス)一覧の取得
   # 01_11_file-ls-fullpath.R
 dir_ls(path = path_wd(), type = "file")
 
@@ -70,7 +70,7 @@ dir_tree(type = "directory") # ディレクトリのみ
 dir_tree(recurse = 0) # 下位ディレクトリを表示しない
 dir_tree(recurse = 1) # 1つ下位のディレクトリまで表示
 
-  # ファイルとディレクトリ有無を取得
+  # ファイルやディレクトリ有無を取得
   # 01_15_file-exests.R
 file_exists("DESCRIPTION")
 file_exists("DESCRIPTIONS")
@@ -136,11 +136,11 @@ file_copy(files, "abc") # 上書きできずエラー
 
   # ファイル名の変更
   # 01_26_file-rename.R
-(files <- dir_ls(regexp = "\\.txt$"))
-(new_path <- c("foo.txt", "bar.txt", "baz.txt"))
+(files <- dir_ls(regexp = "\\.txt$"))            # 名前を変えたいファイル
+(new_path <- c("foo.txt", "bar.txt", "baz.txt")) # 変更後のファイル名
 (file_move(files, new_path))
 
-  # 作業用のダミーファイルの生成
+  # アルファベットのダミーファイルの生成
   # 01_27_file-rename-app-prep.R
 paste0(letters[1:10], ".pdf") |>
   file_create()
@@ -154,7 +154,7 @@ new <-
   paste0(stringr::str_pad(1:len, width = 2, side = "left", pad = "0"), ".pdf")
 file_move(old, new)
 
-  # 作業用のダミーファイルの生成
+  # 更新時間の異なるダミーファイルの生成
   # 01_29_file-rename-info-prep.R
 olds <- paste0(letters[1:10], ".xlsx")
 for(old in sample(olds)){

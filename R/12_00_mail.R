@@ -168,6 +168,7 @@ openxlsx::setColWidths(wb, 1, cols = 1:7, widths = "auto") # 列幅
 openxlsx::addFilter(wb, 1, cols = 1:7, rows = 1) # オートフィルタ
 openxlsx::freezePane(wb, 1, firstRow = TRUE) # ウィンドウ枠
 openxlsx::saveWorkbook(wb, path, overwrite = TRUE)
+shell.exec(path)
 
   # メールの一斉送信
   # 12_21_mail-auto-gmails-generate.R

@@ -6,11 +6,13 @@ str_neko <-
 str_c(str_neko, "◆") # 各文字列に"◆"を追加、paste0()も同じ
 
   # collapseで1つの文字列に結合する
-str_c(str_neko[1:3], collapse = "◆") # [1:3]：出力を短くするため
+str_c(str_neko, collapse = "◆")
 
   # 複数の文字列を引数にとる場合
 str_c("吾輩は", "猫である。")
 
-str_c("吾輩は", "猫である。", sep = "◆")  # 注意：動作が異なる
+  # sepで結合時に文字を挿入する
+  # paste0()と動作が異なるので注意
+str_c("吾輩は", "猫である。", sep = "◆")
 paste0("吾輩は", "猫である。", sep = "◆")
 

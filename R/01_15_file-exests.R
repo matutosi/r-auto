@@ -1,4 +1,4 @@
-  # ファイルとディレクトリ有無を取得
+  # ファイルやディレクトリ有無を取得
   # 01_15_file-exests.R
 file_exists("DESCRIPTION")
 file_exists("DESCRIPTIONS")
