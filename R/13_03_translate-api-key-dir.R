@@ -1,5 +1,5 @@
   # ユーザのドキュメントのディレクトリを開く
   # 13_03_translate-api-key-dir.R
-fs::path(Sys.getenv("HOME")) |> # C:\Users\USERNAME\Documents
+fs::path(Sys.getenv("HOME")) |> # C:/Users/USERNAME/Documents
   shell.exec() # ディレクトリを開く
 

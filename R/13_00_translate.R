@@ -9,7 +9,7 @@ deepl_key <- "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx:xx"
 
   # ユーザのドキュメントのディレクトリを開く
   # 13_03_translate-api-key-dir.R
-fs::path(Sys.getenv("HOME")) |> # C:\Users\USERNAME\Documents
+fs::path(Sys.getenv("HOME")) |> # C:/Users/USERNAME/Documents
   shell.exec() # ディレクトリを開く
 
   # 環境変数の読み込み
