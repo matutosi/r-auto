@@ -10,9 +10,9 @@
 
 <https://github.com/matutosi/r-auto/tree/main/R/>
 
--   01_01_CODE-NAME.R など：コード番号別のファイル\
--   01_00_CHAPTER.Rなど：章ごとにまとめたファイル\
--   02_00_CHAPTER_funs.Rなど：章内の全関数
+-   01_01_CODE-NAME.R など：コード番号別のファイル   
+-   01_00_CHAPTER.Rなど：章ごとにまとめたファイル   
+-   02_00_CHAPTER_funs.Rなど：章内の全関数   
 
 各章の関数を直接呼び出す場合は，以下を参考にしてください．
 
