@@ -108,6 +108,4 @@ source("https://matutosi.github.io/r-auto/R/02_00_analysis_funs.R") # Chapter 2�
 
 ## 引用
 
-松村 俊和 2025.
-Rによる自動化・効率化レシピ集.
-森北出版.
+松村 俊和. 2025. Rによる自動化・効率化レシピ集. 森北出版.
