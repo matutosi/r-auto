@@ -27,7 +27,7 @@ cumulative_paste <- function(x, y){
 }
   # ディクトリ内のWordファイルから画像を抽出する関数
   # 08_18_word-extract-docx-img-fun.R
-extract_docx_imgs <- function(path) {
+extract_docx_images <- function(path) {
   docxs <- fs::dir_ls(path, regexp = "\\.docx$") # Wordファイルの一覧
   zips <-
     docxs |>
@@ -72,7 +72,7 @@ insert_images <- function(docx, images, width = 3, height = NULL, ...){
   tibble(src = images, width = width, height = height) |>
     preduce(officer::body_add_img, .init = docx, ...)
 }
-  # insert_imagesの助関数
+  # insert_imagesの補助関数
 preduce <- function(.l, .f, ..., .init, .dir = c("forward", "backward")){
   .dir <- match.arg(.dir)
   reduce(.x = transpose(.l), 

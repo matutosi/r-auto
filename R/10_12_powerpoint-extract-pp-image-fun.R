@@ -1,6 +1,6 @@
   # PowerPointファイルから画像を取り出す関数
   # 10_12_powerpoint-extract-pp-image-fun.R
-extract_pp_image <- function(path, out_dir = NULL, overwrite = TRUE){
+extract_pp_images <- function(path, out_dir = NULL, overwrite = TRUE){
   pp <- officer::read_pptx(path)                           # 読み込み
   imgs <-                                                  # 画像の一覧
     officer::pptx_summary(pp) |>                           # 概要の取得

@@ -1,4 +1,4 @@
-  # タイトルと画像のスライドを挿入する関数
+  # スライドのサイズに合わせて画像を配置する関数
   # 10_17_powerpoint-add-fig-fun.R
 add_fig <- function(pp, title = "", path_img, fig_full_size = FALSE,
                     conter_horizontal = TRUE, conter_vertical = TRUE){

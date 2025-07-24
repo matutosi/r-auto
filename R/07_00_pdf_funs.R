@@ -76,7 +76,7 @@ combine_pdf <- function(){
 }
   # PDFに含まれる画像を抽出する関数
   # 07_15_pdf-extract-images-fun.R
-extract_images <- function(pdf, out = fs::path_temp(), bin_dir = ""){
+extract_pdf_images <- function(pdf, out = fs::path_temp(), bin_dir = ""){
   f_name <- 
     fs::path_file(pdf) |>                          # ファイル名のみ
     fs::path_ext_remove()                          # 拡張子の除去
@@ -125,7 +125,7 @@ gen_page_numbers <- function(n, x_pos = width / 2, y_pos = 5,
   return(unlist(filename))
 }
   # ページ番号を重ね合わせる関数
-  # 07_20_pdf-add-page-numbers-fun.R
+  # 07_19_pdf-add-page-numbers-fun.R
 add_page_numbers <- function(path, y_pos = 5, size = 5, 
                              colour = "black", backside = FALSE, ...){
   pdf_spl <- pdftools::pdf_split(path) # 分割
@@ -145,7 +145,7 @@ add_page_numbers <- function(path, y_pos = 5, size = 5,
   return(pdf_com)
 }
   # 各種ファイルからPDFに変換する関数(Windows用)
-  # 07_27_pdf-convert-fun.R
+  # 07_26_pdf-convert-fun.R
 convert_app_format <- function(path, format){
   base_ext <- fs::path_ext(path)
   if (base_ext == format){  # 拡張子が入力と同じとき

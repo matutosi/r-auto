@@ -8,6 +8,7 @@ library(qpdf)
   # 作業用PDFのダウンロード
   # 07_02_pdf-download.R
   # install.packages("curl")
+setwd(fs::path_temp())
 url <- "https://matutosi.github.io/r-auto/data/base.pdf"
 pdf_base <- fs::path_temp("base.pdf")
 curl::curl_download(url, pdf_base) # urlからPDFをダウンロード
@@ -31,9 +32,9 @@ fs::path_file(pdf_sub)
 len <- pdf_length(pdf_base)
 pdf_reverse <- pdf_subset(pdf_base, pages = len:1) # 逆順
 odd_pages <- seq(from = 1, to = len, by = 2)       # 奇数ページのみ
-pdf_odd <- pdf_subset(pdf_base, pages = odd_pages)
+pdf_odd <- pdf_subset(pdf_base, pages = odd_pages, out = "odd.pdf")
 odd_rev <- sort(odd_pages, decreasing = TRUE)      # 奇数ページの逆順
-pdf_odd_rev <- pdf_subset(pdf_base, pages = odd_rev)
+pdf_odd_rev <- pdf_subset(pdf_base, pages = odd_rev, out = "odd_rev.pdf")
 
   # 複数のPDFファイルからファイルを選択して分割する関数(`subset_pdf()`)
   # 07_07_pdf-subset-fun.R
@@ -153,7 +154,7 @@ pngs <- pdf_combine(pdf_spl[1:2]) |>
 
   # PDFに含まれる画像を抽出する関数
   # 07_15_pdf-extract-images-fun.R
-extract_images <- function(pdf, out = fs::path_temp(), bin_dir = ""){
+extract_pdf_images <- function(pdf, out = fs::path_temp(), bin_dir = ""){
   f_name <- 
     fs::path_file(pdf) |>                          # ファイル名のみ
     fs::path_ext_remove()                          # 拡張子の除去
@@ -173,7 +174,7 @@ extract_images <- function(pdf, out = fs::path_temp(), bin_dir = ""){
 
   # PDFに含まれる画像の抽出
   # 07_16_pdf-extract-images.R
-image_dir <- extract_images(pdf_base)
+image_dir <- extract_pdf_images(pdf_base)
   # shell.exec(image_dir) # ディレクトリを表示(Windowsのみ)
 
   # ページ番号だけのページを作成する関数(`plot_page_number()`)
@@ -209,12 +210,8 @@ gen_page_numbers <- function(n, x_pos = width / 2, y_pos = 5,
   return(unlist(filename))
 }
 
-  # ページ番号を大きく作成
-  # 07_19_pdf-gen-page-numbers.R
-pdf_pages <- gen_page_numbers(n = 10, size = 200, y_pos = 150)
-
   # ページ番号を重ね合わせる関数
-  # 07_20_pdf-add-page-numbers-fun.R
+  # 07_19_pdf-add-page-numbers-fun.R
 add_page_numbers <- function(path, y_pos = 5, size = 5, 
                              colour = "black", backside = FALSE, ...){
   pdf_spl <- pdftools::pdf_split(path) # 分割
@@ -235,35 +232,35 @@ add_page_numbers <- function(path, y_pos = 5, size = 5,
 }
 
   # ページ番号の重ね合わせ
-  # 07_21_pdf-add-page-numbers.R
+  # 07_20_pdf-add-page-numbers.R
 pdf_paged <- pdf_base |>
   add_page_numbers(size = 200, y_pos = 90, colour = "#00FFFF", 
                    backside = TRUE)
 
   # PDFの圧縮と最適化
-  # 07_22_pdf-compress.R
+  # 07_21_pdf-compress.R
 pdf_compressed <- pdf_compress(pdf_base, linearize = TRUE)
 
   # tesseractのインストールと言語モデルのダウンロード
-  # 07_23_pdf-tesseract-install.R
+  # 07_22_pdf-tesseract-install.R
 install.packages("tesseract")
 tesseract::tesseract_download(lang = "jpn")
 
   # PDFファイルの文字認識
-  # 07_24_pdf-ocr.R
+  # 07_23_pdf-ocr.R
 ocr_data <- pdf_split(pdf_base)[1] |> pdf_ocr_data(language = "jpn") |> `[[`(_, 1) 
 head(ocr_data, 3)
 pdf_split(pdf_base)[1] |> pdf_ocr_text(language = "jpn") |> 
   stringr::str_split("\n") |> `[[`(_, 1) |> head(3)
 
   # 精度の高い結果のみを抽出
-  # 07_25_pdf-ocr-filter.R
+  # 07_24_pdf-ocr-filter.R
 dplyr::filter(ocr_data, confidence > 75) |>
   `$`(_, "word") |> # $wordの取り出し
   paste0(collapse = "") # 文字列の結合
 
   # RDCOMClientのインストールと呼び出し
-  # 07_26_pdf-RDCOMClient-install.R
+  # 07_25_pdf-RDCOMClient-install.R
   # zipファイルでのインストール
 install.packages("RDCOMClient", 
                  repos = "http://www.omegahat.net/R", type = "win.binary")
@@ -273,7 +270,7 @@ remotes::install_github("omegahat/RDCOMClient")
 library("RDCOMClient")
 
   # 各種ファイルからPDFに変換する関数(Windows用)
-  # 07_27_pdf-convert-fun.R
+  # 07_26_pdf-convert-fun.R
 convert_app_format <- function(path, format){
   base_ext <- fs::path_ext(path)
   if (base_ext == format){  # 拡張子が入力と同じとき
@@ -324,7 +321,7 @@ set_format_no <- function(base_ext, format){
 }
 
   # Wordと各種形式との相互変換
-  # 07_28_word-convert.R
+  # 07_27_word-convert.R
 library(RDCOMClient) # ないと関数実行時にエラーが出る
 convert_app_format(pdf_base, "docx")
 

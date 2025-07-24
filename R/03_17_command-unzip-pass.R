@@ -3,7 +3,7 @@
 zips <- fs::path_home("Desktop") |>
         fs::dir_ls(regexp = "\\.zip")
 bin_path <- "C:/YOUR_DIRECTORY/7zip/" # 要設定
-pass <- "パスワード"
+pass <- "PASSWORD"
 dirs <- purrr::map(zips, unzip_with_password, pass, bin_path) # 解凍
 purrr::map(dirs, shell.exec)     # ディレクトリを開く
 

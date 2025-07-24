@@ -8,8 +8,8 @@ gg_sales_split <-
       ggplot2::ggplot(.x, ggplot2::aes(period, count, group = item)) +
       ggplot2::geom_line(aes(color = item)) + # 線の色をitemに対応させる
       ggplot2::theme_bw() +                   # 白黒のテーマ
-                                              # フォント種類とフォントサイズ
-      ggplot2::theme(text = ggplot2::element_text(family = "Yu Mincho", size = 20)) + 
+      ggplot2::theme(text = ggplot2::element_text(family = "Yu Mincho", 
+                     size = 20)) + # フォント種類とフォントサイズ
       ggplot2::guides(x = ggplot2::guide_axis(angle = 90)) + # x軸の重なり防止
       ggplot2::labs(title = .y)                              # タイトル
     }

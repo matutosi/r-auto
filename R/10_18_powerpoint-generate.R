@@ -14,7 +14,7 @@ pp <-
   add_content(title = "箇条書き", content = str2ul(str)) |>
   add_content(title = "irisデータ", content = head(iris)) |>
   add_content(title = "iris(flextable)", content = ft) |>
-  add_content(title = "ggplotの図", content = gg_iris) |>
+  add_content(title = "ggplot2の図", content = gg_iris) |>
   add_content(title = "編集可能な図", content = editable_gg) |>
   add_fig(title = "pngなどの画像", path_img = r_img)
 path <- fs::path_temp("slide.pptx") # 保存

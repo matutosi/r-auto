@@ -1,5 +1,5 @@
   # ページ番号を重ね合わせる関数
-  # 07_20_pdf-add-page-numbers-fun.R
+  # 07_19_pdf-add-page-numbers-fun.R
 add_page_numbers <- function(path, y_pos = 5, size = 5, 
                              colour = "black", backside = FALSE, ...){
   pdf_spl <- pdftools::pdf_split(path) # 分割

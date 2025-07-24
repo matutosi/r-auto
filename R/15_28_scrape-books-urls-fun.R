@@ -1,4 +1,4 @@
-  # 新刊紹介の個別ページを取得する関数
+  # 新刊情報から各書籍のページを取得する関数
   # 15_28_scrape-books-urls-fun.R
 get_new_book_urls <- function(url){
   Sys.sleep(5)

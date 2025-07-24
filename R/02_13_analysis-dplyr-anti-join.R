@@ -3,5 +3,5 @@
 lost <- dplyr::filter(answer_joined, apps != "-") # apps == "-" を欠落させる
 print(answer_joined, n = 3) # もとのデータ
 print(lost, n = 3)   # 欠落データ
-dplyr::anti_join(answer_joined, lost) |> print(n = 3) # lostで欠落したものを抽出
+dplyr::anti_join(answer_joined, lost) |> print(n = 3) # lostの欠落部分を抽出
 

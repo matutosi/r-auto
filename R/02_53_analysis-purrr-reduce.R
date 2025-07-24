@@ -1,4 +1,4 @@
-  # 順次処理の関数
+  # 順次処理する関数の実行
   # 02_53_analysis-purrr-reduce.R
 answer_mutated |> 
   dplyr::summarise(apps = reduce(apps, paste_if_new), 

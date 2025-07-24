@@ -6,7 +6,7 @@ form <-
   rvest::read_html() |>
   rvest::html_form() |> # フォームを2つ含む
   `[[`(_, 1) |>         # 1つ目のフォーム
-  print()               # フォームの内容を確認
+form                    # フォームの内容を確認
 search <- rvest::html_form_set(form, keywords = "テキストマイニング")
 response <- rvest::html_form_submit(search)
 

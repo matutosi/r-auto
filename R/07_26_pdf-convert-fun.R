@@ -1,5 +1,5 @@
   # 各種ファイルからPDFに変換する関数(Windows用)
-  # 07_27_pdf-convert-fun.R
+  # 07_26_pdf-convert-fun.R
 convert_app_format <- function(path, format){
   base_ext <- fs::path_ext(path)
   if (base_ext == format){  # 拡張子が入力と同じとき

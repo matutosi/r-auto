@@ -7,8 +7,4 @@ for(p in pos){
   paste0(pre, p[1], mid, p[2], post) |>
   cat()
 }
- ## mouse_move_click(225, 843)
- ## mouse_move_click(1055, 652)
- ## mouse_move_click(1179, 695)
- ## mouse_move_click(1021, 677)
 

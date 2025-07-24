@@ -1,5 +1,5 @@
   # RDCOMClientのインストールと呼び出し
-  # 07_26_pdf-RDCOMClient-install.R
+  # 07_25_pdf-RDCOMClient-install.R
   # zipファイルでのインストール
 install.packages("RDCOMClient", 
                  repos = "http://www.omegahat.net/R", type = "win.binary")

@@ -1,6 +1,6 @@
   # PDFに含まれる画像を抽出する関数
   # 07_15_pdf-extract-images-fun.R
-extract_images <- function(pdf, out = fs::path_temp(), bin_dir = ""){
+extract_pdf_images <- function(pdf, out = fs::path_temp(), bin_dir = ""){
   f_name <- 
     fs::path_file(pdf) |>                          # ファイル名のみ
     fs::path_ext_remove()                          # 拡張子の除去

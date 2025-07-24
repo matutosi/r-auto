@@ -1,4 +1,4 @@
-  # 個別ページのHTMLを取得する関数
+  # 各書籍のページのHTMLを取得する関数
   # 15_30_scrape-books-detail-urls-fun.R
 get_book_html <- function(url){
   Sys.sleep(5)

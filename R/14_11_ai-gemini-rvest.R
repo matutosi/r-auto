@@ -4,7 +4,7 @@
 url <- "https://www.aozora.gr.jp/cards/000042/files/43535_24583.html"
 text <- 
   url |>
-  rvest::read_html() |>
+  rvest::read_html(encoding = "SJIS") |>
   rvest::html_elements(".main_text") |>
   rvest::html_text() |>
   stringr::str_remove_all("\\s+") # 空白文字を削除

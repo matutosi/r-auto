@@ -159,7 +159,7 @@ openxlsx::saveWorkbook(wb, comment_path, overwrite = TRUE) # 保存
 
   # ディクトリ内のWordファイルから画像を抽出する関数
   # 08_18_word-extract-docx-img-fun.R
-extract_docx_imgs <- function(path) {
+extract_docx_images <- function(path) {
   docxs <- fs::dir_ls(path, regexp = "\\.docx$") # Wordファイルの一覧
   zips <-
     docxs |>
@@ -197,7 +197,7 @@ extract_imgs <- function(zip_dir) {
   # 08_20_word-extract-docx-img.R
 dir <- fs::dir_create(fs::path_temp(), "images") # ディレクトリの作成
 fs::file_copy(c(path_doc_1, path_doc_2), dir)    # ファイルを複写
-imgs <- extract_docx_imgs(dir)                   # Wordァイルから画像を抽出
+imgs <- extract_docx_images(dir)                 # Wordァイルから画像を抽出
 fs::path_file(imgs)                              # 抽出した画像のファイル名
  # shell.exec(dir)
 
@@ -248,7 +248,7 @@ insert_images <- function(docx, images, width = 3, height = NULL, ...){
   tibble(src = images, width = width, height = height) |>
     preduce(officer::body_add_img, .init = docx, ...)
 }
-  # insert_imagesの助関数
+  # insert_imagesの補助関数
 preduce <- function(.l, .f, ..., .init, .dir = c("forward", "backward")){
   .dir <- match.arg(.dir)
   reduce(.x = transpose(.l), 
@@ -260,9 +260,9 @@ preduce <- function(.l, .f, ..., .init, .dir = c("forward", "backward")){
   # 文字列と画像をまとめて入力
   # 08_25_word-insert-text.R
 text <- c("文章1", "文章2", "文章3")
-images <- imgs # extract_docx_imgs()で抽出した画像
+images <- imgs # extract_docx_images()で抽出した画像
 new_doc <- read_docx() |>
   insert_texts(text) |>
   insert_images(images)
-print(new_doc, fs::path_home("new.docx"))
+print(new_doc, fs::path_temp("new.docx"))
 

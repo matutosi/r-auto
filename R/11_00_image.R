@@ -127,12 +127,12 @@ r_01_h250 <- image_scale(imgs[1], geometry = "x50")
 scaled <- image_append(c(imgs[1], r_01_w100, r_01_h250))
 plot(scaled)
 
-  # 比率を指定して画像サイズを変更する関数
+  # 比率を指定して画像の大きさを変更する関数
   # 11_21_image-scale-ratio-fun.R
 image_scale_ratio <- function(image, ratio){
   round(magick::image_info(image)$width * ratio) |>
     purrr::map(magick::image_scale, image = image) |>
-    magick::image_join() # リストを結合して元の画像オブジェクトに戻す
+    magick::image_join() # リストを結合してもとの画像オブジェクトに戻す
 }
 
   # ファイルサイズを指定してサイズを変更する関数
@@ -223,8 +223,8 @@ plot(image_flattened)
 
   # 透明化後に重ね合わせ
   # 11_28_image-etc-transparent.R
-image_transparent <- image_transparent(imgs[1], "white", fuzz = 10)
-image_flattened_tr <- image_flatten(c(img_filled, image_transparent))
+image_trans <- image_transparent(imgs[1], "white", fuzz = 10)
+image_flattened_tr <- image_flatten(c(img_filled, image_trans))
 plot(image_flattened_tr)
 
   # ディレクトリ内の画像にファイル名を書き込んで結合する関数
@@ -290,7 +290,6 @@ plot(img_all)
   # 11_31_image-screenshot-screenshot.R
 ss <- screenshot::screenshot()
 fs::path_file(ss) # ファイル名のみ
- ## [1] "sc_158839211323.png"
 magick::image_read(ss)
   # shell.exec(ss) # 関連付けアプリで起動
 

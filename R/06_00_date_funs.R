@@ -51,7 +51,7 @@ has_yr <- function(str){
     )
   return(res)
 }
-  # 年追加の助関数(`this_year()`と`is_future()`)
+  # 年追加の補助関数(`this_year()`と`is_future()`)
   # 06_13_date-paste-year-helper-fun.R
 this_year <- function(){
   lubridate::today() |>
@@ -142,7 +142,7 @@ is_correct_wday <- function(str){
               wday_orig = wday_orig, date = date, wday = wday)
   return(res)
 }
-  # 元の書式のまま曜日のみ置換する関数(`replace_wday()`)
+  # もとの書式のまま曜日のみ置換する関数(`replace_wday()`)
   # 06_26_date-replace-wday-fun.R
 replace_wday <- function(str, wday_orig, wday){
   pattern <- paste0("([\\(（])", wday_orig, "([\\)）])") # 置換前
@@ -163,7 +163,7 @@ format_date <- function(x, out_format = "west"){
   # 06_28_date-update-wday-fun.R
 update_wday <- function(str, out_format = "west"){
   res <- is_correct_wday(str)   # 曜日が正しいか判定
-  if(out_format == "original"){ # 元の書式
+  if(out_format == "original"){ # もとの書式
     date <- replace_wday(str, res$wday_orig, res$wday)
   }else{ # 和暦か西暦
     date <- format_date(res$date, out_format = out_format)

@@ -9,15 +9,15 @@ library(openxlsx)
   # 09_02_excel-readr-read.R
 file_csv <- readr::readr_example("mtcars.csv")
 readr::read_csv(file_csv, show_col_types = FALSE) # CSV(カンマ区切り)
-  # readr::read_tsv(ファイル名)                   # TSV(タブ区切り)
-  # readr::read_delim(ファイル名, delim = ",")    # delim：区切り文字
+  # readr::read_tsv(FILE_NAME)                   # TSV(タブ区切り)
+  # readr::read_delim(FILE_NAME, delim = ",")    # delim：区切り文字
 
   # read_excel()によるデータフレームとしての読み込み
   # 09_03_excel-readxl-read.R
 path <- readxl::readxl_example("datasets.xlsx")
-iris <- readxl::read_excel(path, sheet = "iris") # シート名を指定
-iris |> head(3)
-mtcars <- readxl::read_excel(path, sheet = 2)    # シート番号を指定
+quakes <- readxl::read_excel(path, sheet = "quakes") # シート名を指定
+quakes |> head(3)
+mtcars <- readxl::read_excel(path, sheet = 1)    # シート番号を指定
 
   # readWorkbook()によるデータフレームとしての読み込み
   # 09_04_excel-read.R
@@ -36,9 +36,9 @@ library(readxl)
   # パスワード付きのExcelファイルを開く疑似コード
   # 09_07_excel-read-with-password.R
 library(RDCOMClient) # ないとエラーになる
-excel.link::xl.read.file("ファイル名.xlsx",  password = "パスワード")
+excel.link::xl.read.file("FILE_NAME.xlsx",  password = "PASSWORD")
 
-  # Excelの全シートを読み込む関数の読み込み
+  # Chapter 2の関数の読み込み
   # 09_08_excel-read-all-sheets-source.R
 source("https://matutosi.github.io/r-auto/R/02_00_analysis_funs.R")
 
@@ -49,7 +49,7 @@ library(googledrive)
 drive_auth("YOURNAME@gmail.com") # 認証画面でパスワードなどを入力
 sheet <- drive_find(pattern = "検索文字列", type = "spreadsheet")
 path <- "DIRECORY/FILE_NAME.csv"
-drive_download(sheet$name, path = path, type = "csv", overwrite = TRUE) # 上書きするとき
+drive_download(sheet$name[1], path = path, type = "csv", overwrite = TRUE) # 上書きするとき
 
   # OneDriveからのファイルのダウンロード(疑似コード)
   # 09_10_excel-read-onedrive.R
@@ -175,14 +175,14 @@ walk_wb <- function(wb, fun, ...){
     purrr::walk(fun, wb = wb, ...) # fun(wb = wb, sheet = sheet)のように受け取る
 }
 
-  # コードを簡潔にするための糖衣関数
+  # コードを簡潔にするためのラッパー関数
   # 09_25_excel-autofilter-wrapper-fun.R
-  # addFilter()の糖衣関数
+  # addFilter()のラッパー関数
 add_filter <- function(wb, sheet, rows = 1){
   cols <- cols_wb_sheet(wb, sheet)
   openxlsx::addFilter(wb, sheet, rows = rows, cols = cols)
 }
-  # setColWidths()の糖衣関数
+  # setColWidths()のラッパー関数
 set_col_width <- function(wb, sheet, width = "auto", ...){
   cols <- cols_wb_sheet(wb, sheet)
   openxlsx::setColWidths(wb, sheet, cols = cols, width = width, ...)
@@ -206,7 +206,7 @@ freezePane(wb, 1, firstRow = TRUE, firstCol = TRUE) # 1行目と1列目を固定
 
   # ウィンドウ枠を固定する関数
   # 09_28_excel-freezepanel-fun.R
-  # freezePane()の糖衣関数
+  # freezePane()のラッパー関数
 freeze_pane <- function(wb, sheet){
   openxlsx::freezePane(wb, sheet, firstRow = TRUE, firstCol = TRUE)
 }

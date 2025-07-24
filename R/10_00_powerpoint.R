@@ -84,7 +84,7 @@ fs::path(pp$package_dir)
 
   # PowerPointファイルから画像を取り出す関数
   # 10_12_powerpoint-extract-pp-image-fun.R
-extract_pp_image <- function(path, out_dir = NULL, overwrite = TRUE){
+extract_pp_images <- function(path, out_dir = NULL, overwrite = TRUE){
   pp <- officer::read_pptx(path)                           # 読み込み
   imgs <-                                                  # 画像の一覧
     officer::pptx_summary(pp) |>                           # 概要の取得
@@ -117,7 +117,7 @@ extract_pp_image <- function(path, out_dir = NULL, overwrite = TRUE){
   # PowerPointからの画像の取り出し
   # 10_13_powerpoint-extract-pp-image.R
 out_dir <- fs::path_home("desktop")
-path_images <- extract_pp_image(path, out_dir, overwrite = TRUE)
+path_images <- extract_pp_images(path, out_dir, overwrite = TRUE)
 
   # レイアウトの確認
   # 10_14_powerpoint-layout.R
@@ -170,18 +170,15 @@ add_content <- function(pp, title = "", content){
   layout <- "Title and Content"
   name <- "Title and Content"
   ph_label <- "Content Placeholder 2"
-  # スライドの追加
-  pp <- add_slide(pp, layout = layout)
-  # 内容の追加
-  pp <- ph_with(pp, value = content,
+  pp <- add_slide(pp, layout = layout)   # スライドの追加
+  pp <- ph_with(pp, value = content,     # 内容の追加
                 location = ph_location_type(type = "body"))
-  # タイトルの追加
-  pp <- ph_with(pp, value = title,
+  pp <- ph_with(pp, value = title,       # タイトルの追加
                 location = ph_location_type(type = "title"))
   return(pp)
 }
 
-  # タイトルと画像のスライドを挿入する関数
+  # スライドのサイズに合わせて画像を配置する関数
   # 10_17_powerpoint-add-fig-fun.R
 add_fig <- function(pp, title = "", path_img, fig_full_size = FALSE,
                     conter_horizontal = TRUE, conter_vertical = TRUE){
@@ -254,7 +251,7 @@ pp <-
   add_content(title = "箇条書き", content = str2ul(str)) |>
   add_content(title = "irisデータ", content = head(iris)) |>
   add_content(title = "iris(flextable)", content = ft) |>
-  add_content(title = "ggplotの図", content = gg_iris) |>
+  add_content(title = "ggplot2の図", content = gg_iris) |>
   add_content(title = "編集可能な図", content = editable_gg) |>
   add_fig(title = "pngなどの画像", path_img = r_img)
 path <- fs::path_temp("slide.pptx") # 保存
@@ -264,7 +261,7 @@ print(pp, target = path)
   # タイトルと画像のスライドの追加
   # 10_19_powerpoint-add-fig-sample.R
 titles <- c("1枚目", "2枚目")
-images <- path_images               # extract_pp_image()で抽出した画像
+images <- path_images               # extract_pp_images()で抽出した画像
 pp <- reduce2(titles, images,       # タイトルと画像はスライドで異なる
               add_fig, .init = pp,
               fig_full_size = TRUE) # 以下は全スライドで同じ)

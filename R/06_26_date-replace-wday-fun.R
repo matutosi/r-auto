@@ -1,4 +1,4 @@
-  # 元の書式のまま曜日のみ置換する関数(`replace_wday()`)
+  # もとの書式のまま曜日のみ置換する関数(`replace_wday()`)
   # 06_26_date-replace-wday-fun.R
 replace_wday <- function(str, wday_orig, wday){
   pattern <- paste0("([\\(（])", wday_orig, "([\\)）])") # 置換前

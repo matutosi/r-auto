@@ -20,17 +20,6 @@ deepl_key
   # 利用可能な言語の一覧
   # 13_05_translate-available-languages.R
 available_languages2(deepl_key)
- ## # A tibble: 29 × 2
- ##    language name      
- ##    <chr>    <chr>     
- ##  1 BG       Bulgarian 
- ##  2 CS       Czech     
- ##  3 DA       Danish    
- ##  4 DE       German    
- ##  5 EL       Greek     
- ##  6 EN       English   
- ##  (省略)
- ## 14 JA       Japanese  
 
   # 利用量の確認
   # 13_06_translate-usage.R
@@ -41,7 +30,6 @@ usage2(deepl_key)
 text <- "This is an example of a translation by DeepL." # もとの文
 translate2(text = text, target_lang = "JA", 
   source_lang = "EN", auth_key = deepl_key)
- ## [1] "これはDeepLによる翻訳の例である。"
 
   # 翻訳用の文章の保存
   # 13_08_translate-writelines.R
@@ -58,12 +46,6 @@ en <-
   readLines() |>
   split_text(max_size_bytes = 500)
 en
- ## # A tibble: 3 × 3
- ##   text_id segment_id segment_text
- ##     <int>      <int> <chr>
- ## 1       1          1 The birch canoe slid on the smooth planks.…
- ## 2       1          2 The source of the huge river is the clear …
- ## 3       1          3 Two blue fish swam in the tank. Her purse …
 
   # deeplrによる翻訳(for版)
   # 13_10_translate-translated.R
@@ -76,9 +58,6 @@ for(i in 1:len){
 }
 translated <- unlist(translated)
 translated
- ## [1] "白樺のカヌーは滑らかな板の上を滑った。紺色の背景にシートを..."
- ## [2] "大河の源は清流。ボールをまっすぐ蹴り、フォロースルー。女性..."
- ## [3] "水槽には2匹の青い魚が泳いでいた。彼女の財布は無駄なゴミで..."
 
   # deeplrによる翻訳(map版)
   # 13_11_translate-translated-safely.R
@@ -88,12 +67,8 @@ translated <-
   text |>
   purrr::map_chr(translate2_possibly, target_lang = "JA", auth_key = deepl_key)
 translated
- ## (2番目がエラーのときの結果の例)
- ## [1] "白樺のカヌーは滑らかな板の上を滑った。紺色の背景にシートを..."
- ## [2] "!翻訳エラー"
- ## [3] "水槽には2匹の青い魚が泳いでいた。彼女の財布は無駄なゴミで..."
 
-  # 文に分割する関数
+  # 1文ごとに分割する関数
   # 13_12_translate-split-sentence-fun.R
 split_sentence <- function(x){
   x <- 
@@ -104,21 +79,12 @@ split_sentence <- function(x){
   return(x[x != ""])                                   # ""(空文字列)を除去
 }
 
-  # 文への分割
+  # 1文ごとへの分割
   # 13_13_translate-split-text.R
 result <- 
   tibble::tibble(en = split_sentence(text), 
                  jp = split_sentence(translated)) |>
   print()
- ## # A tibble: 30 × 2
- ##    en                                        jp
- ##    <chr>                                     <chr>
- ##  1 "The birch canoe slid on the smoo..."  "白樺のカヌーは滑らかな板の上..."
- ##  2 "Glue the sheet to the dark blue ..."  "紺色の背景にシートを糊付けする。"
- ##  3 "It's easy to tell the depth of a..."  "井戸の深さを知るのは簡単だ。"
- ##  4 "These days a chicken leg is a ra..."  "最近、鶏のモモ肉は珍しい料理だ。"
- ##  5 "Rice is often served in round bo..."  "ご飯は丸い茶碗に盛られること..."
- ##  (省略)
 
   # 翻訳結果をExcelに書き込み
   # 13_14_translate-write-xlsx.R
@@ -153,9 +119,6 @@ params <- gen_params(key = textra_key,                     # 認証情報
   # 13_18_translate-textra-models.R
 sample <- "I am a cat. I have no name. It is fine today."
 textra(sample, params = params)                     # 新エンジン(既定値)
- ## [1] "私は猫です。 名前はありません。 今日はいい天気です。"
 textra(sample, params = params, model = "patentNT") # 特許
- ## [1] "私は猫であり、名前はない。今日は良い。"
 textra(sample, params = params, model = "seikatsu") # 日常会話
- ## [1] "私は猫を飼っています。名前は書いてありません。今日はお天気もいいです。"
 

@@ -1,6 +1,6 @@
   # ディクトリ内のWordファイルから画像を抽出する関数
   # 08_18_word-extract-docx-img-fun.R
-extract_docx_imgs <- function(path) {
+extract_docx_images <- function(path) {
   docxs <- fs::dir_ls(path, regexp = "\\.docx$") # Wordファイルの一覧
   zips <-
     docxs |>

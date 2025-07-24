@@ -1,5 +1,5 @@
   # PDFファイルの文字認識
-  # 07_24_pdf-ocr.R
+  # 07_23_pdf-ocr.R
 ocr_data <- pdf_split(pdf_base)[1] |> pdf_ocr_data(language = "jpn") |> `[[`(_, 1) 
 head(ocr_data, 3)
 pdf_split(pdf_base)[1] |> pdf_ocr_text(language = "jpn") |> 

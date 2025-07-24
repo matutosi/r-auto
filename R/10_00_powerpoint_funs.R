@@ -32,7 +32,7 @@ extract_pp_table <- function(path){
 }
   # PowerPointファイルから画像を取り出す関数
   # 10_12_powerpoint-extract-pp-image-fun.R
-extract_pp_image <- function(path, out_dir = NULL, overwrite = TRUE){
+extract_pp_images <- function(path, out_dir = NULL, overwrite = TRUE){
   pp <- officer::read_pptx(path)                           # 読み込み
   imgs <-                                                  # 画像の一覧
     officer::pptx_summary(pp) |>                           # 概要の取得
@@ -85,17 +85,14 @@ add_content <- function(pp, title = "", content){
   layout <- "Title and Content"
   name <- "Title and Content"
   ph_label <- "Content Placeholder 2"
-  # スライドの追加
-  pp <- add_slide(pp, layout = layout)
-  # 内容の追加
-  pp <- ph_with(pp, value = content,
+  pp <- add_slide(pp, layout = layout)   # スライドの追加
+  pp <- ph_with(pp, value = content,     # 内容の追加
                 location = ph_location_type(type = "body"))
-  # タイトルの追加
-  pp <- ph_with(pp, value = title,
+  pp <- ph_with(pp, value = title,       # タイトルの追加
                 location = ph_location_type(type = "title"))
   return(pp)
 }
-  # タイトルと画像のスライドを挿入する関数
+  # スライドのサイズに合わせて画像を配置する関数
   # 10_17_powerpoint-add-fig-fun.R
 add_fig <- function(pp, title = "", path_img, fig_full_size = FALSE,
                     conter_horizontal = TRUE, conter_vertical = TRUE){

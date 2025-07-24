@@ -11,7 +11,7 @@ read_all_sheets <- function(path, add_sheet_name = TRUE){
   names(xlsx) <- sheets                    # シート名
   if(add_sheet_name){                      # シート名をtibbleに追加するか
     xlsx <- purrr::map2(xlsx, sheets,
-      \(.x, .y){
+      \(.x, .y){                           # \() は function() と同じ
         dplyr::mutate(.x, sheet = .y)      # シート名の列を追加
       }
     )

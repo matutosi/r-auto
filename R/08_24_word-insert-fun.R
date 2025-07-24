@@ -11,7 +11,7 @@ insert_images <- function(docx, images, width = 3, height = NULL, ...){
   tibble(src = images, width = width, height = height) |>
     preduce(officer::body_add_img, .init = docx, ...)
 }
-  # insert_imagesの助関数
+  # insert_imagesの補助関数
 preduce <- function(.l, .f, ..., .init, .dir = c("forward", "backward")){
   .dir <- match.arg(.dir)
   reduce(.x = transpose(.l), 

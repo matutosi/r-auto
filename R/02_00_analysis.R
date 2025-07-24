@@ -19,7 +19,7 @@ read_all_sheets <- function(path, add_sheet_name = TRUE){
   names(xlsx) <- sheets                    # シート名
   if(add_sheet_name){                      # シート名をtibbleに追加するか
     xlsx <- purrr::map2(xlsx, sheets,
-      \(.x, .y){
+      \(.x, .y){                           # \() は function() と同じ
         dplyr::mutate(.x, sheet = .y)      # シート名の列を追加
       }
     )
@@ -93,7 +93,7 @@ head(sales_joined, 3)
 lost <- dplyr::filter(answer_joined, apps != "-") # apps == "-" を欠落させる
 print(answer_joined, n = 3) # もとのデータ
 print(lost, n = 3)   # 欠落データ
-dplyr::anti_join(answer_joined, lost) |> print(n = 3) # lostで欠落したものを抽出
+dplyr::anti_join(answer_joined, lost) |> print(n = 3) # lostの欠落部分を抽出
 
   # 列の選択と除外
   # 02_14_analysis-dplyr-select.R
@@ -205,7 +205,7 @@ dplyr::count(answer_mutated, area)                      # 出力は省略
   # 基本的な描画(箱ひげ図)
   # 02_31_analysis-ggplot-ggplot.R
 sales_joined |>
-  ggplot2::ggplot(ggplot2::aes(x = item, y = count)) + 
+  ggplot2::ggplot(mapping = ggplot2::aes(x = item, y = count)) + 
   ggplot2::geom_boxplot() + 
   ggplot2::theme(text = ggplot2::element_text(size = 20)) + # フォントを大きく
   ggplot2::guides(x = ggplot2::guide_axis(n.dodge = 2))     # x軸の重なり防止
@@ -324,8 +324,8 @@ gg_sales_split <-
       ggplot2::ggplot(.x, ggplot2::aes(period, count, group = item)) +
       ggplot2::geom_line(aes(color = item)) + # 線の色をitemに対応させる
       ggplot2::theme_bw() +                   # 白黒のテーマ
-                                              # フォント種類とフォントサイズ
-      ggplot2::theme(text = ggplot2::element_text(family = "Yu Mincho", size = 20)) + 
+      ggplot2::theme(text = ggplot2::element_text(family = "Yu Mincho", 
+                     size = 20)) + # フォント種類とフォントサイズ
       ggplot2::guides(x = ggplot2::guide_axis(angle = 90)) + # x軸の重なり防止
       ggplot2::labs(title = .y)                              # タイトル
     }
@@ -376,7 +376,7 @@ paste_if_new <- function(x, y){
   }
 }
 
-  # 順次処理の関数
+  # 順次処理する関数の実行
   # 02_53_analysis-purrr-reduce.R
 answer_mutated |> 
   dplyr::summarise(apps = reduce(apps, paste_if_new), 

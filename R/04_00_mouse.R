@@ -25,7 +25,6 @@ KeyboardSimulator::keybd.press("enter")
   # マウス位置の取得
   # 04_06_kybd-mouse-get-cursor.R
 mouse.get_cursor()
- ## [1] 297  306
 
   # マウス位置の取得する関数
   # 04_07_kybd-mouse-record-fun.R
@@ -47,12 +46,6 @@ mouse_record <- function(n = 3, interval = -1){
   # マウス位置の取得
   # 04_08_kybd-mouse-record.R
 mouse_record()
- ## Press Enter on R console
- ## 1: x = 568, y = 143
- ## Press Enter on R console
- ## 2: x = 334, y = 564
- ## Press Enter on R console
- ## 3: x = 602, y = 484
 
   # マウスの位置移動
   # 04_09_kybd-mouse-move.R
@@ -95,8 +88,7 @@ screenshot::install_screenshot()
   # スクリーンショット撮影
   # 04_16_kybd-screenshot.R
 sc <- screenshot::screenshot()
- ## C:/Users/USERNAME/AppData/Local/Temp/RtmpkP1iLf/sc_287c4b4873da.png
-imager::load.image(sc) |> plot() # imagerで読み込んで図示
+magick::image_read(sc) |> plot() # 読み込んで図示
 
   # 位置特定用の画像の準備
   # 04_17_kybd-screenshot-needle-image.R
@@ -114,14 +106,6 @@ screenshot::locate_image(path_needle, center = FALSE)
   # USB取り出し用マウス位置の取得
   # 04_19_kybd-remove-usb-pos.R
 pos <- mouse_record(n = 4)
- ## Press Enter on R consolepos # xy座標の位置は環境によって全く異なる
- ## 1: x = 1050, y = 671
- ## Press Enter on R console
- ## 2: x = 1055, y = 652
- ## Press Enter on R console
- ## 3: x = 1179, y = 695
- ## Press Enter on R console
- ## 4: x = 1021, y = 677
 
   # コード生成の自動化
   # 04_20_kybd-gen-code.R
@@ -132,10 +116,6 @@ for(p in pos){
   paste0(pre, p[1], mid, p[2], post) |>
   cat()
 }
- ## mouse_move_click(225, 843)
- ## mouse_move_click(1055, 652)
- ## mouse_move_click(1179, 695)
- ## mouse_move_click(1021, 677)
 
   # USBの取り出しコードの例
   # 04_21_kybd-remove-usb.R

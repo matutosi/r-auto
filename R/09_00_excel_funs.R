@@ -17,12 +17,12 @@ walk_wb <- function(wb, fun, ...){
     purrr::walk(fun, wb = wb, ...) # fun(wb = wb, sheet = sheet)のように受け取る
 }
   # 09_25_excel-autofilter-wrapper-fun.R
-  # addFilter()の糖衣関数
+  # addFilter()のラッパー関数
 add_filter <- function(wb, sheet, rows = 1){
   cols <- cols_wb_sheet(wb, sheet)
   openxlsx::addFilter(wb, sheet, rows = rows, cols = cols)
 }
-  # setColWidths()の糖衣関数
+  # setColWidths()のラッパー関数
 set_col_width <- function(wb, sheet, width = "auto", ...){
   cols <- cols_wb_sheet(wb, sheet)
   openxlsx::setColWidths(wb, sheet, cols = cols, width = width, ...)
@@ -33,7 +33,7 @@ cols_wb_sheet <- function(wb, sheet){
     ncol() |> seq()
 }
   # 09_28_excel-freezepanel-fun.R
-  # freezePane()の糖衣関数
+  # freezePane()のラッパー関数
 freeze_pane <- function(wb, sheet){
   openxlsx::freezePane(wb, sheet, firstRow = TRUE, firstCol = TRUE)
 }

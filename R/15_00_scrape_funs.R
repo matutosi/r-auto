@@ -35,7 +35,7 @@ get_monthly_urls <- function(){
     rvest::html_elements("a") |>          # <a>タグ
     rvest::html_attr("href")              # hrefの属性値
 }
-  # 新刊紹介の個別ページを取得する関数
+  # 新刊情報から各書籍のページを取得する関数
   # 15_28_scrape-books-urls-fun.R
 get_new_book_urls <- function(url){
   Sys.sleep(5)
@@ -44,7 +44,7 @@ get_new_book_urls <- function(url){
     rvest::html_elements("a.book_title.show_pc") |>
     rvest::html_attr("href") 
 }
-  # 個別ページのHTMLを取得する関数
+  # 各書籍のページのHTMLを取得する関数
   # 15_30_scrape-books-detail-urls-fun.R
 get_book_html <- function(url){
   Sys.sleep(5)
@@ -79,8 +79,10 @@ detail2elm_txt <- function(details, css){
 scrape_jma <- function(url){
   session <- selenider::selenider_session(session = "chromote", timeout = 10)
   selenider::open_url(url)
-  selenider::s("div.mdc-button__label") |> 
-    selenider::elem_click()
+  mdc_btn <- selenider::s("div.mdc-button__label")
+  if(selenider::is_present(mdc_btn)){
+    selenider::elem_click(mdc_btn)
+  }
   pngs <- list()
   n <- 13
   for(i in 1:n){

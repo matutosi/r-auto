@@ -35,11 +35,11 @@ explain_code(code)
 
   # パラメータによる回答の制御
   # 14_07_ai-chatgpt-parameter-temperature.R
-  # 以前の内容を引き継がないように、毎回セッションをリセット
 library(chatgpt)
 prompt <- "「昔々あるところに」に続けて自由な物語を考えてください。"
 Sys.setenv(OPENAI_TEMPERATURE = 0)
 reset_chat_session()
+  # 以前の内容を引き継がないように、毎回セッションをリセット
 ask_chatgpt(prompt)
 reset_chat_session()
 ask_chatgpt(prompt)
@@ -73,7 +73,7 @@ setAPI(gemini_api_key)
 url <- "https://www.aozora.gr.jp/cards/000042/files/43535_24583.html"
 text <- 
   url |>
-  rvest::read_html() |>
+  rvest::read_html(encoding = "SJIS") |>
   rvest::html_elements(".main_text") |>
   rvest::html_text() |>
   stringr::str_remove_all("\\s+") # 空白文字を削除
@@ -113,7 +113,9 @@ gemini_image(image = gg, prompt = prompt)
   # 14_16_ai-gemini-gemini-images.R
 prompt <- "写真全体の説明をしてください。生物がいる場合は、その説明もお願いします。"
 url <- "https://matutosi.github.io/r-auto/data/"
-jpgs <- paste0(url, "image_0", 1:3, ".jpg")
+urls <- paste0(url, "image_0", 1:3, ".jpg")
+jpgs <- fs::path_temp(paste0("image_0", 1:3, ".jpg"))
+curl::multi_download(urls, jpgs)
 comments <- list()
 for(jpg in jpgs){
   comments[[jpg]] <- gemini_image(jpg, prompt)

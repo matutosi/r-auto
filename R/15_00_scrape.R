@@ -172,7 +172,7 @@ monthly_urls <- get_monthly_urls()
 head(monthly_urls, 2)
   # shell.exec(monthly_urls[2]) # 1つ目のページを開く
 
-  # 新刊紹介の個別ページを取得する関数
+  # 新刊情報から各書籍のページを取得する関数
   # 15_28_scrape-books-urls-fun.R
 get_new_book_urls <- function(url){
   Sys.sleep(5)
@@ -190,14 +190,14 @@ new_book_urls <-
   unlist()
 new_book_urls
 
-  # 個別ページのHTMLを取得する関数
+  # 各書籍のページのHTMLを取得する関数
   # 15_30_scrape-books-detail-urls-fun.R
 get_book_html <- function(url){
   Sys.sleep(5)
   rvest::read_html(url)
 }
 
-  # 個別ページの内容の取得
+  # 各書籍のページのHTMLの取得
   # 15_31_scrape-books-detail-urls.R
 bk_details <- purrr::map(new_book_urls, get_book_html)
 bk_details[[1]]
@@ -261,7 +261,7 @@ form <-
   rvest::read_html() |>
   rvest::html_form() |> # フォームを2つ含む
   `[[`(_, 1) |>         # 1つ目のフォーム
-  print()               # フォームの内容を確認
+form                    # フォームの内容を確認
 search <- rvest::html_form_set(form, keywords = "テキストマイニング")
 response <- rvest::html_form_submit(search)
 
@@ -295,8 +295,10 @@ session$driver$view()
 
   # 広告非表示をクリック
   # 15_40_scrape-jma-elem-click-1.R
-s("div.mdc-button__label") |>
-  elem_click()
+mdc_btn <- selenider::s("div.mdc-button__label")
+if(selenider::is_present(mdc_btn)){ # "div.mdc-button__label"があれば
+  selenider::elem_click(mdc_btn)
+}
 
   # スクリーンショットを撮る
   # 15_41_scrape-jma-elem-click-2.R
@@ -314,8 +316,10 @@ s(xpath = "/html/body/div[2]/div[1]/div[3]/div[1]/button[2]") |>
 scrape_jma <- function(url){
   session <- selenider::selenider_session(session = "chromote", timeout = 10)
   selenider::open_url(url)
-  selenider::s("div.mdc-button__label") |> 
-    selenider::elem_click()
+  mdc_btn <- selenider::s("div.mdc-button__label")
+  if(selenider::is_present(mdc_btn)){
+    selenider::elem_click(mdc_btn)
+  }
   pngs <- list()
   n <- 13
   for(i in 1:n){

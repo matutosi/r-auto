@@ -40,7 +40,7 @@ dir_create("abc")
   # ファイルとディレクトリ一覧の取得
   # 01_08_file-ls.R
 dir_ls()
-dir_ls(recurse = TRUE) # recurse = TRUEで下位ディレクトリも表示
+dir_ls(recurse = TRUE) # recurse = TRUEでサブディレクトリも表示
 
   # `type`を指定した一覧の取得
   # 01_09_file-ls-type.R
@@ -67,8 +67,8 @@ dir_tree(type = "directory") # ディレクトリのみ
 
   # `recurse`を指定したディレクトリのツリー表示
   # 01_14_file-ls-tree-recurse.R
-dir_tree(recurse = 0) # 下位ディレクトリを表示しない
-dir_tree(recurse = 1) # 1つ下位のディレクトリまで表示
+dir_tree(recurse = 0) # サブディレクトリを表示しない
+dir_tree(recurse = 1) # 1つ下のディレクトリまで表示
 
   # ファイルやディレクトリ有無を取得
   # 01_15_file-exests.R
@@ -81,7 +81,7 @@ dir_exists("docs")
   # 01_16_file-info.R
 dir_info()
 
-  # `dir_info()`と`stringr::detect()`を使ったファイルの絞り込み
+  # `dir_info()`と`stringr::str_detect()`を使ったファイルの絞り込み
   # 01_17_file-info-filter.R
 dir_info() |>
   dplyr::filter(size > 10^3) |> # sizeが1000を超えるもの
@@ -99,7 +99,7 @@ txt_file
 path_ext(md_files)
 path_ext_remove(md_files)
 
-  # 下位ディレクトリも対象とするとき
+  # サブディレクトリも対象とするとき
 all_files <- dir_ls(type = "file", recurse = TRUE)
 path_ext(all_files)
 path_ext_remove(all_files)
@@ -119,7 +119,7 @@ result
   # ディレクトリ内でのファイルのコピー
   # 01_22_file-copy.R
 copy_files <- stringr::str_c("copy_", files) # コピー後のファイル名
-(file_copy(files, copy_files)) # 両端の()で結果を表示
+(file_copy(files, copy_files)) # ()で囲むことで結果を表示
 
   # 指定したディレクトリへのファイルのコピー
   # 01_23_file-copy-abc.R
@@ -140,7 +140,7 @@ file_copy(files, "abc") # 上書きできずエラー
 (new_path <- c("foo.txt", "bar.txt", "baz.txt")) # 変更後のファイル名
 (file_move(files, new_path))
 
-  # アルファベットのダミーファイルの生成
+  # ファイル名がアルファベットのダミーファイルの生成
   # 01_27_file-rename-app-prep.R
 paste0(letters[1:10], ".pdf") |>
   file_create()
@@ -212,5 +212,13 @@ sort_files <- function(dir, show_tree = FALSE, ...){
 
   # 拡張子でのファイルを整理(疑似コード)
   # 01_33_file-sort.R
-sort_files("dir", show_tree = TRUE)
+sort_files("D:/dir", show_tree = TRUE)
+
+  # 作業用ファイルとディレクトリの削除
+  # 01_34_file-delete-temp.R
+txts <- paste0(c("foo", "bar", "baz"), ".txt")
+xlsxs <- dir_ls(regexp = "^\\d{3}_[a-j]\\.xlsx")
+pdfs <- dir_ls(regexp = "^\\d{2}\\.pdf")
+file_delete(c(txts, xlsxs, pdfs))
+dir_delete("abc")
 

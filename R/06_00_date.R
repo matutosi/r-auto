@@ -103,7 +103,7 @@ has_yr <- function(str){
   return(res)
 }
 
-  # 年追加の助関数(`this_year()`と`is_future()`)
+  # 年追加の補助関数(`this_year()`と`is_future()`)
   # 06_13_date-paste-year-helper-fun.R
 this_year <- function(){
   lubridate::today() |>
@@ -215,10 +215,12 @@ stringr::str_replace_all(sentence, pattern) |>
 
   # Wordでの一括変換(疑似コード)
   # 06_22_date-convert-yr-replace-word.R
-path <- "DIRECTORY/word.docx"
-doc <- officer::read_docx(path)
+path_in <- "DIRECTORY/word.docx"
+path_out <- "DIRECTORY/word_replaced.docx"
+doc <- officer::read_docx(path_in)
 doc <- purrr::reduce2(.x = yr_jp, .y = yr_west, 
                       .f = officer::body_replace_all_text, .init = doc)
+print(doc, path_out)
 
   # 曜日を取り出す関数(`extract_wday()`)
   # 06_23_date-extract-wday-fun.R
@@ -258,7 +260,7 @@ is_correct_wday(dates) |>
   na.omit() |>
   print(n = 20)
 
-  # 元の書式のまま曜日のみ置換する関数(`replace_wday()`)
+  # もとの書式のまま曜日のみ置換する関数(`replace_wday()`)
   # 06_26_date-replace-wday-fun.R
 replace_wday <- function(str, wday_orig, wday){
   pattern <- paste0("([\\(（])", wday_orig, "([\\)）])") # 置換前
@@ -281,7 +283,7 @@ format_date <- function(x, out_format = "west"){
   # 06_28_date-update-wday-fun.R
 update_wday <- function(str, out_format = "west"){
   res <- is_correct_wday(str)   # 曜日が正しいか判定
-  if(out_format == "original"){ # 元の書式
+  if(out_format == "original"){ # もとの書式
     date <- replace_wday(str, res$wday_orig, res$wday)
   }else{ # 和暦か西暦
     date <- format_date(res$date, out_format = out_format)
@@ -345,8 +347,8 @@ calendR::calendR(year(x) + 1, month(x),
 
   # 1年後の日付への更新
   # 06_34_date-same-pos-next-yr-example.R
-sentence <- "大学祭「よつば祭」は、2024年10月26日と10月27日に開催します。"
-days_this_yr <- extract_date_ish(sentence)
+sentence <- "大学祭「よつば祭」は、2024年10月26日と2024年10月27日に開催します。"
+days_this_yr <- extract_date_ish(sentence) # 文章から日付っぽい文字列を抽出
 days_next_yr <-
   days_this_yr |>
   date_ish2date() |>

@@ -3,8 +3,10 @@
 scrape_jma <- function(url){
   session <- selenider::selenider_session(session = "chromote", timeout = 10)
   selenider::open_url(url)
-  selenider::s("div.mdc-button__label") |> 
-    selenider::elem_click()
+  mdc_btn <- selenider::s("div.mdc-button__label")
+  if(selenider::is_present(mdc_btn)){
+    selenider::elem_click(mdc_btn)
+  }
   pngs <- list()
   n <- 13
   for(i in 1:n){

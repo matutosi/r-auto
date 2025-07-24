@@ -5,12 +5,12 @@ images_write <- function(images, paths){
   tibble::tibble(image = as.list(images), path = paths, format = formats) |>
       purrr::pwalk(magick::image_write)
 }
-  # 比率を指定して画像サイズを変更する関数
+  # 比率を指定して画像の大きさを変更する関数
   # 11_21_image-scale-ratio-fun.R
 image_scale_ratio <- function(image, ratio){
   round(magick::image_info(image)$width * ratio) |>
     purrr::map(magick::image_scale, image = image) |>
-    magick::image_join() # リストを結合して元の画像オブジェクトに戻す
+    magick::image_join() # リストを結合してもとの画像オブジェクトに戻す
 }
   # ファイルサイズを指定してサイズを変更する関数
   # 11_22_image-scale-filesize-fun.R
