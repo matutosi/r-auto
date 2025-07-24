@@ -36,8 +36,8 @@ source("https://matutosi.github.io/r-auto/R/02_00_analysis_funs.R") # Chapter 2�
 | 全体 | コード                             | <https://github.com/matutosi/r-auto/tree/main/R/> |
 | 全体 | 使用データ                         | <https://github.com/matutosi/r-auto/tree/main/data/> |
 | 全体 | R for Data science                 | <https://r4ds.hadley.nz/> |
+| 全体 | tidyverse                          | <https://www.tidyverse.org/> |
 | 1    | ファイル関連のコマンド比較         | <https://cran.r-project.org/web/packages/fs/vignettes/function-comparisons.html> |
-| 2    | ggplot2                            | <https://ggplot2-book.org/> |
 | 7,14 | RTools                             | <https://cran.r-project.org/bin/windows/Rtools/> |
 | 12   | Google Could                       | <https://console.cloud.google.com/> |
 | 13   | DeepL                              | <https://www.deepl.com/ja/pro/> |
@@ -50,7 +50,53 @@ source("https://matutosi.github.io/r-auto/R/02_00_analysis_funs.R") # Chapter 2�
 | 15   | 気象庁の今後の雨                   | <https://www.jma.go.jp/bosai/kaikotan/> |
 | 15   | 気象庁の雨雲の動き                 | <https://www.jma.go.jp/bosai/nowc/> |
 
-\`\`\`
+
+
+各種パッケージ
+
+| 関連章 | パッケージ                       | URL |
+|-----------------------------------|------------------|------------------|
+| 1    | fs                                 | <https://fs.r-lib.org/> |
+| 2    | tidyr                              | <https://tidyr.tidyverse.org/> |
+| 2    | dplyr                              | <https://dplyr.tidyverse.org/> |
+| 2    | ggplot2                            | <https://ggplot2-book.org/> |
+| 2    | Cairo                              | <https://www.rforge.net/Cairo/docs/index.html> |
+| 2    | extrafont                          | <https://github.com/wch/extrafont> |
+| 2    | purrr                              | <https://purrr.tidyverse.org/> |
+| 4    | KeyboardSimulator                  | <https://github.com/ChiHangChen/KeyboardSimulator> |
+| 5    | stringr                            | <https://stringr.tidyverse.org/> |
+| 5    | stringi                            | <https://stringi.gagolewski.com/> |
+| 5    | diffr                              | <https://github.com/muschellij2/diffr> |
+| 6    | lubridate                          | <https://lubridate.tidyverse.org/> |
+| 6    | zipangu                            | <https://uribo.github.io/zipangu/> |
+| 6    | calendR                            | <https://r-coder.com/calendar-plot-r/> |
+| 7    | pdftools                           | <https://docs.ropensci.org/pdftools/> |
+| 7    | qpdf                               | <https://docs.ropensci.org/qpdf/> |
+| 7    | RDCOMClient                        | <https://github.com/omegahat/RDCOMClient> |
+| 8,10 | officeverse(officer)               | <https://ardata-fr.github.io/officeverse/> |
+| 9    | readr                              | <https://cran.r-project.org/web/packages/readr/readme/README.html> |
+| 9    | readxl                             | <https://readxl.tidyverse.org/> |
+| 9    | excel.link                         | <https://github.com/gdemin/excel.link> |
+| 9    | openxlsx                           | <https://ycphs.github.io/openxlsx/index.html> |
+| 9    | pivotea                            | <https://matutosi.github.io/pivotea/> |
+| 9    | pivottabler                        | <https://github.com/cbailiss/pivottabler> |
+| 9    | googledrive                        | <https://googledrive.tidyverse.org/> |
+| 10   | flextable                          | <https://ardata-fr.github.io/flextable-book/> |
+| 11   | magick                             | <https://docs.ropensci.org/magick/> |
+| 11   | screenshot                         | <https://matutosi.github.io/screenshot/> |
+| 12   | Microsoft365R                      | <https://github.com/Azure/Microsoft365R> |
+| 12   | gmailr                             | <https://gmailr.r-lib.org/> |
+| 13   | deeplr                             | <https://github.com/zumbov2/deeplr> |
+| 13   | textrar                            | <https://matutosi.github.io/textrar/> |
+| 14   | chatgpt                            | <https://github.com/jcrodriguez1989/chatgpt> |
+| 14   | openai                             | <https://irudnyts.github.io/openai/> |
+| 14   | gemini.R                           | <https://github.com/jhk0530/gemini.R> |
+| 15   | polite                             | <https://dmi3kno.github.io/polite/> |
+| 15   | rvest                              | <https://rvest.tidyverse.org/> |
+| 15   | selenider                          | <https://ashbythorpe.github.io/selenider/> |
+| 15   | chromote                           | <https://rstudio.github.io/chromote/> |
+| 15   | showimage                          | <https://github.com/r-lib/showimage#readme> |
+
 
 ## 質問
 
@@ -58,7 +104,7 @@ source("https://matutosi.github.io/r-auto/R/02_00_analysis_funs.R") # Chapter 2�
 
 <https://github.com/matutosi/r-auto/issues>
 
-[matutosi\@gmail.com](mailto:matutosi@gmail.com){.email}
+[matutosi\@gmail.com](mailto:matutosi@gmail.com)
 
 ## 引用
 
