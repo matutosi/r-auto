@@ -1,4 +1,4 @@
-# Rによる自動化・効率化レシピ集(仮)
+# Rによる自動化・効率化レシピ集
 
 このページは，「Rによる自動化・効率化レシピ集」(松村 俊和，2025，森北出版)のサポートページです．
 
@@ -19,7 +19,7 @@ https://github.com/matutosi/r-auto/tree/main/R/
 
 ```
   # URLとドメインがサポートページとは異なる
-  # 注意：*_funs.Rに含む関数が，既存の関数を上書きする可能性あり
+  # 注意：*_funs.R内の関数が，既存の関数を上書きする可能性あり
 source("https://matutosi.github.io/r-auto/R/02_00_analysis_funs.R") # Chapter 2の全関数
 ```
 
