@@ -3,6 +3,8 @@
 このページは，[「Rによる自動化・効率化レシピ集」](https://www.morikita.co.jp/books/mid/085831)
 (松村 俊和，2025，森北出版)のサポートページです．
 
+[書籍の紹介記事(note)](https://note.com/morikita/n/n91cc7dc150af
+
 <img src="r-auto.jpg" width="300"/>
 
 ## コード
