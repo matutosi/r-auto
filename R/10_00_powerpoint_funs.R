@@ -101,7 +101,7 @@ add_fig <- function(pp, title = "", path_img, fig_full_size = FALSE,
   name <- "Title and Content"
   ph_label <- "Content Placeholder 2"
   # スライドのサイズ
-  ss <- slide_size(pp)
+  ss <- officer::slide_size(pp)
   # 配置場所のサイズ
   cont_ph <- 
     layout_properties(pp) |>
