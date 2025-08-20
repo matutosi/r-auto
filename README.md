@@ -42,6 +42,7 @@ source("https://matutosi.github.io/r-auto/R/02_00_analysis_funs.R") # Chapter 2�
 | 全体 | tidyverse                          | <https://www.tidyverse.org/> |
 | 1    | ファイル関連のコマンド比較         | <https://cran.r-project.org/web/packages/fs/vignettes/function-comparisons.html> |
 | 7,14 | RTools                             | <https://cran.r-project.org/bin/windows/Rtools/> |
+| 11   | 伊良部島 海遊びガイド シャーカン   | <https://sha-kan.jp/contact/> |
 | 12   | Google Could                       | <https://console.cloud.google.com/> |
 | 13   | DeepL                              | <https://www.deepl.com/ja/pro/> |
 | 13   | TexTra                             | <https://mt-auto-minhon-mlt.ucri.jgn-x.jp/> |
@@ -52,6 +53,7 @@ source("https://matutosi.github.io/r-auto/R/02_00_analysis_funs.R") # Chapter 2�
 | 15   | 森北出版                           | <https://www.morikita.co.jp/> |
 | 15   | 気象庁の今後の雨                   | <https://www.jma.go.jp/bosai/kaikotan/> |
 | 15   | 気象庁の雨雲の動き                 | <https://www.jma.go.jp/bosai/nowc/> |
+
 
 
 
