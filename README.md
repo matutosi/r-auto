@@ -3,8 +3,10 @@
 このページは，[「Rによる自動化・効率化レシピ集」](https://www.morikita.co.jp/books/mid/085831)
 (松村 俊和，2025，森北出版)のサポートページです．
 
-[書籍の紹介記事1(note)](https://note.com/morikita/n/n91cc7dc150af)
-[書籍の紹介記事2(note)](https://note.com/morikita/n/nae210c70d90c)
+書籍の紹介記事(note)
+
+- [その1](https://note.com/morikita/n/n91cc7dc150af)
+- [その1](https://note.com/morikita/n/nae210c70d90c)
 
 <img src="r-auto.jpg" width="300"/>
 
@@ -43,7 +45,7 @@ source("https://matutosi.github.io/r-auto/R/02_00_analysis_funs.R") # Chapter 2�
 | 全体 | tidyverse                          | <https://www.tidyverse.org/> |
 | 1    | ファイル関連のコマンド比較         | <https://cran.r-project.org/web/packages/fs/vignettes/function-comparisons.html> |
 | 7,14 | RTools                             | <https://cran.r-project.org/bin/windows/Rtools/> |
-| 11   | 伊良部島 海遊びガイド シャーカン   | <https://sha-kan.jp/contact/> |
+| 11   | 伊良部島 海遊びガイド シャーカン   | <https://sha-kan.jp/> |
 | 12   | Google Could                       | <https://console.cloud.google.com/> |
 | 13   | DeepL                              | <https://www.deepl.com/ja/pro/> |
 | 13   | TexTra                             | <https://mt-auto-minhon-mlt.ucri.jgn-x.jp/> |
