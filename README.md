@@ -5,8 +5,8 @@
 
 書籍の紹介記事(note)
 
-- [その1](https://note.com/morikita/n/n91cc7dc150af)
-- [その1](https://note.com/morikita/n/nae210c70d90c)
+- [その1(目次)](https://note.com/morikita/n/n91cc7dc150af)
+- [その2(インタビュー)](https://note.com/morikita/n/nae210c70d90c)
 
 <img src="r-auto.jpg" width="300"/>
 
