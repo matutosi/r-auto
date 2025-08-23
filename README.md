@@ -10,6 +10,10 @@
 
 <img src="r-auto.jpg" width="300"/>
 
+## 正誤表
+
+「Rによる自動化・効率化レシピ集」(https://www.morikita.co.jp/books/mid/085831) のタブ「正誤表」でご覧ください．
+
 ## コード
 
 本文のコードは以下にあります．
@@ -20,19 +24,52 @@
 -   01_00_CHAPTER.Rなど：章ごとにまとめたファイル   
 -   02_00_CHAPTER_funs.Rなど：章内の全関数   
 
+
+次のコードで章ごとにまとめたファイルや章内の全関数をダウンロード可能です．
+
+```{r}
+  # 章ごとにまとめたファイル，章内の全関数のダウンロード
+
+  # ダウンロード先(デスクトップの場合)
+  # wd <- fs::path_home("desktop")
+  # setwd(wd)
+
+chap_names <- # 章の名前
+    c("preface", "file", "analysis", "command", "mouse", "string", "date", 
+      "pdf", "word", "excel", "powerpoint", "image", 
+      "mail", "translate", "ai", "scrape")
+
+  # 章ごとにまとめたファイル
+chap_files <-
+  paste0(stringr::str_pad(0:15, 2, "left", "0"), "_00_",  chap_names, ".R")
+paste0("https://matutosi.github.io/r-auto/R/", chap_files) |>
+  curl::multi_download()
+
+  # 章内の全関数
+chap_funs <-
+  paste0(stringr::str_pad(0:15, 2, "left", "0"), "_00_",  chap_names, "_funs.R")
+paste0("https://matutosi.github.io/r-auto/R/", chap_funs) |>
+  curl::multi_download()
+```
+
+
 各章の関数を直接呼び出す場合は，以下を参考にしてください．
 
-```         
+```{r}
   # URLとドメインがサポートページとは異なる
   # 注意：*_funs.R内の関数が，既存の関数を上書きする可能性あり
 source("https://matutosi.github.io/r-auto/R/02_00_analysis_funs.R") # Chapter 2の全関数
 ```
+
 
 ## データ
 
 本文で使用してるデータは以下にあります．
 
 <https://github.com/matutosi/r-auto/tree/main/data/>
+
+各章に記載のコードからデータをダウンロード可能です．
+
 
 ## リンク集
 
@@ -56,7 +93,6 @@ source("https://matutosi.github.io/r-auto/R/02_00_analysis_funs.R") # Chapter 2�
 | 15   | 森北出版                           | <https://www.morikita.co.jp/> |
 | 15   | 気象庁の今後の雨                   | <https://www.jma.go.jp/bosai/kaikotan/> |
 | 15   | 気象庁の雨雲の動き                 | <https://www.jma.go.jp/bosai/nowc/> |
-
 
 
 
