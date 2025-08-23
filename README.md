@@ -29,25 +29,28 @@
 
 ```{r}
   # 章ごとにまとめたファイル，章内の全関数のダウンロード
+  # URLとドメインがサポートページとは異なります
 
-  # ダウンロード先(デスクトップの場合)
-  # wd <- fs::path_home("desktop")
+  # ダウンロード先の設定
+  # wd <- fs::path_home("desktop") # デスクトップの場合
   # setwd(wd)
 
-chap_names <- # 章の名前
-    c("preface", "file", "analysis", "command", "mouse", "string", "date", 
-      "pdf", "word", "excel", "powerpoint", "image", 
-      "mail", "translate", "ai", "scrape")
+  # 章の名前
+chap_names <-
+  c("preface", "file", "analysis", "command", "mouse", "string", "date", 
+    "pdf", "word", "excel", "powerpoint", "image", "mail", "translate", "ai", "scrape")
 
   # 章ごとにまとめたファイル
-chap_files <-
-  paste0(stringr::str_pad(0:15, 2, "left", "0"), "_00_",  chap_names, ".R")
+chap_files <- 
+  stringr::str_pad(0:15, 2, "left", "0") |>
+  paste0("_00_",  chap_names, ".R")
 paste0("https://matutosi.github.io/r-auto/R/", chap_files) |>
   curl::multi_download()
 
   # 章内の全関数
-chap_funs <-
-  paste0(stringr::str_pad(0:15, 2, "left", "0"), "_00_",  chap_names, "_funs.R")
+chap_funs <- 
+  stringr::str_pad(0:15, 2, "left", "0") |>
+  paste0("_00_",  chap_names, "_funs.R")
 paste0("https://matutosi.github.io/r-auto/R/", chap_funs) |>
   curl::multi_download()
 ```
@@ -56,8 +59,8 @@ paste0("https://matutosi.github.io/r-auto/R/", chap_funs) |>
 各章の関数を直接呼び出す場合は，以下を参考にしてください．
 
 ```{r}
-  # URLとドメインがサポートページとは異なる
-  # 注意：*_funs.R内の関数が，既存の関数を上書きする可能性あり
+  # URLとドメインがサポートページとは異なります
+  # 注意：*_funs.R内の関数が，既存の関数を上書きする可能性があります
 source("https://matutosi.github.io/r-auto/R/02_00_analysis_funs.R") # Chapter 2の全関数
 ```
 
