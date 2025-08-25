@@ -43,15 +43,15 @@ add_fig <- function(pp, title = "", path_img, fig_full_size = FALSE,
     offy <- (offy + ss$height - h_cont) / 2
   }
   # スライドの追加
-  pp <- add_slide(pp, layout = layout)
+  pp <- officer::add_slide(pp, layout = layout)
   # 画像の追加
-  pp <- ph_with(pp, 
-                value = external_img(path_img),
-                location = ph_location(left = offx, top = offy,
-                                       width = w_cont, height = h_cont))
+  pp <- officer::ph_with(pp, 
+                         value = external_img(path_img),
+                         location = ph_location(left = offx, top = offy, 
+                                                width = w_cont, height = h_cont))
   # タイトルの追加
-  pp <- ph_with(pp, value = title,
-                location = ph_location_type(type = "title"))
+  pp <- officer::ph_with(pp, value = title,
+                         location = ph_location_type(type = "title"))
   return(pp)
 }
 
