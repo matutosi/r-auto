@@ -31,7 +31,7 @@ wb
   # excel.linkパッケージのインストールと呼び出し
   # 09_06_excel-ecxel.R
 install.packages("excel.link")
-library(readxl)
+library(excel.link)
 
   # パスワード付きのExcelファイルを開く疑似コード
   # 09_07_excel-read-with-password.R
