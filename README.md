@@ -12,7 +12,9 @@
 
 ## 正誤表
 
-「Rによる自動化・効率化レシピ集」(https://www.morikita.co.jp/books/mid/085831) のタブ「正誤表」でご覧ください．
+[正誤表](https://www.morikita.co.jp/exclusive/download/3152) (森北出版のページ)
+
+Rディレクトリに保存したコードについては，正誤表に掲載分は修正済みです．
 
 ## コード
 
@@ -63,6 +65,10 @@ paste0("https://matutosi.github.io/r-auto/R/", chap_funs) |>
   # 注意：*_funs.R内の関数が，既存の関数を上書きする可能性があります
 source("https://matutosi.github.io/r-auto/R/02_00_analysis_funs.R") # Chapter 2の全関数
 ```
+
+### パイプ演算子
+
+コード内では，R4.1.0で導入されたパイプ演算子`|>`を使っています．
 
 
 ## データ
