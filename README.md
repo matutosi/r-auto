@@ -7,7 +7,7 @@
 
 - [note，その1(目次)](https://note.com/morikita/n/n91cc7dc150af)
 - [note，その2(インタビュー)](https://note.com/morikita/n/nae210c70d90c)
-- [YouTubeで紹介いただきました(最後の方)](https://www.youtube.com/watch?v=RcDVBwW-gVk)
+- [YouTubeで紹介いただきました](https://www.youtube.com/watch?v=RcDVBwW-gVk)
 
 <img src="r-auto.jpg" width="300"/>
 
