@@ -168,7 +168,7 @@ source("https://matutosi.github.io/r-auto/R/02_00_analysis_funs.R") # Chapter 2�
 
 ## 関連記事
 
-[植生学会]( https://shokusei.jp/baser/ )が発行している植生情報に掲載した記事です．
+[植生学会]( https://shokusei.jp/baser/ )が発行している[植生情報]( https://shokusei.jp/contents/veginfo.html )に掲載した記事です．
 
 - [Rを使った植生資料の解析(入門編), 植生情報, 13, 54-67]( https://researchmap.jp/read0142280/misc/9202619/attachment_file.pdf )
 - [Rを使ったシミュレーション(前編), 植生情報, 19, 42-58]( https://researchmap.jp/read0142280/misc/19714842/attachment_file.pdf )
