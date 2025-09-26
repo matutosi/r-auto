@@ -1,6 +1,6 @@
 # Rによる自動化・効率化レシピ集
 
-このページは，[「Rによる自動化・効率化レシピ集」](https://www.morikita.co.jp/books/mid/085831)
+このページは，[「Rによる自動化・効率化レシピ集」]( https://www.morikita.co.jp/books/mid/085831 )
 (松村 俊和，2025，森北出版)のサポートページです．
 
 書籍の紹介
@@ -16,6 +16,12 @@
 [正誤表](https://www.morikita.co.jp/exclusive/download/3152) (森北出版のページ)
 
 Rディレクトリに保存したコードについては，正誤表に掲載分は修正済みです．
+
+## お願い
+
+[Amazon]( https://www.amazon.co.jp/dp/4627858310/ )でレビューを書いていただけると励みになります(レビューは登録名以外にも変更可能)．
+
+感想などを「#R自動化本」でXにポストしていただければ嬉しいです．
 
 ## コード
 
@@ -159,6 +165,15 @@ source("https://matutosi.github.io/r-auto/R/02_00_analysis_funs.R") # Chapter 2�
 <https://github.com/matutosi/r-auto/issues>
 
 [matutosi\@gmail.com](mailto:matutosi@gmail.com)
+
+## 関連記事
+
+[植生学会]( https://shokusei.jp/baser/ )が発行している植生情報に掲載した記事です．
+
+[Rを使った植生資料の解析(入門編), 植生情報, 13, 54-67]( https://researchmap.jp/read0142280/misc/9202619/attachment_file.pdf )
+[Rを使ったシミュレーション(前編), 植生情報, 19, 42-58]( https://researchmap.jp/read0142280/misc/19714842/attachment_file.pdf )
+[Rを使ったシミュレーション(後編), 植生情報, 20, 91-111]( https://researchmap.jp/read0142280/misc/16859770/attachment_file.pdf )
+[植生研究でのRパッケージtidyverse使用のすすめ, 植生情報, 23, 45-67]( https://researchmap.jp/read0142280/misc/50896498/attachment_file.pdf )
 
 ## 引用
 
